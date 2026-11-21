@@ -1,0 +1,59 @@
+# 凭据与敏感文件（绝不入库）
+.env
+.env.*
+!.env.example
+*.pem
+*.key
+credentials.json
+key.txt
+*.token
+
+# 语言级与通用缓存
+__pycache__/
+*.pyc
+.venv/
+node_modules/
+.DS_Store
+
+# 从设备拉下来的日志与临时文件
+*.log
+/*.png
+!/**/favicon*.ico
+!/**/favicon*.png
+!/**/apple-touch-icon.png
+dump-*/
+
+# 第三方 / 反编译产物，体积大，不进版本库
+artifacts/*.apk
+artifacts/*.jar
+artifacts/*.dex
+artifacts/apktool-out/
+artifacts/jadx-out/
+
+# Android 编译中间产物与私有密钥
+l2-app/build/
+l2-app/*.jks
+l2-app/assets/
+
+# 探针编译产物
+tools/play-probe/build/
+
+# 系统包备份（恢复以设备 /system 为准，见 docs/20-device-ops.md C4）
+artifacts/removed-apps/
+
+# IDE 与编辑器配置
+.vs/
+.idea/
+.vscode/
+*.user
+*.suo
+
+# MCP 工具与测试缓存
+.playwright-mcp/
+.openchamber/
+
+# 原厂底包与构建产物：本地可保留用于开发，不入库
+l1/vendor/*.apk
+sysapps/build/
+tools/probe-app/*.apk
+artifacts/echo-*/

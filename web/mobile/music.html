@@ -1,0 +1,305 @@
+<!-- 斐讯 R1 · 音乐 -->
+<!DOCTYPE html>
+<html class="dark" lang="zh-CN">
+<head>
+  <meta charset="utf-8">
+  <meta content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, viewport-fit=cover" name="viewport">
+  <meta content="mobile_tab" name="shell-type">
+  <meta content="#111316" name="theme-color">
+  <link rel="icon" type="image/x-icon" href="../assets/favicon.ico">
+  <link rel="apple-touch-icon" href="../assets/apple-touch-icon.png">
+  <title>R1 · 音乐</title>
+  <link rel="stylesheet" href="../assets/fonts.css">
+  <link rel="stylesheet" id="r1ThemeCss" href="../assets/blackgold.css">
+  <script src="../assets/r1-theme.js"></script>
+</head>
+<body class="bg-surface font-body-md text-body-md text-on-surface flex flex-col min-h-screen" id="mobileBodyRoot">
+
+  <!-- ================= 移动端顶部固定状态栏 ================= -->
+  <header class="fixed top-0 left-0 right-0 w-full z-50 pt-safe bg-surface/85 backdrop-blur-xl shadow-[0_1px_8px_rgba(0,0,0,0.5)] border-b border-white/5" id="mobileHeaderBar">
+    <div class="h-16 px-gutter flex items-center justify-between max-w-[540px] mx-auto w-full">
+      <div class="flex items-center gap-space-sm">
+        <div class="flex flex-col">
+          <div class="flex items-center gap-2">
+            <a href="home.html" class="font-headline-sm text-headline-sm text-on-surface tracking-tight font-semibold no-underline">斐讯 R1</a>
+            <div onclick="R1.promptSpeakerHost()" class="flex items-center gap-1.5 px-2.5 py-0.5 rounded-full bg-surface-container-high/80 border border-primary/25 cursor-pointer" title="点击配置音箱连接地址">
+              <span class="w-1.5 h-1.5 rounded-full bg-outline" id="mHdrDot"></span>
+              <span class="font-label-xs text-label-xs text-primary font-medium tracking-wide" id="mHdrModeText">离线</span>
+            </div>
+          </div>
+          <span class="font-label-xs text-label-xs text-secondary/70 tracking-wider font-mono tabular-nums" id="mHdrSubText">北京时间 --:--:--</span>
+        </div>
+      </div>
+
+      <div class="flex items-center gap-2">
+        <!-- 快捷静音/音量胶囊按钮 (黑金浮雕样式) -->
+        <button onclick="R1.toggleMute()" aria-label="静音切换" class="px-2.5 h-8 rounded-full bg-gradient-to-b from-surface-container-high to-surface-container border border-primary/35 shadow-[0_1px_4px_rgba(0,0,0,0.6),inset_0_1px_1px_rgba(253,211,133,0.2)] flex items-center justify-center gap-1 text-primary active:scale-95 transition-all" title="点击静音或恢复音量">
+          <span class="material-symbols-outlined text-[16px]">&#xE049;</span>
+          <span class="font-label-xs text-label-xs font-mono" id="mHdrVolText">40%</span>
+        </button>
+        <!-- 系统设置中心 -->
+        <a href="settings.html" aria-label="系统设置" class="w-8 h-8 rounded-full bg-gradient-to-b from-surface-container-high to-surface-container border border-primary/35 shadow-[0_1px_4px_rgba(0,0,0,0.6),inset_0_1px_1px_rgba(253,211,133,0.2)] flex items-center justify-center text-primary active:scale-95 transition-transform no-underline" title="系统设置">
+          <span class="material-symbols-outlined text-[18px]">&#xE7FD;</span>
+        </a>
+        <!-- 右上角外观主题切换：黑金 / 清透，同一份 DOM 只换样式表 -->
+        <button type="button" id="r1ThemeBtn" class="r1-theme-btn" onclick="R1Theme.toggle()" title="切换外观主题" aria-label="切换外观主题">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" aria-hidden="true"><circle cx="12" cy="12" r="8"/><path d="M12 4a8 8 0 0 1 0 16z" fill="currentColor" stroke="none"/></svg>
+        </button>
+      </div>
+    </div>
+  </header>
+
+  <!-- ================= 移动端主内容区域 ================= -->
+  <main class="flex flex-col relative w-full pt-16 pb-24 bg-surface min-h-screen max-w-[540px] mx-auto">
+    <div class="flex flex-col w-full px-gutter pb-6 gap-space-md select-none pt-2">
+
+      <!-- 音源切换与导入栏 -->
+      <div class="flex items-center justify-between gap-2 overflow-x-auto pb-1" id="mMusicSrcTabs">
+        <div class="flex items-center gap-1.5">
+          <button data-src="all" onclick="R1.setMusicSource('all')" class="m-src px-3 py-1.5 rounded-full bg-primary/20 border border-primary/50 text-primary font-label-xs text-label-xs font-mono shrink-0">全部音源</button>
+          <button data-src="local" onclick="R1.setMusicSource('local')" class="m-src px-3 py-1.5 rounded-full bg-surface-container-high border border-white/10 text-secondary font-label-xs text-label-xs font-mono shrink-0">本机</button>
+          <button data-src="stream" onclick="R1.setMusicSource('stream')" class="m-src px-3 py-1.5 rounded-full bg-surface-container-high border border-white/10 text-secondary font-label-xs text-label-xs font-mono shrink-0">网络</button>
+        </div>
+        <button id="mBtnAddStream" class="px-3 py-1.5 rounded-full bg-gradient-to-b from-surface-container-high to-surface-container border border-primary/45 text-primary font-label-xs text-label-xs font-mono shrink-0">添加链接</button>
+      </div>
+
+      <!-- 云音乐（网易云）：登录 + 搜索 + 播放 -->
+      <section class="flex flex-col bg-gradient-to-b from-surface-container-high/90 to-surface-container-low/95 rounded-[22px] p-3.5 shadow-xl border border-primary/25 gap-2.5">
+        <div class="flex items-center justify-between gap-2">
+          <div class="flex items-center gap-1.5 min-w-0 flex-wrap">
+            <span class="material-symbols-outlined text-primary text-[18px]">&#xE405;</span>
+            <span class="font-headline-sm text-headline-sm text-on-surface font-semibold shrink-0">云音乐</span>
+            <button id="m-cloudSrcNetease" onclick="R1.setCloudSource('netease')" class="px-2 py-0.5 rounded-full font-label-xs text-label-xs font-mono shrink-0 border transition-all bg-primary/20 border-primary/60 text-primary font-bold">网易云</button>
+            <button id="m-cloudSrcQQ" onclick="R1.setCloudSource('qq')" class="px-2 py-0.5 rounded-full font-label-xs text-label-xs font-mono shrink-0 border transition-all bg-surface-container-lowest border-primary/20 text-secondary">QQ</button>
+<button id="m-cloudSrcSongloft" onclick="R1.setCloudSource('songloft')" class="px-2 py-0.5 rounded-full font-label-xs text-label-xs font-mono shrink-0 border transition-all bg-surface-container-lowest border-primary/20 text-secondary">本地库</button>
+            <span id="mCloudLoginState" class="px-2 py-0.5 rounded-full bg-surface-container-lowest border border-primary/30 text-secondary font-label-xs text-label-xs font-mono shrink-0">未登录</span>
+          </div>
+          <button onclick="R1.cloudSetCookie()" class="px-3 py-1.5 rounded-full bg-gradient-to-b from-surface-container-high to-surface-container border border-primary/45 text-primary font-label-xs text-label-xs font-mono shrink-0 active:scale-95">登录</button>
+        </div>
+
+        <div class="flex items-center gap-2">
+          <div class="bg-surface-container-lowest/90 rounded-full px-3 py-1.5 flex items-center gap-1.5 border border-primary/30 flex-1 min-w-0">
+            <span class="material-symbols-outlined text-primary/70 text-[16px]">&#xE8B6;</span>
+            <input id="mCloudSearchInput" type="text" placeholder="歌名 / 歌手" class="bg-transparent border-none text-body-sm text-on-surface placeholder:text-secondary/50 focus:outline-none w-full font-body-sm min-w-0">
+          </div>
+          <button onclick="R1.cloudSearch()" class="px-3.5 py-1.5 rounded-full bg-gradient-to-b from-primary/25 via-primary/15 to-surface-container border border-primary/60 text-primary font-label-xs text-label-xs font-mono font-bold shrink-0 active:scale-95">搜索</button>
+        </div>
+        <div id="mCloudResults" class="flex flex-col gap-1.5 max-h-56 overflow-y-auto"></div>
+      </section>
+
+      <!-- 移动端黑胶唱盘与同步歌词卡片 -->
+      <section class="flex flex-col bg-gradient-to-b from-surface-container-high/90 to-surface-container-low/95 rounded-[24px] p-4 shadow-xl border border-primary/25 gap-3">
+        <div class="flex items-center gap-4">
+          <div onclick="R1.togglePlay()" class="relative w-20 h-20 rounded-full overflow-hidden shrink-0 shadow-[0_0_20px_rgba(253,211,133,0.25)] border border-primary/40 cursor-pointer">
+            <div id="mMusicVinyl" class="absolute inset-0 rounded-full vinyl-spinning vinyl-paused" style="background:repeating-radial-gradient(circle at 50% 50%, rgba(255,255,255,.055) 0 .5px, rgba(0,0,0,0) .5px 2px),conic-gradient(from 200deg at 50% 50%, rgba(253,211,133,.22), rgba(253,211,133,0) 20%, rgba(255,255,255,.06) 45%, rgba(253,211,133,.16) 70%, rgba(253,211,133,0) 88%),radial-gradient(circle at 50% 50%, #16191d 0 26%, #0a0c0e 27% 100%)">
+              <div class="absolute inset-0 m-auto w-[44%] h-[44%] rounded-full" style="background:radial-gradient(circle at 35% 30%, #f7deab, #dfb76c 48%, #8f6d2c 100%)"></div>
+              <span class="absolute inset-0 m-auto w-[14%] h-[14%] rounded-full bg-[#0a0c0e]"></span>
+            </div>
+          </div>
+          <div class="flex flex-col min-w-0 flex-1">
+            <div class="flex items-center gap-2">
+              <span class="font-headline-md text-headline-md text-on-surface font-semibold truncate" id="mMusicTitle">未在播放</span>
+              <span class="px-2 py-0.5 rounded-full bg-primary/15 text-primary border border-primary/30 font-label-xs text-label-xs font-mono" id="mMusicFormat">STANDBY</span>
+            </div>
+            <span class="font-body-sm text-body-sm text-secondary/80 truncate mt-0.5" id="mMusicArtist">未在播放</span>
+            <span class="font-label-xs text-label-xs text-primary/80 font-mono mt-1" id="mMusicSpec">--</span>
+          </div>
+        </div>
+
+        <!-- 同步滚动歌词微窗 -->
+        <div id="mMusicLyrics" class="h-28 overflow-y-auto bg-surface-container-lowest/80 rounded-2xl p-3 text-center flex flex-col gap-1.5 border border-white/5 lyrics-box"></div>
+
+        <!-- 进度条 -->
+        <div class="flex flex-col gap-1">
+          <div id="mMusicSeek" class="w-full h-2 bg-surface-container-lowest rounded-full overflow-hidden p-0.5 border border-primary/20 cursor-pointer">
+            <div class="h-full bg-gradient-to-r from-primary-container to-primary rounded-full" id="mMusicBar" style="width: 0%"></div>
+          </div>
+          <div class="flex justify-between font-label-xs text-label-xs font-mono text-secondary/80 tabular-nums">
+            <span id="mMusicCur">00:00</span>
+            <span id="mMusicTot">00:00</span>
+          </div>
+        </div>
+
+        <!-- 播控键 -->
+        <div class="flex items-center justify-around pt-1">
+          <button onclick="R1.toggleLoopMode()" class="px-2.5 h-9 rounded-full bg-surface-container-high border border-primary/25 text-primary font-label-xs text-label-xs font-mono flex items-center gap-1">
+            <span class="material-symbols-outlined text-[16px]">&#xE040;</span>
+            <span id="mMusicLoopText">循环</span>
+          </button>
+          <button onclick="R1.prevTrack()" class="w-10 h-10 rounded-full bg-gradient-to-b from-surface-container-high to-surface-container border border-primary/35 text-on-surface flex items-center justify-center">
+            <span class="material-symbols-outlined text-[20px]">&#xE045;</span>
+          </button>
+          <button onclick="R1.togglePlay()" class="w-12 h-12 rounded-full bg-gradient-to-b from-surface-container-high to-surface-container border border-primary/50 text-primary shadow-[0_0_12px_rgba(253,211,133,0.3)] flex items-center justify-center">
+            <span class="material-symbols-outlined text-[26px] flex items-center justify-center" id="mMusicPlayIcon">&#xE037;</span>
+          </button>
+          <button onclick="R1.nextTrack()" class="w-10 h-10 rounded-full bg-gradient-to-b from-surface-container-high to-surface-container border border-primary/35 text-on-surface flex items-center justify-center">
+            <span class="material-symbols-outlined text-[20px]">&#xE044;</span>
+          </button>
+          <button onclick="R1.cycleSleepTimer()" class="px-2.5 h-9 rounded-full bg-gradient-to-b from-surface-container-high to-surface-container border border-primary/35 text-primary font-label-xs text-label-xs font-mono" id="mMusicSleepBtn">定时</button>
+        </div>
+      </section>
+
+      <!-- 曲目点播列表 -->
+      <section class="bg-surface-container-low/90 rounded-[22px] p-3.5 flex flex-col gap-2.5 border border-outline-variant/50">
+        <div class="flex items-center justify-between">
+          <span class="font-headline-sm text-headline-sm text-on-surface font-medium">曲库</span>
+          <span class="font-label-xs text-label-xs font-mono text-primary" id="mPlaylistCount">0 首</span>
+        </div>
+        <div class="flex items-center gap-3 flex-wrap">
+          <span class="font-label-xs text-label-xs text-secondary/70 font-mono">点歌音源</span>
+          <label class="flex items-center gap-1.5 cursor-pointer font-label-xs text-label-xs text-secondary"><input id="mMpSongloft" type="checkbox" class="w-4 h-4" onchange="R1.toggleMusicProvider('songloft')">本地库</label>
+          <label class="flex items-center gap-1.5 cursor-pointer font-label-xs text-label-xs text-secondary"><input id="mMpNetease" type="checkbox" class="w-4 h-4" onchange="R1.toggleMusicProvider('netease')">网易云</label>
+          <label class="flex items-center gap-1.5 cursor-pointer font-label-xs text-label-xs text-secondary"><input id="mMpQq" type="checkbox" class="w-4 h-4" onchange="R1.toggleMusicProvider('qq')">QQ</label>
+        </div>
+        <div id="mMusicList" class="flex flex-col gap-2"></div>
+      </section>
+    </div>
+  </main>
+
+  <!-- ================= 移动端底部固定 4 宫格导航栏 (常驻可见) ================= -->
+  <nav class="fixed bottom-0 left-0 right-0 w-full z-50 pb-safe bg-surface-container-lowest/95 backdrop-blur-xl shadow-[0_-1px_12px_rgba(0,0,0,0.6)] border-t border-white/5">
+    <div class="h-16 px-gutter flex items-center justify-around max-w-[540px] mx-auto w-full">
+
+        <a class="flex flex-col items-center justify-center min-w-[64px] min-h-[44px] px-3.5 py-1 rounded-xl text-secondary hover:text-primary transition-all active:scale-95 no-underline" href="home.html">
+          <span class="material-symbols-outlined text-[20px]">&#xE429;</span>
+          <span class="font-label-xs text-label-xs mt-0.5">首页</span>
+        </a>
+
+        <a class="flex flex-col items-center justify-center min-w-[64px] min-h-[44px] px-3.5 py-1 rounded-xl text-secondary hover:text-primary transition-all active:scale-95 no-underline" href="chat.html">
+          <span class="material-symbols-outlined text-[20px]">&#xE0CA;</span>
+          <span class="font-label-xs text-label-xs mt-0.5">对话</span>
+        </a>
+
+        <a aria-current="page" class="flex flex-col items-center justify-center min-w-[64px] min-h-[44px] px-3.5 py-1 rounded-xl bg-surface-container-high/60 border border-primary/30 shadow-[0_1px_4px_rgba(0,0,0,0.6),inset_0_1px_1px_rgba(253,211,133,0.2)] transition-all text-primary font-medium active:scale-95 no-underline" href="music.html">
+          <span class="material-symbols-outlined text-[20px] shadow-[0_0_8px_rgba(253,211,133,0.5)]">&#xE019;</span>
+          <span class="font-label-xs text-label-xs mt-0.5">音乐</span>
+        </a>
+
+        <a class="flex flex-col items-center justify-center min-w-[64px] min-h-[44px] px-3.5 py-1 rounded-xl text-secondary hover:text-primary transition-all active:scale-95 no-underline" href="settings.html">
+          <span class="material-symbols-outlined text-[20px]">&#xE8C0;</span>
+          <span class="font-label-xs text-label-xs mt-0.5">设置</span>
+        </a>
+    </div>
+  </nav>
+
+  <script src="../assets/r1-engine.js"></script>
+  <script>
+    R1.onStateChange(function(st) {
+      const modeEl = document.getElementById('mHdrModeText');
+      if (modeEl) modeEl.textContent = st.online ? '在线' : '离线';
+      const dotEl = document.getElementById('mHdrDot');
+      if (dotEl) dotEl.className = 'w-1.5 h-1.5 rounded-full ' + (st.online ? 'bg-tertiary animate-pulse' : 'bg-outline');
+      const subEl = document.getElementById('mHdrSubText');
+      if (subEl) subEl.textContent = '北京时间 ' + R1.nowTimeStr() + (st.online && st.ip !== '--' ? (' · ' + st.ip) : '');
+      const volEl = document.getElementById('mHdrVolText');
+      if (volEl) volEl.textContent = st.muted ? '静音' : (st.volume + '%');
+    });
+  </script>
+
+  <script>
+    (function() {
+      R1.cloudStatus();
+      R1.loadMusicProviders();
+      document.getElementById('mMusicSeek').addEventListener('click', function(e) {
+        const r = this.getBoundingClientRect();
+        R1.seekByRatio((e.clientX - r.left) / r.width);
+      });
+
+      document.getElementById('mBtnAddStream').addEventListener('click', function() {
+        const url = prompt('音频链接');
+        if (!url || !url.trim()) return;
+        const title = prompt('曲目名称:', '网络音频流') || '网络音频流';
+        R1.addStream(url.trim(), title.trim());
+      });
+
+      let lastLyrSig = '';
+      let lastMusicListSig = '';
+      const mListEl = document.getElementById('mMusicList');
+      if (mListEl) {
+        mListEl.addEventListener('click', function(e) {
+          const btn = e.target.closest ? e.target.closest('[data-remove-stream]') : null;
+          if (!btn) return;
+          e.stopPropagation();
+          const url = btn.getAttribute('data-remove-stream');
+          if (url && confirm('确认移除该音频流？')) R1.removeStream(url);
+        });
+      }
+      R1.onStateChange(function(st) {
+        const tr = R1.getCurrentTrack();
+        document.getElementById('mMusicTitle').textContent = tr.title;
+        document.getElementById('mMusicFormat').textContent = tr.format;
+        document.getElementById('mMusicArtist').textContent = tr.artist + (tr.album ? (' · ' + tr.album) : '');
+        document.getElementById('mMusicSpec').textContent = tr.spec;
+        document.getElementById('mMusicCur').textContent = R1.formatTime(st.currentTime);
+        document.getElementById('mMusicTot').textContent = R1.formatTime(tr.duration);
+        const pct = tr.duration > 0 ? ((st.currentTime / tr.duration) * 100).toFixed(1) : 0;
+        document.getElementById('mMusicBar').style.width = pct + '%';
+        document.getElementById('mMusicPlayIcon').innerHTML = R1.playPauseGlyph(st.isPlaying, 20);
+        document.getElementById('mMusicVinyl').classList.toggle('vinyl-paused', !st.isPlaying);
+        document.getElementById('mMusicLoopText').textContent = R1.loopName(st.loopMode);
+        document.getElementById('mMusicSleepBtn').textContent = st.sleepRemainSec > 0 ? R1.formatTime(st.sleepRemainSec) : '定时';
+
+        document.querySelectorAll('#mMusicSrcTabs .m-src').forEach(btn => {
+          const isAct = btn.getAttribute('data-src') === st.musicSource;
+          btn.className = isAct
+            ? 'm-src px-3 py-1.5 rounded-full bg-primary/20 border border-primary/50 text-primary font-label-xs text-label-xs font-mono shrink-0'
+            : 'm-src px-3 py-1.5 rounded-full bg-surface-container-high border border-white/10 text-secondary font-label-xs text-label-xs font-mono shrink-0';
+        });
+
+        // 歌词同步
+        const lBox = document.getElementById('mMusicLyrics');
+        const sig = tr.id + '|' + (tr.lyrics ? tr.lyrics.length : 0);
+        if (lastLyrSig !== sig) {
+          lastLyrSig = sig;
+          lBox.innerHTML = (tr.lyrics && tr.lyrics.length) ? tr.lyrics.map((l, i) => `
+            <div id="mLyr-${i}" onclick="R1.seekTo(${l.t})" class="lyric-item py-0.5 text-body-sm text-secondary cursor-pointer">${R1.escapeHtml(l.txt)}</div>
+          `).join('') : '<div class="h-full flex items-center justify-center text-body-sm text-secondary/60">暂无歌词</div>';
+        }
+        let act = 0;
+        if (tr.lyrics) {
+          tr.lyrics.forEach((l, i) => { if (st.currentTime >= l.t) act = i; });
+          tr.lyrics.forEach((_, i) => {
+            const el = document.getElementById('mLyr-' + i);
+            if (el) el.classList.toggle('active', i === act);
+          });
+        }
+
+        // 曲目列表：只在列表/选中项/音源变化时重建，避免每秒刷新把滚动位置打回顶部
+        const listSig = st.musicSource + '|' + st.trackIdx + '|' +
+          R1.TRACKS.map(function (t) { return t.path || t.url || ''; }).join('|');
+        if (listSig !== lastMusicListSig) {
+          lastMusicListSig = listSig;
+          const filtered = R1.TRACKS.map((t, idx) => ({ t, idx })).filter(x => st.musicSource === 'all' || x.t.source === st.musicSource);
+          document.getElementById('mPlaylistCount').textContent = filtered.length + ' 首';
+          const mList = document.getElementById('mMusicList');
+          const keepScroll = mList.scrollTop;
+          if (filtered.length === 0) {
+            mList.innerHTML = '<div class="p-4 rounded-2xl bg-surface-container-lowest/60 border border-white/5 text-center font-body-sm text-body-sm text-secondary/70">曲库是空的</div>';
+          } else {
+            mList.innerHTML = filtered.map(({ t, idx }) => {
+              const rm = t.source === 'stream'
+                ? `<button data-remove-stream="${R1.escapeHtml(t.url)}" class="w-6 h-6 rounded-full bg-surface-container-high text-secondary">×</button>` : '';
+              return `
+                <div onclick="R1.selectTrack(${idx})" class="flex items-center justify-between p-2.5 rounded-2xl cursor-pointer ${idx === st.trackIdx ? 'bg-primary/15 border border-primary/45' : 'bg-surface-container-lowest/70 border border-white/5'}">
+                  <div class="flex items-center gap-2.5 min-w-0">
+                    <span class="font-label-xs text-label-xs font-mono text-primary">${String(idx + 1).padStart(2, '0')}</span>
+                    <div class="flex flex-col min-w-0">
+                      <span class="font-body-sm text-body-sm ${idx === st.trackIdx ? 'text-primary font-semibold' : 'text-on-surface'} truncate">${R1.escapeHtml(t.subTitle)}</span>
+                      <span class="font-label-xs text-label-xs text-secondary/70 truncate">${R1.escapeHtml(t.artist)} · ${R1.escapeHtml(t.spec)}</span>
+                    </div>
+                  </div>
+                  <div class="flex items-center gap-1.5 shrink-0">
+                    <span class="px-2 py-0.5 rounded-full bg-surface-container-high border border-primary/25 font-label-xs text-label-xs font-mono text-primary">${R1.escapeHtml(t.format)}</span>
+                    ${rm}
+                  </div>
+                </div>
+              `;
+            }).join('');
+            mList.scrollTop = keepScroll;
+          }
+        }
+      });
+    })();
+  </script>
+</body>
+</html>

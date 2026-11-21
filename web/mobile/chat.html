@@ -1,0 +1,204 @@
+<!-- 斐讯 R1 · 对话 -->
+<!DOCTYPE html>
+<html class="dark" lang="zh-CN">
+<head>
+  <meta charset="utf-8">
+  <meta content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, viewport-fit=cover" name="viewport">
+  <meta content="mobile_tab" name="shell-type">
+  <meta content="#111316" name="theme-color">
+  <link rel="icon" type="image/x-icon" href="../assets/favicon.ico">
+  <link rel="apple-touch-icon" href="../assets/apple-touch-icon.png">
+  <title>R1 · 对话</title>
+  <link rel="stylesheet" href="../assets/fonts.css">
+  <link rel="stylesheet" id="r1ThemeCss" href="../assets/blackgold.css">
+  <script src="../assets/r1-theme.js"></script>
+</head>
+<body class="bg-surface font-body-md text-body-md text-on-surface flex flex-col min-h-screen" id="mobileBodyRoot">
+
+  <!-- ================= 移动端顶部固定状态栏 ================= -->
+  <header class="fixed top-0 left-0 right-0 w-full z-50 pt-safe bg-surface/85 backdrop-blur-xl shadow-[0_1px_8px_rgba(0,0,0,0.5)] border-b border-white/5" id="mobileHeaderBar">
+    <div class="h-16 px-gutter flex items-center justify-between max-w-[540px] mx-auto w-full">
+      <div class="flex items-center gap-space-sm">
+        <div class="flex flex-col">
+          <div class="flex items-center gap-2">
+            <a href="home.html" class="font-headline-sm text-headline-sm text-on-surface tracking-tight font-semibold no-underline">斐讯 R1</a>
+            <div onclick="R1.promptSpeakerHost()" class="flex items-center gap-1.5 px-2.5 py-0.5 rounded-full bg-surface-container-high/80 border border-primary/25 cursor-pointer" title="点击配置音箱连接地址">
+              <span class="w-1.5 h-1.5 rounded-full bg-outline" id="mHdrDot"></span>
+              <span class="font-label-xs text-label-xs text-primary font-medium tracking-wide" id="mHdrModeText">离线</span>
+            </div>
+          </div>
+          <span class="font-label-xs text-label-xs text-secondary/70 tracking-wider font-mono tabular-nums" id="mHdrSubText">北京时间 --:--:--</span>
+        </div>
+      </div>
+
+      <div class="flex items-center gap-2">
+        <!-- 快捷静音/音量胶囊按钮 (黑金浮雕样式) -->
+        <button onclick="R1.toggleMute()" aria-label="静音切换" class="px-2.5 h-8 rounded-full bg-gradient-to-b from-surface-container-high to-surface-container border border-primary/35 shadow-[0_1px_4px_rgba(0,0,0,0.6),inset_0_1px_1px_rgba(253,211,133,0.2)] flex items-center justify-center gap-1 text-primary active:scale-95 transition-all" title="点击静音或恢复音量">
+          <span class="material-symbols-outlined text-[16px]">&#xE049;</span>
+          <span class="font-label-xs text-label-xs font-mono" id="mHdrVolText">40%</span>
+        </button>
+        <!-- 系统设置中心 -->
+        <a href="settings.html" aria-label="系统设置" class="w-8 h-8 rounded-full bg-gradient-to-b from-surface-container-high to-surface-container border border-primary/35 shadow-[0_1px_4px_rgba(0,0,0,0.6),inset_0_1px_1px_rgba(253,211,133,0.2)] flex items-center justify-center text-primary active:scale-95 transition-transform no-underline" title="系统设置">
+          <span class="material-symbols-outlined text-[18px]">&#xE7FD;</span>
+        </a>
+        <!-- 右上角外观主题切换：黑金 / 清透，同一份 DOM 只换样式表 -->
+        <button type="button" id="r1ThemeBtn" class="r1-theme-btn" onclick="R1Theme.toggle()" title="切换外观主题" aria-label="切换外观主题">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" aria-hidden="true"><circle cx="12" cy="12" r="8"/><path d="M12 4a8 8 0 0 1 0 16z" fill="currentColor" stroke="none"/></svg>
+        </button>
+      </div>
+    </div>
+  </header>
+
+  <!-- ================= 移动端主内容区域 ================= -->
+  <main class="flex flex-col relative w-full pt-16 pb-24 bg-surface min-h-screen max-w-[540px] mx-auto">
+    <div class="flex flex-col w-full px-gutter pb-6 gap-space-md select-none pt-2">
+
+      <!-- 顶部对话控制条 (无任何语音拾音/唤醒按钮) -->
+      <section class="bg-gradient-to-b from-surface-container-high/90 to-surface-container-low/95 rounded-[22px] p-3.5 shadow-md border border-primary/25 flex items-center justify-between">
+        <div class="flex items-center gap-2.5">
+          <div class="w-9 h-9 rounded-full bg-surface-container-lowest border border-primary/40 flex items-center justify-center text-primary">
+            <span class="material-symbols-outlined text-[18px]">&#xE0CA;</span>
+          </div>
+          <div class="flex flex-col">
+            <span class="font-headline-sm text-headline-sm text-on-surface font-semibold">对话</span>
+            <span class="font-label-xs text-label-xs text-primary font-mono" id="mChatModel">GLM-4.5-Flash</span>
+          </div>
+        </div>
+        <div class="flex items-center gap-1.5">
+          <button onclick="R1.clearChatHistory()" class="px-3 py-1 rounded-full bg-gradient-to-b from-surface-container-high to-surface-container border border-primary/30 text-secondary hover:text-primary font-label-xs text-label-xs font-mono">清空</button>
+        </div>
+      </section>
+
+      <!-- 横向快捷指令 Chips -->
+      <div class="flex items-center gap-2 overflow-x-auto pb-1">
+        <button onclick="R1.sendCommand('把主音量调到 50')" class="px-3 py-1.5 rounded-full bg-surface-container-high/90 border border-primary/30 text-on-surface font-label-xs text-label-xs font-mono shrink-0">音量 50%</button>
+        <button onclick="R1.sendCommand('现在几点了')" class="px-3 py-1.5 rounded-full bg-surface-container-high/90 border border-primary/30 text-on-surface font-label-xs text-label-xs font-mono shrink-0">现在几点了</button>
+        <button onclick="R1.sendCommand('暂停播放')" class="px-3 py-1.5 rounded-full bg-surface-container-high/90 border border-primary/30 text-on-surface font-label-xs text-label-xs font-mono shrink-0">暂停播放</button>
+        <button onclick="R1.sendCommand('系统体检')" class="px-3 py-1.5 rounded-full bg-surface-container-high/90 border border-primary/30 text-on-surface font-label-xs text-label-xs font-mono shrink-0">系统体检</button>
+      </div>
+
+      <!-- 聊天气泡滚动区 -->
+      <section id="mChatStream" class="bg-surface-container-low/90 rounded-[22px] p-3.5 flex flex-col gap-3 shadow-md border border-outline-variant/50 min-h-[340px] max-h-[460px] overflow-y-auto"></section>
+
+      <!-- 底部纯文本输入栏 (左侧静态键盘标识 &#xE312;，无任何语音拾音按钮) -->
+      <section class="flex items-center gap-2 bg-surface-container-low/95 rounded-full pl-4 pr-1.5 py-1.5 border border-primary/35 shadow-lg">
+        <span class="material-symbols-outlined text-primary/70 text-[18px] shrink-0">&#xE312;</span>
+        <input id="mChatInput" maxlength="500" type="text" placeholder="说点什么" class="flex-1 bg-transparent text-body-sm text-on-surface placeholder:text-secondary/50 focus:outline-none px-1">
+        <button id="mChatSend" class="w-9 h-9 rounded-full bg-gradient-to-b from-surface-container-high to-surface-container border border-primary/45 hover:border-primary/60 text-primary flex items-center justify-center shrink-0 shadow-[0_1px_4px_rgba(0,0,0,0.6),inset_0_1px_1px_rgba(253,211,133,0.25)] active:scale-90 transition-all">
+          <span class="material-symbols-outlined text-[18px] text-primary">&#xE5D8;</span>
+        </button>
+      </section>
+    </div>
+  </main>
+
+  <!-- ================= 移动端底部固定 4 宫格导航栏 (常驻可见) ================= -->
+  <nav class="fixed bottom-0 left-0 right-0 w-full z-50 pb-safe bg-surface-container-lowest/95 backdrop-blur-xl shadow-[0_-1px_12px_rgba(0,0,0,0.6)] border-t border-white/5">
+    <div class="h-16 px-gutter flex items-center justify-around max-w-[540px] mx-auto w-full">
+
+        <a class="flex flex-col items-center justify-center min-w-[64px] min-h-[44px] px-3.5 py-1 rounded-xl text-secondary hover:text-primary transition-all active:scale-95 no-underline" href="home.html">
+          <span class="material-symbols-outlined text-[20px]">&#xE429;</span>
+          <span class="font-label-xs text-label-xs mt-0.5">首页</span>
+        </a>
+
+        <a aria-current="page" class="flex flex-col items-center justify-center min-w-[64px] min-h-[44px] px-3.5 py-1 rounded-xl bg-surface-container-high/60 border border-primary/30 shadow-[0_1px_4px_rgba(0,0,0,0.6),inset_0_1px_1px_rgba(253,211,133,0.2)] transition-all text-primary font-medium active:scale-95 no-underline" href="chat.html">
+          <span class="material-symbols-outlined text-[20px] shadow-[0_0_8px_rgba(253,211,133,0.5)]">&#xE0CA;</span>
+          <span class="font-label-xs text-label-xs mt-0.5">对话</span>
+        </a>
+
+        <a class="flex flex-col items-center justify-center min-w-[64px] min-h-[44px] px-3.5 py-1 rounded-xl text-secondary hover:text-primary transition-all active:scale-95 no-underline" href="music.html">
+          <span class="material-symbols-outlined text-[20px]">&#xE019;</span>
+          <span class="font-label-xs text-label-xs mt-0.5">音乐</span>
+        </a>
+
+        <a class="flex flex-col items-center justify-center min-w-[64px] min-h-[44px] px-3.5 py-1 rounded-xl text-secondary hover:text-primary transition-all active:scale-95 no-underline" href="settings.html">
+          <span class="material-symbols-outlined text-[20px]">&#xE8C0;</span>
+          <span class="font-label-xs text-label-xs mt-0.5">设置</span>
+        </a>
+    </div>
+  </nav>
+
+  <script src="../assets/r1-engine.js"></script>
+  <script>
+    R1.onStateChange(function(st) {
+      const modeEl = document.getElementById('mHdrModeText');
+      if (modeEl) modeEl.textContent = st.online ? '在线' : '离线';
+      const dotEl = document.getElementById('mHdrDot');
+      if (dotEl) dotEl.className = 'w-1.5 h-1.5 rounded-full ' + (st.online ? 'bg-tertiary animate-pulse' : 'bg-outline');
+      const subEl = document.getElementById('mHdrSubText');
+      if (subEl) subEl.textContent = '北京时间 ' + R1.nowTimeStr() + (st.online && st.ip !== '--' ? (' · ' + st.ip) : '');
+      const volEl = document.getElementById('mHdrVolText');
+      if (volEl) volEl.textContent = st.muted ? '静音' : (st.volume + '%');
+    });
+  </script>
+
+  <script>
+    (function() {
+      const box = document.getElementById('mChatStream');
+      const inp = document.getElementById('mChatInput');
+      const btn = document.getElementById('mChatSend');
+      function send() {
+        const v = inp.value.trim();
+        if (!v) return;
+        inp.value = '';
+        stickBottom = true;
+        R1.sendCommand(v, '移动端对话');
+      }
+      btn.addEventListener('click', send);
+      inp.addEventListener('keydown', e => { if (e.key === 'Enter') send(); });
+
+      let lastChatSig = '__init__';
+      let stickBottom = true;
+      box.addEventListener('scroll', function() {
+        stickBottom = (box.scrollHeight - box.scrollTop - box.clientHeight) < 50;
+      });
+      box.addEventListener('click', function(e) {
+        const btn = e.target.closest ? e.target.closest('[data-chat-action]') : null;
+        if (!btn) return;
+        const idx = parseInt(btn.getAttribute('data-idx'), 10);
+        const item = R1.getState().chatHistory[idx];
+        if (item && typeof item.text === 'string' && item.text) R1.speak(item.text);
+      });
+
+      R1.onStateChange(function(st) {
+        const modeTxt = st.config.hasKey ? (st.config.autoSpeak ? '播报' : '静音') : '未配置';
+        document.getElementById('mChatModel').textContent = (st.config.llmModel || 'GLM-4.5-Flash') + ' · ' + modeTxt;
+
+        const sig = (st.chatHistory || []).map(function(item) {
+          return item.id + '|' + (item.status || '') + '|' + (item.text || '').length;
+        }).join(',');
+        if (sig === lastChatSig) return;
+        lastChatSig = sig;
+
+        if (!st.chatHistory || st.chatHistory.length === 0) {
+          box.innerHTML = '<div class="h-full min-h-[300px] py-8 px-4 flex items-center justify-center text-center font-body-sm text-body-sm text-secondary/70">还没有对话</div>';
+          return;
+        }
+        box.innerHTML = st.chatHistory.map(function(item, idx) {
+          if (item.role === 'user') {
+            return `
+              <div class="self-end max-w-[86%] bg-surface-container rounded-2xl rounded-tr-sm px-3.5 py-2.5 text-on-surface text-body-sm shadow-sm border border-primary/20">
+                <div class="font-label-xs text-label-xs text-primary/70 font-mono mb-0.5">${R1.escapeHtml(item.time)}</div>
+                <div>“${R1.escapeHtml(item.text)}”</div>
+              </div>`;
+          }
+          return `
+            <div class="self-start max-w-[92%] bg-surface-container-lowest rounded-2xl rounded-tl-sm p-3 flex flex-col gap-2 shadow-inner border border-primary/25">
+              <div class="flex items-start gap-2">
+                <div class="w-2 h-2 rounded-full bg-primary mt-1.5 shrink-0"></div>
+                <p class="text-body-sm text-on-surface leading-relaxed">${R1.escapeHtml(item.text)}</p>
+              </div>
+              <div class="flex items-center justify-between pt-1 border-t border-white/5">
+                <span class="font-label-xs text-label-xs text-secondary/70 font-mono">${R1.escapeHtml(item.model)} · ${R1.escapeHtml(item.time)}</span>
+                <button data-chat-action="speak" data-idx="${idx}" class="flex items-center gap-1 px-2.5 py-1 rounded-full bg-gradient-to-b from-surface-container-high to-surface-container border border-primary/35 text-primary font-label-xs text-label-xs">
+                  <span class="material-symbols-outlined text-[13px]">&#xE042;</span>
+                  <span>重播</span>
+                </button>
+              </div>
+            </div>`;
+        }).join('');
+        if (stickBottom) box.scrollTop = box.scrollHeight;
+      });
+    })();
+  </script>
+</body>
+</html>

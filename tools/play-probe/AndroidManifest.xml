@@ -1,0 +1,31 @@
+<?xml version="1.0" encoding="utf-8"?>
+<manifest xmlns:android="http://schemas.android.com/apk/res/android"
+    package="com.r1.playprobe">
+
+    <application
+        android:label="R1 Play Probe"
+        android:allowBackup="false">
+        <activity
+            android:name=".PlayProbe"
+            android:exported="true"
+            android:label="R1 Play Probe">
+            <intent-filter>
+                <action android:name="android.intent.action.MAIN" />
+                <category android:name="android.intent.category.LAUNCHER" />
+            </intent-filter>
+        </activity>
+
+        <activity
+            android:name=".AlarmProbe"
+            android:exported="true"
+            android:label="R1 Alarm Probe" />
+
+        <receiver
+            android:name=".AlarmReceiver"
+            android:exported="true">
+            <intent-filter>
+                <action android:name="com.r1.playprobe.RING" />
+            </intent-filter>
+        </receiver>
+    </application>
+</manifest>

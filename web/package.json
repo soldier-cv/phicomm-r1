@@ -1,0 +1,10 @@
+{
+  "name": "r1-console",
+  "version": "0.2.0",
+  "private": true,
+  "description": "斐讯 R1 黑金控制台（静态页面生成与自检，无第三方依赖）",
+  "scripts": {
+    "build": "node build-pages.js",
+    "check": "node verify-css.js && node verify-pages.js"
+  }
+}

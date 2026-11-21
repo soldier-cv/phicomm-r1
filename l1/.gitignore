@@ -1,0 +1,8 @@
+# 构建中间产物
+.cache/
+build/
+.tools/
+
+# 杂物
+*.dex
+*.apk.bak

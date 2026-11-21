@@ -1,0 +1,490 @@
+<!-- 斐讯 R1 · 音乐 -->
+<!DOCTYPE html>
+<html class="dark" lang="zh-CN">
+<head>
+  <meta charset="utf-8">
+  <meta content="width=device-width, initial-scale=1.0" name="viewport">
+  <meta content="web_dashboard" name="shell-type">
+  <link rel="icon" type="image/x-icon" href="../assets/favicon.ico">
+  <link rel="apple-touch-icon" href="../assets/apple-touch-icon.png">
+  <title>R1 · 音乐</title>
+  <link rel="stylesheet" href="../assets/fonts.css">
+  <link rel="stylesheet" id="r1ThemeCss" href="../assets/blackgold.css">
+  <script src="../assets/r1-theme.js"></script>
+</head>
+<body class="bg-surface-container-lowest text-on-surface font-body-md antialiased min-h-screen selection:bg-primary-container selection:text-on-primary-container" style="background: radial-gradient(circle at 50% 0%, rgba(253, 211, 133, 0.08) 0%, transparent 60%), radial-gradient(circle at 20% 40%, rgba(253, 211, 133, 0.05) 0%, transparent 50%), radial-gradient(circle at 80% 60%, rgba(253, 211, 133, 0.04) 0%, transparent 40%), rgb(12, 14, 17);">
+
+  <!-- ================= 左侧固定机架式导航栏 (常驻可见，不含冗余播控卡) ================= -->
+  <aside class="fixed left-0 top-0 h-full w-64 bg-surface-container-low z-50 flex flex-col justify-between border-r border-outline-variant/30 shadow-[0_0_24px_rgba(0,0,0,0.6)]" style="position:fixed;left:0;top:0;bottom:0;width:16rem;z-index:50;display:flex;flex-direction:column;justify-content:space-between;">
+    <div class="flex flex-col">
+      <!-- 品牌头栏 -->
+      <div class="h-16 px-space-md flex items-center justify-between border-b border-outline-variant/20 bg-surface-container-lowest/80 backdrop-blur-sm">
+        <a href="home.html" class="flex items-center gap-space-sm no-underline">
+          <div class="w-9 h-9 rounded-2xl bg-surface-container-highest flex items-center justify-center border border-primary/35 shadow-inner">
+            <span class="material-symbols-outlined text-primary text-[20px]">&#xE32D;</span>
+          </div>
+          <div>
+            <span class="font-headline-sm text-headline-sm font-bold tracking-tight text-on-surface block leading-tight">斐讯 R1</span>
+            <span class="font-label-xs text-label-xs uppercase tracking-widest text-outline block">小讯</span>
+          </div>
+        </a>
+        <div class="flex items-center gap-1.5 px-2.5 py-0.5 rounded-full bg-surface-container-high border border-primary/25 cursor-pointer shadow-inner" onclick="R1.promptSpeakerHost()" title="点击设置音箱服务地址 (:8686)">
+          <span class="w-1.5 h-1.5 rounded-full bg-outline" id="asideOnlineDot"></span>
+          <span class="font-label-xs text-label-xs text-secondary uppercase" id="asideOnlineText">离线</span>
+        </div>
+      </div>
+
+      <!-- 导航菜单列表 -->
+      <div class="p-space-md">
+        <div class="px-space-xs py-space-xs mb-space-sm flex items-center justify-between">
+          <span class="font-label-xs text-label-xs uppercase tracking-widest text-outline">功能导航</span>
+          <span class="font-label-xs text-label-xs font-mono text-primary/70">R1BRAIN</span>
+        </div>
+        <nav class="flex flex-col gap-1.5">
+
+        <a class="flex items-center justify-between px-4 py-3 rounded-2xl text-secondary hover:text-on-surface hover:bg-surface-container-high/60 transition-all group border border-transparent hover:border-outline-variant/30 no-underline" href="home.html">
+          <div class="flex items-center gap-3">
+            <span class="material-symbols-outlined text-[20px] text-secondary group-hover:text-primary transition-colors">&#xE429;</span>
+            <span class="font-headline-sm text-headline-sm">首页</span>
+          </div>
+          <span class="font-label-xs text-label-xs text-outline font-mono">01</span>
+        </a>
+
+        <a class="flex items-center justify-between px-4 py-3 rounded-2xl text-secondary hover:text-on-surface hover:bg-surface-container-high/60 transition-all group border border-transparent hover:border-outline-variant/30 no-underline" href="chat.html">
+          <div class="flex items-center gap-3">
+            <span class="material-symbols-outlined text-[20px] text-secondary group-hover:text-primary transition-colors">&#xE0CA;</span>
+            <span class="font-headline-sm text-headline-sm">对话</span>
+          </div>
+          <span class="font-label-xs text-label-xs text-outline font-mono">02</span>
+        </a>
+
+        <a aria-current="page" class="flex items-center justify-between px-4 py-3 rounded-2xl transition-all group bg-gradient-to-r from-primary/20 via-primary/10 to-transparent border border-primary/40 text-primary font-medium shadow-[0_0_16px_rgba(253,211,133,0.15)] no-underline" href="music.html">
+          <div class="flex items-center gap-3">
+            <span class="material-symbols-outlined text-[20px] text-primary">&#xE019;</span>
+            <span class="font-headline-sm text-headline-sm font-semibold tracking-wide">音乐</span>
+          </div>
+          <span class="font-label-xs text-label-xs text-primary font-mono">03</span>
+        </a>
+
+        <a class="flex items-center justify-between px-4 py-3 rounded-2xl text-secondary hover:text-on-surface hover:bg-surface-container-high/60 transition-all group border border-transparent hover:border-outline-variant/30 no-underline" href="settings.html">
+          <div class="flex items-center gap-3">
+            <span class="material-symbols-outlined text-[20px] text-secondary group-hover:text-primary transition-colors">&#xE8C0;</span>
+            <span class="font-headline-sm text-headline-sm">设置</span>
+          </div>
+          <span class="font-label-xs text-label-xs text-outline font-mono">04</span>
+        </a>
+        </nav>
+      </div>
+    </div>
+
+    <!-- 侧栏底部设备与北京标准时间摘要 (圆角卡片 rounded-2xl) -->
+    <div class="p-space-md border-t border-outline-variant/20 bg-surface-container-lowest/60">
+      <div class="p-3.5 rounded-2xl bg-surface-container-high/90 border border-primary/20 shadow-inner flex flex-col gap-2">
+        <div class="flex items-center justify-between">
+          <span class="font-label-xs text-label-xs text-outline">北京时间</span>
+          <span class="font-label-xs text-label-xs text-primary font-mono tabular-nums" id="asideCnTime">--:--:--</span>
+        </div>
+        <div class="flex items-center justify-between">
+          <span class="font-label-xs text-label-xs text-outline">硬件平台</span>
+          <span class="font-label-xs text-label-xs text-tertiary font-mono" id="asideSoc">--</span>
+        </div>
+        <div class="flex items-center justify-between">
+          <span class="font-label-xs text-label-xs text-outline">服务版本</span>
+          <span class="font-label-xs text-label-xs text-on-surface-variant font-mono" id="asideVer">--</span>
+        </div>
+      </div>
+    </div>
+  </aside>
+
+  <!-- ================= 右侧主工作区 (左留白 pl-64) ================= -->
+  <div class="pl-64" style="padding-left:16rem;">
+    <!-- 顶部固定全局状态栏 (全部采用圆润胶囊 rounded-full，无直角方框) -->
+    <header class="fixed top-0 left-64 right-0 h-16 bg-surface-container-lowest/90 backdrop-blur-md z-40 border-b border-outline-variant/30 flex items-center justify-between px-space-lg" style="left:16rem;right:0;top:0;">
+      <div class="flex items-center gap-space-md">
+        <div class="flex items-center gap-2 px-3.5 py-1.5 rounded-full bg-surface-container-high/90 border border-primary/25 shadow-inner cursor-pointer hover:border-primary/50 transition-all" onclick="R1.promptSpeakerHost()" title="点击配置音箱局域网地址 (:8686)">
+          <span class="material-symbols-outlined text-primary text-[16px]">&#xE88E;</span>
+          <span class="font-label-sm text-label-sm text-on-surface-variant font-mono tracking-tight" id="hdrStatusText">未连接音箱 · 点击设置地址</span>
+        </div>
+        <div class="hidden xl:flex items-center gap-1.5 px-3 py-1.5 rounded-full bg-surface-container-low/90 border border-primary/20 shadow-inner">
+          <span class="material-symbols-outlined text-[14px] text-primary">&#xE425;</span>
+          <span class="font-label-xs text-label-xs text-secondary font-mono tabular-nums" id="hdrHwText">北京时间 --:--:--</span>
+        </div>
+      </div>
+
+      <div class="flex items-center gap-space-md">
+        <!-- 主音量状态与快捷静音胶囊 (纯正黑金浮雕按钮) -->
+        <button onclick="R1.toggleMute()" class="flex items-center gap-1.5 px-3.5 py-1.5 rounded-full bg-gradient-to-b from-surface-container-high to-surface-container border border-primary/35 hover:border-primary/60 text-primary shadow-[0_2px_6px_rgba(0,0,0,0.5),inset_0_1px_1px_rgba(255,255,255,0.1)] transition-all active:scale-95" title="点击静音或恢复主音量">
+          <span class="material-symbols-outlined text-[15px] text-primary">&#xE049;</span>
+          <span class="font-label-xs text-label-xs font-mono" id="hdrVolText">音量 40%</span>
+        </button>
+
+        <!-- 服务端点状态胶囊 -->
+        <div onclick="R1.promptSpeakerHost()" class="hidden sm:flex items-center gap-2 px-3.5 py-1.5 rounded-full bg-surface-container-high/80 border border-primary/25 shadow-inner backdrop-blur-sm cursor-pointer hover:border-primary/50 transition-all" title="点击配置音箱连接地址">
+          <span class="w-1.5 h-1.5 rounded-full bg-outline" id="hdrHostDot"></span>
+          <span class="font-label-xs text-label-xs text-secondary/80 font-mono tracking-wider" id="hdrHostPill">:8686</span>
+        </div>
+
+        <!-- 系统节点与设置入口胶囊 (纯正黑金浮雕样式) -->
+        <a href="settings.html" class="group relative flex items-center gap-2 px-2.5 py-1 pr-3.5 rounded-full bg-gradient-to-b from-surface-container-high to-surface-container border border-primary/45 hover:border-primary/60 shadow-[0_2px_8px_rgba(0,0,0,0.6),inset_0_1px_1px_rgba(255,255,255,0.15)] hover:shadow-[0_0_12px_rgba(253,211,133,0.25)] transition-all active:scale-95 no-underline" title="前往智脑与系统维护设置">
+          <div class="w-7 h-7 rounded-full bg-surface-container-lowest border border-primary/50 text-primary flex items-center justify-center shadow-[0_0_8px_rgba(253,211,133,0.25)]">
+            <span class="material-symbols-outlined text-[16px] text-primary">&#xE7FD;</span>
+          </div>
+          <div class="flex flex-col text-left">
+            <span class="font-label-xs text-label-xs text-primary font-medium leading-none">R1 节点</span>
+            <span class="font-label-xs text-[9px] text-secondary/70 leading-none mt-0.5" id="hdrNodeSub">系统设置</span>
+          </div>
+        </a>
+        <!-- 右上角外观主题切换：黑金 / 清透，同一份 DOM 只换样式表 -->
+        <button type="button" id="r1ThemeBtn" class="r1-theme-btn" onclick="R1Theme.toggle()" title="切换外观主题" aria-label="切换外观主题">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" aria-hidden="true"><circle cx="12" cy="12" r="8"/><path d="M12 4a8 8 0 0 1 0 16z" fill="currentColor" stroke="none"/></svg>
+        </button>
+      </div>
+    </header>
+
+    <!-- 页面核心内容挂载区 -->
+    <main class="relative pt-16 bg-surface-container-lowest min-h-screen">
+      <div class="w-full p-space-lg">
+        <div class="flex flex-col w-full gap-space-lg">
+
+          <!-- 顶部音源导航与导入栏 -->
+          <section class="w-full bg-gradient-to-b from-surface-container-high/90 to-surface-container-low/95 rounded-[26px] p-5 shadow-xl border border-primary/25 relative overflow-hidden backdrop-blur-md flex flex-wrap items-center justify-between gap-4">
+            <div class="absolute inset-x-0 top-0 h-[1px] bg-gradient-to-r from-transparent via-primary/50 to-transparent pointer-events-none"></div>
+            <div class="flex items-center gap-2 flex-wrap" id="musicSourceTabs">
+              <button data-src="all" onclick="R1.setMusicSource('all')" class="src-tab px-3.5 py-1.5 rounded-full bg-gradient-to-b from-primary/25 via-primary/15 to-surface-container border border-primary/60 text-primary font-label-xs text-label-xs font-mono font-bold transition-all">全部音源</button>
+              <button data-src="local" onclick="R1.setMusicSource('local')" class="src-tab px-3.5 py-1.5 rounded-full bg-surface-container-high border border-primary/20 text-secondary hover:text-primary font-label-xs text-label-xs font-mono transition-all">本机</button>
+              <button data-src="stream" onclick="R1.setMusicSource('stream')" class="src-tab px-3.5 py-1.5 rounded-full bg-surface-container-high border border-primary/20 text-secondary hover:text-primary font-label-xs text-label-xs font-mono transition-all">网络</button>
+            </div>
+
+            <div class="flex items-center gap-2.5 flex-wrap">
+              <button id="btnAddStreamUrl" class="px-3.5 py-1.5 rounded-full bg-gradient-to-b from-surface-container-high to-surface-container border border-primary/45 hover:border-primary/60 text-primary font-label-xs text-label-xs font-mono shadow-[0_2px_8px_rgba(0,0,0,0.6),inset_0_1px_1px_rgba(255,255,255,0.15)] active:scale-95 transition-all">添加链接</button>
+              <div class="bg-surface-container-lowest/90 rounded-full px-4 py-1.5 flex items-center gap-2 border border-primary/30 shadow-inner w-64">
+                <span class="material-symbols-outlined text-primary/70 text-[18px]">&#xE03D;</span>
+                <input id="musicSearchInput" type="text" placeholder="搜索" class="bg-transparent border-none text-body-sm text-on-surface placeholder:text-secondary/50 focus:outline-none w-full font-body-sm">
+              </div>
+            </div>
+          </section>
+
+          <!-- 云音乐（网易云）：Cookie 登录 + 搜索 + 播放 -->
+          <section class="w-full bg-gradient-to-b from-surface-container-high/90 to-surface-container-low/95 rounded-[26px] p-5 shadow-xl border border-primary/25 relative overflow-hidden flex flex-col gap-3">
+            <div class="flex flex-wrap items-center justify-between gap-2 pb-2 border-b border-white/5">
+              <div class="flex items-center gap-2">
+                <span class="material-symbols-outlined text-primary text-[20px]">&#xE405;</span>
+                <span class="font-headline-sm text-headline-sm text-on-surface font-semibold">云音乐</span>
+                <button id="cloudSrcNetease" onclick="R1.setCloudSource('netease')" class="px-2.5 py-0.5 rounded-full font-label-xs text-label-xs font-mono shrink-0 border transition-all bg-primary/20 border-primary/60 text-primary font-bold">网易云</button>
+                <button id="cloudSrcQQ" onclick="R1.setCloudSource('qq')" class="px-2.5 py-0.5 rounded-full font-label-xs text-label-xs font-mono shrink-0 border transition-all bg-surface-container-lowest border-primary/20 text-secondary hover:text-primary">QQ 音乐</button>
+<button id="cloudSrcSongloft" onclick="R1.setCloudSource('songloft')" class="px-2.5 py-0.5 rounded-full font-label-xs text-label-xs font-mono shrink-0 border transition-all bg-surface-container-lowest border-primary/20 text-secondary hover:text-primary">本地库</button>
+                <span id="cloudLoginState" class="px-2.5 py-0.5 rounded-full bg-surface-container-lowest border border-primary/30 text-secondary font-label-xs text-label-xs font-mono shrink-0">未登录</span>
+              </div>
+              <button onclick="R1.cloudSetCookie()" class="px-3.5 py-1.5 rounded-full bg-gradient-to-b from-surface-container-high to-surface-container border border-primary/45 hover:border-primary/60 text-primary font-label-xs text-label-xs font-mono shadow-[0_2px_8px_rgba(0,0,0,0.6)] active:scale-95">登录</button>
+            </div>
+            <div class="flex items-center gap-2">
+              <div class="bg-surface-container-lowest/90 rounded-full px-4 py-1.5 flex items-center gap-2 border border-primary/30 shadow-inner flex-1">
+                <span class="material-symbols-outlined text-primary/70 text-[18px]">&#xE8B6;</span>
+                <input id="cloudSearchInput" type="text" placeholder="歌名或歌手" class="bg-transparent border-none text-body-sm text-on-surface placeholder:text-secondary/50 focus:outline-none w-full font-body-sm">
+              </div>
+              <button onclick="R1.cloudSearch()" class="px-4 py-1.5 rounded-full bg-gradient-to-b from-primary/25 via-primary/15 to-surface-container border border-primary/60 text-primary font-label-xs text-label-xs font-mono font-bold active:scale-95">搜索</button>
+            </div>
+            <div id="cloudResults" class="flex flex-col gap-1.5 max-h-64 overflow-y-auto"></div>
+          </section>
+
+          <div class="grid grid-cols-1 lg:grid-cols-12 gap-space-lg w-full items-stretch">
+            <!-- 左 7 列：黑胶转盘 + 播控 + 同步滚动 LRC 歌词视窗 -->
+            <div class="lg:col-span-7 flex flex-col justify-between gap-4">
+              <!-- 黑胶主控卡 -->
+              <div class="flex flex-col gap-4 bg-gradient-to-b from-surface-container-high/90 to-surface-container-low/95 rounded-[26px] p-6 shadow-xl border border-primary/25 relative overflow-hidden backdrop-blur-md">
+                <div class="absolute inset-x-0 top-0 h-[1px] bg-gradient-to-r from-transparent via-primary/45 to-transparent pointer-events-none"></div>
+                <div class="flex flex-col sm:flex-row items-center gap-6">
+                  <!-- 黑胶转盘 -->
+                  <div onclick="R1.togglePlay()" class="relative w-40 h-40 rounded-full flex items-center justify-center shrink-0 shadow-[0_8px_32px_rgba(0,0,0,0.9),0_0_24px_rgba(253,211,133,0.25)] p-0.5 border border-primary/40 cursor-pointer bg-surface-container-lowest">
+                    <div id="musicVinylDisc" class="absolute inset-0.5 rounded-full vinyl-spinning vinyl-paused" style="background:repeating-radial-gradient(circle at 50% 50%, rgba(255,255,255,.055) 0 .5px, rgba(0,0,0,0) .5px 2px),conic-gradient(from 200deg at 50% 50%, rgba(253,211,133,.22), rgba(253,211,133,0) 20%, rgba(255,255,255,.06) 45%, rgba(253,211,133,.16) 70%, rgba(253,211,133,0) 88%),radial-gradient(circle at 50% 50%, #16191d 0 27%, #0a0c0e 28% 100%)">
+                      <div class="absolute inset-0 m-auto w-[44%] h-[44%] rounded-full flex flex-col items-center justify-center gap-[1px]" style="background:radial-gradient(circle at 35% 30%, #f7deab, #dfb76c 48%, #8f6d2c 100%);box-shadow:0 0 10px rgba(253,211,133,.35), inset 0 0 4px rgba(0,0,0,.35)">
+                        <span class="font-mono text-[8px] font-bold tracking-[0.12em] text-[#3a2a08] leading-none truncate max-w-[46px]" id="musicDiscLabel">R1 HI-FI</span>
+                        <span class="w-[9px] h-[9px] rounded-full bg-[#0a0c0e] shadow-[0_0_0_1px_rgba(253,211,133,.35)] shrink-0 mt-0.5"></span>
+                      </div>
+                    </div>
+                  </div>
+
+                  <!-- 歌曲信息与进度 -->
+                  <div class="flex flex-col flex-1 w-full gap-3 min-w-0">
+                    <div class="flex items-start justify-between gap-2">
+                      <div class="min-w-0">
+                        <div class="flex items-center gap-2">
+                          <span class="font-headline-lg text-headline-lg text-on-surface font-semibold truncate" id="musicTitle">未在播放</span>
+                          <span class="px-2.5 py-0.5 rounded-full bg-primary/15 text-primary border border-primary/35 font-label-xs text-label-xs font-mono" id="musicFormat">STANDBY</span>
+                        </div>
+                        <p class="font-body-md text-body-md text-secondary/80 truncate mt-1" id="musicAlbum">未在播放</p>
+                      </div>
+                    </div>
+
+                    <!-- 进度条 -->
+                    <div class="flex flex-col gap-1.5 pt-2">
+                      <div id="musicSeekTrack" class="w-full h-2 bg-surface-container-lowest rounded-full overflow-hidden shadow-inner flex items-center p-0.5 border border-primary/25 cursor-pointer">
+                        <div class="h-full bg-gradient-to-r from-primary-container to-primary rounded-full shadow-[0_0_10px_rgba(253,211,133,0.85)]" id="musicProgressBar" style="width: 0%"></div>
+                      </div>
+                      <div class="flex justify-between items-center font-label-xs text-label-xs text-secondary/80 font-mono tabular-nums">
+                        <span class="text-primary font-medium" id="musicCurTime">00:00</span>
+                        <span class="text-primary/70 font-mono" id="musicSpecText">--</span>
+                        <span id="musicTotTime">00:00</span>
+                      </div>
+                    </div>
+
+                    <!-- 播控按钮组 -->
+                    <div class="flex flex-wrap items-center justify-between gap-x-3 gap-y-2 pt-2 border-t border-white/5">
+                      <div class="flex items-center gap-2.5 flex-wrap">
+                        <button onclick="R1.prevTrack()" class="w-9 h-9 rounded-full bg-gradient-to-b from-surface-container-high to-surface-container border border-primary/35 flex items-center justify-center text-on-surface hover:text-primary active:scale-90 transition-all">
+                          <span class="material-symbols-outlined text-[20px]">&#xE045;</span>
+                        </button>
+                        <button onclick="R1.togglePlay()" class="w-11 h-11 rounded-2xl bg-gradient-to-b from-surface-container-high to-surface-container border border-primary/50 text-primary shadow-[0_2px_10px_rgba(0,0,0,0.6),inset_0_1px_1px_rgba(253,211,133,0.3)] flex items-center justify-center active:scale-95 transition-all">
+                          <span class="material-symbols-outlined text-[24px] flex items-center justify-center" id="musicPlayIcon">&#xE037;</span>
+                        </button>
+                        <button onclick="R1.nextTrack()" class="w-9 h-9 rounded-full bg-gradient-to-b from-surface-container-high to-surface-container border border-primary/35 flex items-center justify-center text-on-surface hover:text-primary active:scale-90 transition-all">
+                          <span class="material-symbols-outlined text-[20px]">&#xE044;</span>
+                        </button>
+                        <button onclick="R1.toggleLoopMode()" class="px-3 h-9 rounded-full bg-gradient-to-b from-surface-container-high to-surface-container border border-primary/35 text-primary font-label-xs text-label-xs font-mono flex items-center gap-1 active:scale-95 transition-all">
+                          <span class="material-symbols-outlined text-[15px]">&#xE040;</span>
+                          <span id="musicLoopLabel">列表循环</span>
+                        </button>
+                      </div>
+
+                      <!-- 音量调节 -->
+                      <div class="flex items-center gap-2">
+                        <button onclick="R1.stepVolume(-5)" class="w-7 h-7 rounded-full bg-gradient-to-b from-surface-container-high to-surface-container-lowest border border-primary/35 text-primary font-mono">-</button>
+                        <span class="font-label-xs text-label-xs font-mono text-primary min-w-[42px] text-center" id="musicVolLabel">40%</span>
+                        <button onclick="R1.stepVolume(5)" class="w-7 h-7 rounded-full bg-gradient-to-b from-surface-container-high to-surface-container-lowest border border-primary/35 text-primary font-mono">+</button>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+
+              <!-- 实时同步 LRC 歌词视窗 (使用唱片图标 &#xE019;，无语音拾音图标) -->
+              <div class="flex-1 flex flex-col justify-between gap-3 bg-gradient-to-b from-surface-container-high/90 to-surface-container-low/95 rounded-[26px] p-5 shadow-xl border border-primary/25 relative overflow-hidden backdrop-blur-md">
+                <div class="flex items-center justify-between pb-2 border-b border-white/5">
+                  <div class="flex items-center gap-2">
+                    <span class="material-symbols-outlined text-primary text-[18px]">&#xE019;</span>
+                    <span class="font-headline-sm text-headline-sm text-on-surface font-medium">歌词</span>
+                  </div>
+                </div>
+                <div id="musicLyricsBox" class="h-52 overflow-y-auto flex flex-col gap-2.5 py-4 px-4 text-center lyrics-box">
+                  <!-- 动态渲染歌词 -->
+                </div>
+              </div>
+            </div>
+
+            <!-- 右 5 列：曲目列表 + 睡眠定时 -->
+            <div class="lg:col-span-5 flex flex-col justify-between gap-4">
+              <!-- 歌单卡片 -->
+              <div class="flex-1 flex flex-col justify-between gap-3 bg-gradient-to-b from-surface-container-high/90 to-surface-container-low/95 rounded-[26px] p-5 shadow-xl border border-primary/25 relative overflow-hidden backdrop-blur-md">
+                <div class="flex items-center justify-between pb-2 border-b border-white/5">
+                  <span class="font-headline-sm text-headline-sm text-on-surface font-medium">曲库</span>
+                  <span class="font-label-xs text-label-xs font-mono text-primary" id="playlistCountText">共 0 首</span>
+                </div>
+                <div class="flex items-center gap-3 flex-wrap">
+                  <span class="font-label-xs text-label-xs text-secondary/70 font-mono">点歌音源</span>
+                  <label class="flex items-center gap-1.5 cursor-pointer font-label-xs text-label-xs text-secondary"><input id="mpSongloft" type="checkbox" class="w-4 h-4" onchange="R1.toggleMusicProvider('songloft')">本地曲库</label>
+                  <label class="flex items-center gap-1.5 cursor-pointer font-label-xs text-label-xs text-secondary"><input id="mpNetease" type="checkbox" class="w-4 h-4" onchange="R1.toggleMusicProvider('netease')">网易云</label>
+                  <label class="flex items-center gap-1.5 cursor-pointer font-label-xs text-label-xs text-secondary"><input id="mpQq" type="checkbox" class="w-4 h-4" onchange="R1.toggleMusicProvider('qq')">QQ 音乐</label>
+                </div>
+                <div id="musicPlaylistBox" class="flex flex-col gap-2 h-[280px] overflow-y-auto pr-1">
+                  <!-- 动态渲染曲目 -->
+                </div>
+              </div>
+
+              <!-- 睡眠定时 (音箱端真实定时，到点自动停止播放) -->
+              <div class="bg-gradient-to-b from-surface-container-high/80 to-surface-container-low/90 rounded-[24px] p-5 shadow-md border border-primary/20 flex flex-col gap-3">
+                <div class="flex items-center justify-between">
+                  <span class="font-label-xs text-label-xs text-secondary/70 uppercase tracking-widest font-mono">睡眠定时</span>
+                  <span class="font-label-xs text-label-xs text-primary font-mono tabular-nums" id="musicSleepText">未开启</span>
+                </div>
+                <div class="grid grid-cols-4 gap-2">
+                  <button onclick="R1.setSleepTimer(15)" class="py-2 rounded-full bg-gradient-to-b from-surface-container-high to-surface-container border border-primary/30 hover:border-primary/60 text-primary font-label-xs text-label-xs font-mono active:scale-95 transition-all">15 分</button>
+                  <button onclick="R1.setSleepTimer(30)" class="py-2 rounded-full bg-gradient-to-b from-surface-container-high to-surface-container border border-primary/30 hover:border-primary/60 text-primary font-label-xs text-label-xs font-mono active:scale-95 transition-all">30 分</button>
+                  <button onclick="R1.setSleepTimer(60)" class="py-2 rounded-full bg-gradient-to-b from-surface-container-high to-surface-container border border-primary/30 hover:border-primary/60 text-primary font-label-xs text-label-xs font-mono active:scale-95 transition-all">60 分</button>
+                  <button onclick="R1.setSleepTimer(0)" class="py-2 rounded-full bg-surface-container-high border border-outline-variant/40 text-secondary hover:text-primary font-label-xs text-label-xs font-mono active:scale-95 transition-all">关闭</button>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </main>
+  </div>
+
+  <script src="../assets/r1-engine.js"></script>
+  <script>
+    R1.onStateChange(function(st) {
+      const cnNow = R1.nowTimeStr();
+      const hdrStatus = document.getElementById('hdrStatusText');
+      if (hdrStatus) {
+        if (st.online) {
+          const mem = st.memTotalMb > 0 ? (st.memUsedMb + 'M / ' + st.memTotalMb + 'M') : '--';
+          hdrStatus.textContent = '已运行 ' + R1.formatUptime(st.uptimeSec) + ' · 内存 ' + mem;
+        } else {
+          hdrStatus.textContent = st.hostIp ? ('未连接 (' + st.hostIp + ') · 点击重设') : '未连接音箱 · 点击设置地址';
+        }
+      }
+      const hdrHost = document.getElementById('hdrHostPill');
+      if (hdrHost) hdrHost.textContent = st.online ? (st.ip !== '--' ? st.ip + ':8686' : ':8686') : (st.hostIp || '设置IP');
+      const hdrDot = document.getElementById('hdrHostDot');
+      if (hdrDot) hdrDot.className = 'w-1.5 h-1.5 rounded-full ' + (st.online ? 'bg-tertiary animate-pulse' : 'bg-outline');
+
+      const hdrVol = document.getElementById('hdrVolText');
+      if (hdrVol) hdrVol.textContent = st.muted ? '已静音' : ('音量 ' + st.volume + '%');
+
+      const hw = document.getElementById('hdrHwText');
+      if (hw) hw.textContent = '北京时间 ' + cnNow + (st.online ? (' · ' + st.hardware) : '');
+
+      const cnEl = document.getElementById('asideCnTime');
+      if (cnEl) cnEl.textContent = cnNow;
+      const soc = document.getElementById('asideSoc');
+      if (soc) soc.textContent = st.online ? (st.hardware + (st.memTotalMb ? ' · ' + st.memTotalMb + 'M' : '')) : '--';
+      const ver = document.getElementById('asideVer');
+      if (ver) ver.textContent = st.online ? ('v' + st.version + ' · Android ' + st.androidRelease) : 'TCP :8686';
+
+      const asideText = document.getElementById('asideOnlineText');
+      if (asideText) {
+        asideText.textContent = st.online ? '在线' : '离线';
+        asideText.className = 'font-label-xs text-label-xs uppercase ' + (st.online ? 'text-tertiary' : 'text-secondary');
+      }
+      const asideDot = document.getElementById('asideOnlineDot');
+      if (asideDot) asideDot.className = 'w-1.5 h-1.5 rounded-full ' + (st.online ? 'bg-tertiary animate-pulse' : 'bg-outline');
+    });
+  </script>
+
+  <script>
+    (function() {
+      R1.cloudStatus();
+      R1.loadMusicProviders();
+      const searchInput = document.getElementById('musicSearchInput');
+      let searchKw = '';
+      let lastPlaylistSig = '';
+      searchInput.addEventListener('input', function() {
+        searchKw = this.value.trim().toLowerCase();
+        renderPlaylist(R1.getState());
+      });
+
+      document.getElementById('musicPlaylistBox').addEventListener('click', function(e) {
+        const btn = e.target.closest ? e.target.closest('[data-remove-stream]') : null;
+        if (!btn) return;
+        e.stopPropagation();
+        const url = btn.getAttribute('data-remove-stream');
+        if (url && confirm('确认移除该音频流？')) R1.removeStream(url);
+      });
+
+      // 添加外部音频流 URL
+      document.getElementById('btnAddStreamUrl').addEventListener('click', function() {
+        const url = prompt('音频链接');
+        if (!url || !url.trim()) return;
+        const title = prompt('请输入曲目或电台名称:', '网络音频流') || '网络音频流';
+        R1.addStream(url.trim(), title.trim());
+      });
+
+      document.getElementById('musicSeekTrack').addEventListener('click', function(e) {
+        const r = this.getBoundingClientRect();
+        R1.seekByRatio((e.clientX - r.left) / r.width);
+      });
+
+      function renderPlaylist(st) {
+        const box = document.getElementById('musicPlaylistBox');
+        const list = R1.TRACKS.map((t, idx) => ({ t, idx })).filter(item => {
+          const matchSrc = st.musicSource === 'all' || item.t.source === st.musicSource;
+          const matchKw = !searchKw || item.t.title.toLowerCase().includes(searchKw) || item.t.artist.toLowerCase().includes(searchKw);
+          return matchSrc && matchKw;
+        });
+        const sig = st.musicSource + '|' + st.trackIdx + '|' + searchKw + '|' +
+          R1.TRACKS.map(function (t) { return t.path || t.url || ''; }).join('|');
+        if (sig === lastPlaylistSig) return;
+        lastPlaylistSig = sig;
+        const keepScroll = box.scrollTop;
+        document.getElementById('playlistCountText').textContent = '共 ' + list.length + ' 首';
+        if (list.length === 0) {
+          box.innerHTML = `
+            <div class="h-full p-6 rounded-2xl bg-surface-container-lowest/60 border border-white/5 text-center flex flex-col items-center justify-center gap-2">
+              <span class="material-symbols-outlined text-primary/70 text-[24px]">&#xE019;</span>
+              <span class="font-body-sm text-body-sm text-on-surface font-medium">曲库是空的</span>
+            </div>`;
+          return;
+        }
+        box.innerHTML = list.map(({ t, idx }) => {
+          const active = idx === st.trackIdx;
+          const rm = t.source === 'stream'
+            ? `<button data-remove-stream="${R1.escapeHtml(t.url)}" class="w-6 h-6 rounded-full bg-surface-container-high border border-outline-variant/40 text-secondary hover:text-error flex items-center justify-center" title="移除该音频流">×</button>` : '';
+          return `
+            <div onclick="R1.selectTrack(${idx})" class="flex items-center justify-between gap-2 p-3 rounded-2xl cursor-pointer transition-all ${active ? 'bg-gradient-to-r from-primary/20 via-primary/10 to-surface-container-lowest border border-primary/50 shadow-[0_0_14px_rgba(253,211,133,0.15)]' : 'bg-surface-container-lowest/70 hover:bg-surface-container-high/60 border border-white/5'}">
+              <div class="flex items-center gap-3 min-w-0">
+                <span class="font-label-sm text-label-sm font-mono ${active ? 'text-primary font-bold' : 'text-outline'} w-6 shrink-0">${String(idx + 1).padStart(2, '0')}</span>
+                <div class="flex flex-col min-w-0">
+                  <span class="font-body-md text-body-md ${active ? 'text-primary font-semibold' : 'text-on-surface'} truncate">${R1.escapeHtml(t.subTitle)}</span>
+                  <span class="font-label-xs text-label-xs text-secondary/70 truncate">${R1.escapeHtml(t.artist)} · ${R1.escapeHtml(t.spec)}</span>
+                </div>
+              </div>
+              <div class="flex items-center gap-2 shrink-0">
+                <span class="px-2 py-0.5 rounded-full bg-surface-container-high border border-primary/25 font-label-xs text-label-xs font-mono text-primary">${R1.escapeHtml(t.format)}</span>
+                ${rm}
+              </div>
+            </div>`;
+        }).join('');
+        box.scrollTop = keepScroll;
+      }
+
+      let lastRenderedTrack = '';
+      function renderLyrics(st) {
+        const tr = R1.getCurrentTrack();
+        const box = document.getElementById('musicLyricsBox');
+        const lyricSig = tr.id + '|' + (tr.lyrics ? tr.lyrics.length : 0);
+        if (lastRenderedTrack !== lyricSig) {
+          lastRenderedTrack = lyricSig;
+          box.innerHTML = (tr.lyrics && tr.lyrics.length) ? tr.lyrics.map((line, i) => `
+            <div id="mLyric-${i}" onclick="R1.seekTo(${line.t})" class="lyric-item cursor-pointer py-1 font-body-md text-body-md text-secondary hover:text-on-surface transition-all">
+              ${R1.escapeHtml(line.txt)}
+            </div>
+          `).join('') : '<div class="h-full flex items-center justify-center font-body-sm text-body-sm text-secondary/60">暂无歌词</div>';
+        }
+        let activeIdx = 0;
+        if (tr.lyrics) {
+          for (let i = 0; i < tr.lyrics.length; i++) {
+            if (st.currentTime >= tr.lyrics[i].t) activeIdx = i;
+          }
+          tr.lyrics.forEach((_, i) => {
+            const el = document.getElementById('mLyric-' + i);
+            if (el) {
+              const isAct = i === activeIdx;
+              el.classList.toggle('active', isAct);
+            }
+          });
+        }
+      }
+
+      R1.onStateChange(function(st) {
+        const tr = R1.getCurrentTrack();
+        document.getElementById('musicTitle').textContent = tr.title;
+        document.getElementById('musicDiscLabel').textContent = tr.id === 'idle' ? 'R1 HI-FI' : tr.title;
+        document.getElementById('musicFormat').textContent = tr.format;
+        document.getElementById('musicAlbum').textContent = tr.artist + (tr.album ? (' · ' + tr.album) : '');
+        document.getElementById('musicSpecText').textContent = tr.spec;
+        document.getElementById('musicCurTime').textContent = R1.formatTime(st.currentTime);
+        document.getElementById('musicTotTime').textContent = R1.formatTime(tr.duration);
+        const pct = tr.duration > 0 ? ((st.currentTime / tr.duration) * 100).toFixed(1) : 0;
+        document.getElementById('musicProgressBar').style.width = pct + '%';
+        document.getElementById('musicPlayIcon').innerHTML = R1.playPauseGlyph(st.isPlaying, 20);
+        document.getElementById('musicVinylDisc').classList.toggle('vinyl-paused', !st.isPlaying);
+        document.getElementById('musicVolLabel').textContent = st.muted ? '静音' : (st.volume + '%');
+        document.getElementById('musicLoopLabel').textContent = R1.loopName(st.loopMode);
+
+        // 音源 Tab 高亮
+        document.querySelectorAll('#musicSourceTabs .src-tab').forEach(btn => {
+          const isAct = btn.getAttribute('data-src') === st.musicSource;
+          btn.className = isAct
+            ? 'src-tab px-3.5 py-1.5 rounded-full bg-gradient-to-b from-primary/25 via-primary/15 to-surface-container border border-primary/60 text-primary font-label-xs text-label-xs font-mono font-bold transition-all'
+            : 'src-tab px-3.5 py-1.5 rounded-full bg-surface-container-high border border-primary/20 text-secondary hover:text-primary font-label-xs text-label-xs font-mono transition-all';
+        });
+
+        document.getElementById('musicSleepText').textContent = st.sleepRemainSec > 0 ? ('剩余 ' + R1.formatTime(st.sleepRemainSec)) : '未开启';
+
+        renderPlaylist(st);
+        renderLyrics(st);
+      });
+    })();
+  </script>
+</body>
+</html>
