@@ -267,12 +267,14 @@
     if (!box) {
       box = document.createElement('div');
       box.id = 'r1ToastContainer';
+      box.setAttribute('role', 'status');
+      box.setAttribute('aria-live', 'polite');
       box.style.cssText = 'position:fixed;bottom:84px;right:20px;z-index:9999;display:flex;flex-direction:column;gap:8px;pointer-events:none;max-width:340px;';
       document.body.appendChild(box);
     }
     const item = document.createElement('div');
     const dot = type === 'ok' ? 'var(--r1-toast-dot-ok)' : (type === 'err' ? 'var(--r1-toast-dot-err)' : 'var(--r1-toast-dot-info)');
-    item.style.cssText = 'background:var(--r1-toast-bg);border:1px solid var(--r1-toast-border);color:var(--r1-toast-fg);padding:10px 16px;border-radius:999px;font-size:12px;font-family:Manrope,sans-serif;box-shadow:var(--r1-toast-shadow);display:flex;align-items:center;gap:10px;backdrop-filter:blur(12px);transform:translateY(8px);opacity:0;transition:all 0.22s ease;pointer-events:auto;';
+    item.style.cssText = 'background:var(--r1-toast-bg);border:1px solid var(--r1-toast-border);color:var(--r1-toast-fg);padding:10px 16px;border-radius:999px;font-size:13px;font-family:var(--r1-font-sans,Manrope,sans-serif);box-shadow:var(--r1-toast-shadow);display:flex;align-items:center;gap:10px;backdrop-filter:blur(12px);transform:translateY(-6px);opacity:0;transition:all 0.22s ease;pointer-events:auto;';
     item.innerHTML = '<span style="width:8px;height:8px;border-radius:50%;background:' + dot + ';box-shadow:0 0 8px ' + dot + ';flex-shrink:0;"></span><span style="line-height:1.4;">' + escapeHtml(msg) + '</span>';
     box.appendChild(item);
     requestAnimationFrame(function () {
@@ -280,10 +282,117 @@
       item.style.opacity = '1';
     });
     setTimeout(function () {
-      item.style.transform = 'translateY(8px)';
+      item.style.transform = 'translateY(-6px)';
       item.style.opacity = '0';
       setTimeout(function () { item.remove(); }, 240);
-    }, 2800);
+    }, 3000);
+  }
+
+  // ==========================================
+  // 原生 <dialog> 模态交互组件（替代原生 prompt / confirm）
+  // ==========================================
+  function bindLightDismiss(dlg) {
+    if (!dlg || dlg.dataset.ldBound) return;
+    dlg.dataset.ldBound = '1';
+    if (typeof HTMLDialogElement !== 'undefined' && ('closedBy' in HTMLDialogElement.prototype)) return;
+    var outside = function (e) {
+      var r = dlg.getBoundingClientRect();
+      return e.clientX < r.left || e.clientX > r.right || e.clientY < r.top || e.clientY > r.bottom;
+    };
+    var pressedOutside = false;
+    dlg.addEventListener('pointerdown', function (e) { pressedOutside = outside(e); });
+    dlg.addEventListener('pointerup', function (e) {
+      if (pressedOutside && outside(e)) dlg.close('');
+    });
+  }
+
+  function openModal(opts) {
+    opts = opts || {};
+    var fields = Array.isArray(opts.fields) ? opts.fields : [];
+    var isDanger = !!opts.danger;
+    var okText = opts.confirmText || '确认';
+    var cancelText = opts.cancelText || '取消';
+    var titleText = opts.title || '操作确认';
+    var descText = opts.desc || '';
+
+    // 极老浏览器无 <dialog> 时优雅降级
+    if (typeof HTMLDialogElement === 'undefined' || !document.createElement('dialog').showModal) {
+      if (!fields.length) return Promise.resolve(confirm(titleText + (descText ? ('\n' + descText) : '')) ? {} : null);
+      var out = {};
+      for (var i = 0; i < fields.length; i++) {
+        var f = fields[i];
+        var v = prompt(f.label || titleText, f.value || '');
+        if (v === null) return Promise.resolve(null);
+        out[f.name] = v;
+      }
+      return Promise.resolve(out);
+    }
+
+    return new Promise(function (resolve) {
+      var dlg = document.createElement('dialog');
+      dlg.className = 'r1-modal';
+      dlg.setAttribute('closedby', 'any');
+      var titleId = 'r1DlgTitle_' + Date.now();
+      dlg.setAttribute('aria-labelledby', titleId);
+
+      var fieldsHtml = fields.map(function (f, idx) {
+        var fid = 'r1DlgField_' + idx + '_' + Date.now();
+        var auto = idx === 0 ? ' autofocus' : '';
+        var cls = f.mono ? ' r1-mono' : '';
+        var hintHtml = f.hint ? '<span class="r1-hint">' + escapeHtml(f.hint) + '</span>' : '';
+        var ctrl = f.type === 'textarea'
+          ? '<textarea id="' + fid + '" name="' + escapeHtml(f.name) + '" rows="' + (f.rows || 4) + '" placeholder="' + escapeHtml(f.placeholder || '') + '" class="r1-textarea' + cls + '"' + auto + '>' + escapeHtml(f.value || '') + '</textarea>'
+          : '<input id="' + fid + '" name="' + escapeHtml(f.name) + '" type="' + escapeHtml(f.type || 'text') + '" value="' + escapeHtml(f.value || '') + '" placeholder="' + escapeHtml(f.placeholder || '') + '" class="r1-input' + cls + '"' + auto + '>';
+        return '<div class="r1-field"><label class="r1-label" for="' + fid + '">' + escapeHtml(f.label || '') + '</label>' + hintHtml + ctrl + '</div>';
+      }).join('');
+
+      var cancelAuto = (!fields.length && isDanger) ? ' autofocus' : '';
+      var okAuto = (!fields.length && !isDanger) ? ' autofocus' : '';
+      var okBtnCls = isDanger ? 'r1-btn r1-btn-danger' : 'r1-btn r1-btn-primary';
+
+      dlg.innerHTML = ''
+        + '<form method="dialog" style="display:flex;flex-direction:column;max-height:inherit;">'
+        + '  <div class="r1-modal-head">'
+        + '    <h1 id="' + titleId + '" class="r1-modal-title">' + escapeHtml(titleText) + '</h1>'
+        + '    <button type="submit" value="cancel" formnovalidate class="r1-btn r1-btn-ghost r1-btn-icon-sm" aria-label="关闭">×</button>'
+        + '  </div>'
+        + '  <div class="r1-modal-body">'
+        + (descText ? '    <p style="margin:0;line-height:1.6;">' + escapeHtml(descText) + '</p>' : '')
+        + fieldsHtml
+        + '  </div>'
+        + '  <div class="r1-modal-foot">'
+        + '    <button type="submit" value="cancel" formnovalidate class="r1-btn r1-btn-outlined"' + cancelAuto + '>' + escapeHtml(cancelText) + '</button>'
+        + '    <button type="submit" value="ok" class="' + okBtnCls + '"' + okAuto + '>' + escapeHtml(okText) + '</button>'
+        + '  </div>'
+        + '</form>';
+
+      document.body.appendChild(dlg);
+      bindLightDismiss(dlg);
+
+      dlg.addEventListener('close', function () {
+        var rv = dlg.returnValue;
+        dlg.returnValue = '';
+        if (rv !== 'ok') {
+          dlg.remove();
+          resolve(null);
+          return;
+        }
+        var data = {};
+        fields.forEach(function (f) {
+          var el = dlg.querySelector('[name="' + f.name + '"]');
+          data[f.name] = el ? el.value : '';
+        });
+        dlg.remove();
+        resolve(data);
+      });
+
+      dlg.showModal();
+    });
+  }
+
+  function confirmModal(opts) {
+    return openModal(Object.assign({ confirmText: '确认', cancelText: '取消' }, opts || {}, { fields: [] }))
+      .then(function (res) { return res !== null; });
   }
 
   // 运行日志 (北京时间时间戳)
@@ -625,6 +734,9 @@
     onStateChange: function (fn) { listeners.push(fn); fn(state); },
     onLog: function (fn) { logCallbacks.push(fn); },
     toast: toast,
+    openModal: openModal,
+    confirmModal: confirmModal,
+    bindLightDismiss: bindLightDismiss,
     formatTime: formatTime,
     formatUptime: formatUptime,
     nowTimeStr: nowTimeStr,
@@ -644,28 +756,35 @@
       }
     },
     promptToken: function () {
-      const tip = state.authRequired
-        ? '修改访问令牌（至少 4 位；留空表示关闭鉴权，任何能连到音箱的人都能打开控制台）'
-        : '为音箱设置访问令牌（至少 4 位；留空表示不设，控制台保持开放）';
-      const t = prompt(tip, '');
-      if (t === null) return;
-      const val = t.trim();
-      if (val && val.length < 4) {
-        toast('令牌至少 4 位', 'err');
-        return;
-      }
-      api('POST', '/api/v1/token', { token: val }).then(function (j) {
-        state.token = val;
-        state.authRequired = !!j.authRequired;
-        persist();
-        notify();
-        toast(val ? '访问令牌已保存到音箱' : '已关闭访问令牌（控制台开放）');
-        if (val) {
-          // 走一次带 token 的入口，让服务端下发 Cookie，后续刷新无需再拼 token
-          location.href = '/?token=' + encodeURIComponent(val);
+      const desc = state.authRequired
+        ? '修改音箱访问令牌（至少 4 位）；留空保存将关闭鉴权，局域网内任何设备可直接访问控制台。'
+        : '为音箱控制台设置访问令牌（至少 4 位）；留空保持开放访问。';
+      openModal({
+        title: '访问令牌设置',
+        desc: desc,
+        confirmText: '保存令牌',
+        fields: [
+          { name: 'token', label: '访问令牌', type: 'password', mono: true, placeholder: '至少 4 位字符，留空表示关闭鉴权', value: '' }
+        ]
+      }).then(function (res) {
+        if (!res) return;
+        const val = (res.token || '').trim();
+        if (val && val.length < 4) {
+          toast('令牌至少需要 4 位字符', 'err');
+          return;
         }
-      }).catch(function (e) {
-        toast('设置失败：' + e.message, 'err');
+        api('POST', '/api/v1/token', { token: val }).then(function (j) {
+          state.token = val;
+          state.authRequired = !!j.authRequired;
+          persist();
+          notify();
+          toast(val ? '访问令牌已保存到音箱' : '已关闭访问令牌（控制台开放）', 'ok');
+          if (val) {
+            location.href = '/?token=' + encodeURIComponent(val);
+          }
+        }).catch(function (e) {
+          toast('设置失败：' + e.message, 'err');
+        });
       });
     },
     loopName: function (m) {
@@ -681,23 +800,29 @@
         toast('当前页面已由音箱 (' + location.host + ') 直接提供服务');
         return;
       }
-      const ip = prompt('请输入斐讯 R1 音箱局域网地址:端口 (例如 192.168.1.88:8686)', state.hostIp || '192.168.1.88:8686');
-      if (ip === null) return;
-      state.hostIp = ip.trim().replace(/^https?:\/\//, '');
-      if (!state.token) {
-        const tk = prompt('请输入音箱访问令牌（可留空，稍后可在设置页补填）', '');
-        if (tk !== null && tk.trim()) state.token = tk.trim();
-      }
-      persist();
-      if (!state.hostIp) {
-        state.online = false;
-        notify();
-        toast('已清除音箱连接地址');
-        return;
-      }
-      toast('正在连接音箱 ' + state.hostIp + ' ...');
-      syncFromSpeaker(false).then(function (ok) {
-        if (!ok) toast('未能连接 ' + state.hostIp + '，请检查音箱网络、端口或访问令牌', 'err');
+      openModal({
+        title: '连接斐讯 R1 音箱',
+        desc: '输入音箱局域网地址与端口（默认 8686），若已开启鉴权可一并填写访问令牌。',
+        confirmText: '连接音箱',
+        fields: [
+          { name: 'hostIp', label: '音箱地址 : 端口', type: 'text', mono: true, placeholder: '192.168.1.88:8686', value: state.hostIp || '192.168.1.88:8686' },
+          { name: 'token', label: '访问令牌（可选）', type: 'password', mono: true, placeholder: '未开启鉴权可留空', value: state.token || '' }
+        ]
+      }).then(function (res) {
+        if (!res) return;
+        state.hostIp = (res.hostIp || '').trim().replace(/^https?:\/\//, '');
+        if ((res.token || '').trim()) state.token = res.token.trim();
+        persist();
+        if (!state.hostIp) {
+          state.online = false;
+          notify();
+          toast('已清除音箱连接地址');
+          return;
+        }
+        toast('正在连接音箱 ' + state.hostIp + ' ...');
+        syncFromSpeaker(false).then(function (ok) {
+          if (!ok) toast('未能连接 ' + state.hostIp + '，请检查音箱网络、端口或访问令牌', 'err');
+        });
       });
     },
 
@@ -772,62 +897,85 @@
       }
     },
 
-    /** 同步音源选中态与登录徽标（桌面端、移动端各一处）。 */
+    /** 同步音源选中态与登录徽标（桌面端走 r1-seg-btn/r1-badge，移动端保持原类）。 */
     applyCloudSourceUi: function () {
       const src = R1.cloudSource;
       const on = !!R1.cloudFlags[src];
+      const isDesktopUi = document.body && document.body.classList.contains('r1-desktop-body');
       [['cloudSrcNetease', 'netease'], ['cloudSrcQQ', 'qq'], ['cloudSrcSongloft', 'songloft']].forEach(function (p) {
         ['', 'm-'].forEach(function (prefix) {
           const el = document.getElementById(prefix + p[0]);
           if (!el) return;
           const active = p[1] === src;
-          el.className = 'px-2.5 py-0.5 rounded-full font-label-xs text-label-xs font-mono shrink-0 border transition-all '
-            + (active
-              ? 'bg-primary/20 border-primary/60 text-primary font-bold'
-              : 'bg-surface-container-lowest border-primary/20 text-secondary hover:text-primary');
+          if (!prefix && isDesktopUi) {
+            el.className = 'r1-seg-btn' + (active ? ' is-active' : '');
+            el.setAttribute('aria-pressed', active ? 'true' : 'false');
+          } else {
+            el.className = 'px-2.5 py-0.5 rounded-full font-label-xs text-label-xs font-mono shrink-0 border transition-all '
+              + (active
+                ? 'bg-primary/20 border-primary/60 text-primary font-bold'
+                : 'bg-surface-container-lowest border-primary/20 text-secondary hover:text-primary');
+          }
         });
       });
       ['cloudLoginState', 'mCloudLoginState'].forEach(function (id) {
         const el = document.getElementById(id);
         if (!el) return;
         el.textContent = on ? (src === 'songloft' ? '已配置' : '已登录') : (src === 'songloft' ? '未配置' : '未登录');
-        el.className = on
-          ? 'px-2.5 py-0.5 rounded-full bg-primary/15 border border-primary/60 text-primary font-label-xs text-label-xs font-mono shrink-0'
-          : 'px-2.5 py-0.5 rounded-full bg-surface-container-lowest border border-primary/30 text-secondary font-label-xs text-label-xs font-mono shrink-0';
+        if (id === 'cloudLoginState' && isDesktopUi) {
+          el.className = on ? 'r1-badge r1-badge-success' : 'r1-badge';
+        } else {
+          el.className = on
+            ? 'px-2.5 py-0.5 rounded-full bg-primary/15 border border-primary/60 text-primary font-label-xs text-label-xs font-mono shrink-0'
+            : 'px-2.5 py-0.5 rounded-full bg-surface-container-lowest border border-primary/30 text-secondary font-label-xs text-label-xs font-mono shrink-0';
+        }
       });
     },
 
     cloudSetCookie: function () {
       if (R1.cloudSource === 'songloft') { R1.cloudConfigSongloft(); return; }
       const isQQ = R1.cloudSource === 'qq';
-      const tip = isQQ
-        ? '粘贴 y.qq.com 的 Cookie（必须有 uin 和 qm_keyst；F12 → Network → 任意请求 → 请求头 Cookie 整段）'
-        : '粘贴 music.163.com 的 Cookie（F12 → Network → 任意请求 → 请求头 Cookie 整段）';
-      const c = prompt(tip);
-      if (c === null) return;
-      api('POST', '/api/v1/music/cookie', { source: R1.cloudSource, cookie: (c || '').trim() })
-        .then(function () { toast('Cookie 已保存到音箱', 'ok'); R1.cloudStatus(); })
-        .catch(function (e) { toast('保存失败：' + e.message, 'err'); });
+      openModal({
+        title: isQQ ? 'QQ 音乐登录凭据' : '网易云音乐登录凭据',
+        desc: isQQ
+          ? '粘贴 y.qq.com 的完整请求头 Cookie（需包含 uin 与 qm_keyst）。'
+          : '粘贴 music.163.com 的完整请求头 Cookie（F12 → Network → 任意请求 → Cookie）。',
+        confirmText: '保存到音箱',
+        fields: [
+          { name: 'cookie', label: 'Cookie 内容', type: 'textarea', rows: 4, mono: true, placeholder: '粘贴整段 Cookie 字符串...' }
+        ]
+      }).then(function (res) {
+        if (!res) return;
+        api('POST', '/api/v1/music/cookie', { source: R1.cloudSource, cookie: (res.cookie || '').trim() })
+          .then(function () { toast('Cookie 已保存到音箱', 'ok'); R1.cloudStatus(); })
+          .catch(function (e) { toast('保存失败：' + e.message, 'err'); });
+      });
     },
 
     /** 本地曲库没有 Cookie：地址 + 令牌一起提交，保存后立刻做一次连通性测试。 */
     cloudConfigSongloft: function () {
-      const cur = R1.songloftUrl || '';
-      const url = prompt('Songloft 地址，例如 http://192.168.1.100:58091', cur);
-      if (url === null) return;
-      const token = prompt('访问令牌（Songloft 网页「个人访问令牌」生成，只需填一次）');
-      if (token === null) return;
-      api('POST', '/api/v1/config', { songloftUrl: (url || '').trim(), songloftToken: (token || '').trim() })
-        .then(function () {
-          toast('本地曲库已保存', 'ok');
-          return api('POST', '/api/v1/music/songloft/test', {});
-        })
-        .then(function (r) {
-          if (r && r.ok) toast('连接正常，曲库 ' + r.total + ' 首', 'ok');
-          else toast('连接失败：' + ((r && r.error) || '未知原因'), 'err');
-          R1.cloudStatus();
-        })
-        .catch(function (e) { toast('保存失败：' + e.message, 'err'); });
+      openModal({
+        title: '配置本地曲库 (Songloft)',
+        desc: '填写自建 Songloft 服务地址与个人访问令牌，保存后自动测试连通性。',
+        confirmText: '保存并测试',
+        fields: [
+          { name: 'url', label: '服务地址', type: 'text', mono: true, placeholder: 'http://192.168.1.100:58091', value: R1.songloftUrl || '' },
+          { name: 'token', label: '个人访问令牌', type: 'password', mono: true, placeholder: '在 Songloft 网页中生成' }
+        ]
+      }).then(function (res) {
+        if (!res) return;
+        api('POST', '/api/v1/config', { songloftUrl: (res.url || '').trim(), songloftToken: (res.token || '').trim() })
+          .then(function () {
+            toast('本地曲库已保存', 'ok');
+            return api('POST', '/api/v1/music/songloft/test', {});
+          })
+          .then(function (r) {
+            if (r && r.ok) toast('连接正常，曲库 ' + r.total + ' 首', 'ok');
+            else toast('连接失败：' + ((r && r.error) || '未知原因'), 'err');
+            R1.cloudStatus();
+          })
+          .catch(function (e) { toast('保存失败：' + e.message, 'err'); });
+      });
     },
 
     cloudSearch: function () {
@@ -842,7 +990,20 @@
 
     renderCloudResults: function () {
       const list = R1.cloudResults || [];
-      const body = list.length
+      const isDesktopUi = document.body && document.body.classList.contains('r1-desktop-body');
+      const desktopBody = list.length
+        ? list.map(function (s, i) {
+            return '<button type="button" onclick="R1.cloudPlay(' + i + ')" class="r1-track-row">'
+              + '<div class="r1-row r1-flex-1" style="min-width:0;">'
+              + '<span class="r1-mono r1-subtle" style="width:24px;font-size:12px;flex-shrink:0;">' + String(i + 1).padStart(2, '0') + '</span>'
+              + '<span class="r1-truncate" style="font-size:14px;font-weight:500;">' + escapeHtml(s.name || '') + '</span>'
+              + '</div>'
+              + '<span class="r1-subtle r1-truncate" style="font-size:12px;max-width:40%;flex-shrink:0;">' + escapeHtml(s.artist || '') + '</span>'
+              + '</button>';
+          }).join('')
+        : '<div class="r1-empty"><span style="font-size:13px;">输入歌名或歌手后点击搜索</span></div>';
+
+      const mobileBody = list.length
         ? list.map(function (s, i) {
             return '<button onclick="R1.cloudPlay(' + i + ')" class="text-left px-3.5 py-2 rounded-2xl bg-surface-container-lowest/70 border border-primary/15 hover:border-primary/45 transition-all flex items-center justify-between gap-3">'
               + '<span class="font-body-sm text-body-sm text-on-surface truncate">' + escapeHtml(s.name || '') + '</span>'
@@ -850,10 +1011,11 @@
               + '</button>';
           }).join('')
         : '<p class="font-body-sm text-body-sm text-secondary/70 py-2">没有结果</p>';
-      ['cloudResults', 'mCloudResults'].forEach(function (id) {
-        const box = document.getElementById(id);
-        if (box) box.innerHTML = body;
-      });
+
+      const deskEl = document.getElementById('cloudResults');
+      if (deskEl) deskEl.innerHTML = isDesktopUi ? desktopBody : mobileBody;
+      const mobEl = document.getElementById('mCloudResults');
+      if (mobEl) mobEl.innerHTML = mobileBody;
     },
 
     cloudPlay: function (i) {
@@ -1038,12 +1200,26 @@
       const d = document.getElementById('castDlnaBadge');
       const a = document.getElementById('castAirplayBadge');
       const hint = document.getElementById('castHint');
-      const onCls = 'px-2.5 py-1 rounded-full bg-primary/15 border border-primary/60 text-primary font-label-xs text-label-xs font-mono cursor-pointer';
-      const offCls = 'px-2.5 py-1 rounded-full bg-surface-container-lowest border border-outline-variant/50 text-secondary font-label-xs text-label-xs font-mono cursor-pointer';
+      const isDesktopUi = document.body && document.body.classList.contains('r1-desktop-body');
       const dlnaOn = r && r.dlna && (r.dlna.on === true || r.dlna === true);
       const airOn = r && r.airplay && (r.airplay.listening === true || r.airplay.on === true || r.airplay === true);
-      if (d) { d.textContent = dlnaOn ? 'DLNA 开' : 'DLNA'; d.className = dlnaOn ? onCls : offCls; }
-      if (a) { a.textContent = airOn ? 'AirPlay 开' : 'AirPlay'; a.className = airOn ? onCls : offCls; }
+      if (isDesktopUi) {
+        if (d) {
+          d.textContent = dlnaOn ? 'DLNA · 开' : 'DLNA';
+          d.className = 'r1-chip' + (dlnaOn ? ' is-active' : '');
+          d.setAttribute('aria-pressed', dlnaOn ? 'true' : 'false');
+        }
+        if (a) {
+          a.textContent = airOn ? 'AirPlay · 开' : 'AirPlay';
+          a.className = 'r1-chip' + (airOn ? ' is-active' : '');
+          a.setAttribute('aria-pressed', airOn ? 'true' : 'false');
+        }
+      } else {
+        const onCls = 'px-2.5 py-1 rounded-full bg-primary/15 border border-primary/60 text-primary font-label-xs text-label-xs font-mono cursor-pointer';
+        const offCls = 'px-2.5 py-1 rounded-full bg-surface-container-lowest border border-outline-variant/50 text-secondary font-label-xs text-label-xs font-mono cursor-pointer';
+        if (d) { d.textContent = dlnaOn ? 'DLNA 开' : 'DLNA'; d.className = dlnaOn ? onCls : offCls; }
+        if (a) { a.textContent = airOn ? 'AirPlay 开' : 'AirPlay'; a.className = airOn ? onCls : offCls; }
+      }
       if (hint) {
         const parts = [];
         if (r && r.dlna && r.dlna.playError) parts.push('DLNA 播放: ' + r.dlna.playError);
@@ -1052,7 +1228,7 @@
         if (r && r.airplay && r.airplay.wanted && !airOn) parts.push('隔空播放想开但端口未监听');
         if (r && r.bluetooth && r.bluetooth.error) parts.push('蓝牙: ' + r.bluetooth.error);
         hint.textContent = parts.join(' · ');
-        hint.title = parts.join('\\n');
+        hint.title = parts.join('\n');
       }
     },
 

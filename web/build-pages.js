@@ -456,12 +456,14 @@ const extraCss = `
 }
 `;
 
-const fullBlackgoldCss = baseTw + '\n' + extraCss;
+const designSystemCss = fs.readFileSync(path.join(webDir, 'src', 'design-system.css'), 'utf-8');
+const fullBlackgoldBase = baseTw + '\n' + extraCss;
+const fullBlackgoldCss = fullBlackgoldBase + '\n' + designSystemCss;
 fs.writeFileSync(path.join(assetsDir, 'blackgold.css'), fullBlackgoldCss, 'utf-8');
 console.log('Generated assets/blackgold.css (' + (fullBlackgoldCss.length / 1024).toFixed(1) + ' KB)');
 
-// 4. 由黑金样式表派生清透样式表：只换颜色/材质，布局类逐字相同
-const fullClearCss = buildClearCss(fullBlackgoldCss);
+// 4. 由黑金基础样式表派生清透样式表；design-system.css 原生双主题 Token，直接原样追加不被正则篡改
+const fullClearCss = buildClearCss(fullBlackgoldBase) + '\n' + designSystemCss;
 fs.writeFileSync(path.join(assetsDir, 'clear.css'), fullClearCss, 'utf-8');
 console.log('Generated assets/clear.css (' + (fullClearCss.length / 1024).toFixed(1) + ' KB)');
 

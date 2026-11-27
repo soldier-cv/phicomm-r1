@@ -5,284 +5,252 @@
   <meta charset="utf-8">
   <meta content="width=device-width, initial-scale=1.0" name="viewport">
   <meta content="web_dashboard" name="shell-type">
+  <meta content="dark" name="color-scheme">
+  <meta content="#0c0e12" name="theme-color">
   <link rel="icon" type="image/x-icon" href="../assets/favicon.ico">
   <link rel="apple-touch-icon" href="../assets/apple-touch-icon.png">
-  <title>R1 · 设置</title>
+  <title>设置 · 斐讯 R1 控制台</title>
   <link rel="stylesheet" href="../assets/fonts.css">
   <link rel="stylesheet" id="r1ThemeCss" href="../assets/blackgold.css">
   <script src="../assets/r1-theme.js"></script>
 </head>
-<body class="bg-surface-container-lowest text-on-surface font-body-md antialiased min-h-screen selection:bg-primary-container selection:text-on-primary-container" style="background: radial-gradient(circle at 50% 0%, rgba(253, 211, 133, 0.08) 0%, transparent 60%), radial-gradient(circle at 20% 40%, rgba(253, 211, 133, 0.05) 0%, transparent 50%), radial-gradient(circle at 80% 60%, rgba(253, 211, 133, 0.04) 0%, transparent 40%), rgb(12, 14, 17);">
+<body class="r1-desktop-body">
+  <a href="#mainContent" class="r1-skip-link">跳至主内容</a>
 
-  <!-- ================= 左侧固定机架式导航栏 (常驻可见，不含冗余播控卡) ================= -->
-  <aside class="fixed left-0 top-0 h-full w-64 bg-surface-container-low z-50 flex flex-col justify-between border-r border-outline-variant/30 shadow-[0_0_24px_rgba(0,0,0,0.6)]" style="position:fixed;left:0;top:0;bottom:0;width:16rem;z-index:50;display:flex;flex-direction:column;justify-content:space-between;">
-    <div class="flex flex-col">
-      <!-- 品牌头栏 -->
-      <div class="h-16 px-space-md flex items-center justify-between border-b border-outline-variant/20 bg-surface-container-lowest/80 backdrop-blur-sm">
-        <a href="home.html" class="flex items-center gap-space-sm no-underline">
-          <div class="w-9 h-9 rounded-2xl bg-surface-container-highest flex items-center justify-center border border-primary/35 shadow-inner">
-            <span class="material-symbols-outlined text-primary text-[20px]">&#xE32D;</span>
+  <!-- ================= 左侧自适应导航栏 (Drawer <-> Rail) ================= -->
+  <aside class="r1-aside" aria-label="侧栏导航">
+    <div class="r1-aside-top">
+      <div class="r1-brand-bar">
+        <a href="home.html" class="r1-brand-link" title="斐讯 R1 控制台首页">
+          <div class="r1-brand-mark" aria-hidden="true">
+            <span class="material-symbols-outlined">&#xE32D;</span>
           </div>
-          <div>
-            <span class="font-headline-sm text-headline-sm font-bold tracking-tight text-on-surface block leading-tight">斐讯 R1</span>
-            <span class="font-label-xs text-label-xs uppercase tracking-widest text-outline block">小讯</span>
+          <div class="r1-brand-text">
+            <span class="r1-brand-name">斐讯 R1</span>
+            <span class="r1-brand-sub">小讯智脑</span>
           </div>
         </a>
-        <div class="flex items-center gap-1.5 px-2.5 py-0.5 rounded-full bg-surface-container-high border border-primary/25 cursor-pointer shadow-inner" onclick="R1.promptSpeakerHost()" title="点击设置音箱服务地址 (:8686)">
-          <span class="w-1.5 h-1.5 rounded-full bg-outline" id="asideOnlineDot"></span>
-          <span class="font-label-xs text-label-xs text-secondary uppercase" id="asideOnlineText">离线</span>
-        </div>
+        <button type="button" onclick="R1Theme.toggleRail()" class="r1-btn r1-btn-ghost r1-btn-icon-sm r1-rail-toggle-aside" title="收起侧栏" aria-label="收起侧栏">
+          <svg viewBox="0 0 24 24" width="18" height="18" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="3" y="4" width="18" height="16" rx="3"/><path d="M9 4v16"/></svg>
+        </button>
       </div>
 
-      <!-- 导航菜单列表 -->
-      <div class="p-space-md">
-        <div class="px-space-xs py-space-xs mb-space-sm flex items-center justify-between">
-          <span class="font-label-xs text-label-xs uppercase tracking-widest text-outline">功能导航</span>
-          <span class="font-label-xs text-label-xs font-mono text-primary/70">R1BRAIN</span>
-        </div>
-        <nav class="flex flex-col gap-1.5">
+      <div class="r1-nav-wrap">
+        <div class="r1-nav-section-label">控制台</div>
+        <nav class="r1-nav-list" aria-label="主导航">
 
-        <a class="flex items-center justify-between px-4 py-3 rounded-2xl text-secondary hover:text-on-surface hover:bg-surface-container-high/60 transition-all group border border-transparent hover:border-outline-variant/30 no-underline" href="home.html">
-          <div class="flex items-center gap-3">
-            <span class="material-symbols-outlined text-[20px] text-secondary group-hover:text-primary transition-colors">&#xE429;</span>
-            <span class="font-headline-sm text-headline-sm">首页</span>
-          </div>
-          <span class="font-label-xs text-label-xs text-outline font-mono">01</span>
-        </a>
+          <a href="home.html" class="r1-nav-item" title="首页">
+            <span class="material-symbols-outlined" aria-hidden="true">&#xE429;</span>
+            <span class="r1-nav-label">首页</span>
+          </a>
 
-        <a class="flex items-center justify-between px-4 py-3 rounded-2xl text-secondary hover:text-on-surface hover:bg-surface-container-high/60 transition-all group border border-transparent hover:border-outline-variant/30 no-underline" href="chat.html">
-          <div class="flex items-center gap-3">
-            <span class="material-symbols-outlined text-[20px] text-secondary group-hover:text-primary transition-colors">&#xE0CA;</span>
-            <span class="font-headline-sm text-headline-sm">对话</span>
-          </div>
-          <span class="font-label-xs text-label-xs text-outline font-mono">02</span>
-        </a>
+          <a href="chat.html" class="r1-nav-item" title="对话">
+            <span class="material-symbols-outlined" aria-hidden="true">&#xE0CA;</span>
+            <span class="r1-nav-label">对话</span>
+          </a>
 
-        <a class="flex items-center justify-between px-4 py-3 rounded-2xl text-secondary hover:text-on-surface hover:bg-surface-container-high/60 transition-all group border border-transparent hover:border-outline-variant/30 no-underline" href="music.html">
-          <div class="flex items-center gap-3">
-            <span class="material-symbols-outlined text-[20px] text-secondary group-hover:text-primary transition-colors">&#xE019;</span>
-            <span class="font-headline-sm text-headline-sm">音乐</span>
-          </div>
-          <span class="font-label-xs text-label-xs text-outline font-mono">03</span>
-        </a>
+          <a href="music.html" class="r1-nav-item" title="音乐">
+            <span class="material-symbols-outlined" aria-hidden="true">&#xE019;</span>
+            <span class="r1-nav-label">音乐</span>
+          </a>
 
-        <a aria-current="page" class="flex items-center justify-between px-4 py-3 rounded-2xl transition-all group bg-gradient-to-r from-primary/20 via-primary/10 to-transparent border border-primary/40 text-primary font-medium shadow-[0_0_16px_rgba(253,211,133,0.15)] no-underline" href="settings.html">
-          <div class="flex items-center gap-3">
-            <span class="material-symbols-outlined text-[20px] text-primary">&#xE8C0;</span>
-            <span class="font-headline-sm text-headline-sm font-semibold tracking-wide">设置</span>
-          </div>
-          <span class="font-label-xs text-label-xs text-primary font-mono">04</span>
-        </a>
+          <a href="settings.html" aria-current="page" class="r1-nav-item is-active" title="设置">
+            <span class="material-symbols-outlined" aria-hidden="true">&#xE8C0;</span>
+            <span class="r1-nav-label">设置</span>
+          </a>
         </nav>
       </div>
     </div>
 
-    <!-- 侧栏底部设备与北京标准时间摘要 (圆角卡片 rounded-2xl) -->
-    <div class="p-space-md border-t border-outline-variant/20 bg-surface-container-lowest/60">
-      <div class="p-3.5 rounded-2xl bg-surface-container-high/90 border border-primary/20 shadow-inner flex flex-col gap-2">
-        <div class="flex items-center justify-between">
-          <span class="font-label-xs text-label-xs text-outline">北京时间</span>
-          <span class="font-label-xs text-label-xs text-primary font-mono tabular-nums" id="asideCnTime">--:--:--</span>
+    <div class="r1-aside-foot">
+      <div class="r1-device-card">
+        <div class="r1-device-row">
+          <span class="r1-subtle">连接状态</span>
+          <span class="r1-row" style="gap:6px;">
+            <span class="r1-dot" id="asideOnlineDot"></span>
+            <span id="asideOnlineText" style="font-weight:600;">离线</span>
+          </span>
         </div>
-        <div class="flex items-center justify-between">
-          <span class="font-label-xs text-label-xs text-outline">硬件平台</span>
-          <span class="font-label-xs text-label-xs text-tertiary font-mono" id="asideSoc">--</span>
+        <div class="r1-device-row">
+          <span class="r1-subtle">硬件</span>
+          <span class="r1-mono r1-muted r1-truncate" id="asideSoc" style="max-width:130px;">--</span>
         </div>
-        <div class="flex items-center justify-between">
-          <span class="font-label-xs text-label-xs text-outline">服务版本</span>
-          <span class="font-label-xs text-label-xs text-on-surface-variant font-mono" id="asideVer">--</span>
+        <div class="r1-device-row">
+          <span class="r1-subtle">版本</span>
+          <span class="r1-mono r1-muted r1-truncate" id="asideVer" style="max-width:130px;">--</span>
         </div>
       </div>
     </div>
   </aside>
 
-  <!-- ================= 右侧主工作区 (左留白 pl-64) ================= -->
-  <div class="pl-64" style="padding-left:16rem;">
-    <!-- 顶部固定全局状态栏 (全部采用圆润胶囊 rounded-full，无直角方框) -->
-    <header class="fixed top-0 left-64 right-0 h-16 bg-surface-container-lowest/90 backdrop-blur-md z-40 border-b border-outline-variant/30 flex items-center justify-between px-space-lg" style="left:16rem;right:0;top:0;">
-      <div class="flex items-center gap-space-md">
-        <div class="flex items-center gap-2 px-3.5 py-1.5 rounded-full bg-surface-container-high/90 border border-primary/25 shadow-inner cursor-pointer hover:border-primary/50 transition-all" onclick="R1.promptSpeakerHost()" title="点击配置音箱局域网地址 (:8686)">
-          <span class="material-symbols-outlined text-primary text-[16px]">&#xE88E;</span>
-          <span class="font-label-sm text-label-sm text-on-surface-variant font-mono tracking-tight" id="hdrStatusText">未连接音箱 · 点击设置地址</span>
-        </div>
-        <div class="hidden xl:flex items-center gap-1.5 px-3 py-1.5 rounded-full bg-surface-container-low/90 border border-primary/20 shadow-inner">
-          <span class="material-symbols-outlined text-[14px] text-primary">&#xE425;</span>
-          <span class="font-label-xs text-label-xs text-secondary font-mono tabular-nums" id="hdrHwText">北京时间 --:--:--</span>
-        </div>
+  <!-- ================= 右侧主工作区 ================= -->
+  <div class="r1-shell">
+    <header class="r1-topbar">
+      <div class="r1-topbar-left">
+        <button type="button" onclick="R1Theme.toggleRail()" class="r1-btn r1-btn-ghost r1-btn-icon-sm" title="展开/收起侧栏" aria-label="展开或收起侧栏">
+          <svg viewBox="0 0 24 24" width="18" height="18" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><line x1="4" y1="7" x2="20" y2="7"/><line x1="4" y1="12" x2="20" y2="12"/><line x1="4" y1="17" x2="20" y2="17"/></svg>
+        </button>
+        <h1 class="r1-page-title" id="mainContent" tabindex="-1">设置</h1>
       </div>
 
-      <div class="flex items-center gap-space-md">
-        <!-- 主音量状态与快捷静音胶囊 (纯正黑金浮雕按钮) -->
-        <button onclick="R1.toggleMute()" class="flex items-center gap-1.5 px-3.5 py-1.5 rounded-full bg-gradient-to-b from-surface-container-high to-surface-container border border-primary/35 hover:border-primary/60 text-primary shadow-[0_2px_6px_rgba(0,0,0,0.5),inset_0_1px_1px_rgba(255,255,255,0.1)] transition-all active:scale-95" title="点击静音或恢复主音量">
-          <span class="material-symbols-outlined text-[15px] text-primary">&#xE049;</span>
-          <span class="font-label-xs text-label-xs font-mono" id="hdrVolText">音量 40%</span>
+      <div class="r1-topbar-right">
+        <!-- 音箱连接状态与地址配置入口 -->
+        <button type="button" onclick="R1.promptSpeakerHost()" class="r1-btn r1-btn-outlined r1-btn-sm" title="点击配置音箱局域网地址或访问令牌">
+          <span class="r1-dot" id="hdrHostDot"></span>
+          <span class="r1-mono" id="hdrHostPill">未连接</span>
         </button>
 
-        <!-- 服务端点状态胶囊 -->
-        <div onclick="R1.promptSpeakerHost()" class="hidden sm:flex items-center gap-2 px-3.5 py-1.5 rounded-full bg-surface-container-high/80 border border-primary/25 shadow-inner backdrop-blur-sm cursor-pointer hover:border-primary/50 transition-all" title="点击配置音箱连接地址">
-          <span class="w-1.5 h-1.5 rounded-full bg-outline" id="hdrHostDot"></span>
-          <span class="font-label-xs text-label-xs text-secondary/80 font-mono tracking-wider" id="hdrHostPill">:8686</span>
-        </div>
+        <!-- 主音量状态与一键静音 -->
+        <button type="button" onclick="R1.toggleMute()" class="r1-btn r1-btn-tonal r1-btn-sm" title="点击静音或恢复主音量" aria-label="静音或恢复主音量">
+          <span class="material-symbols-outlined" aria-hidden="true">&#xE049;</span>
+          <span class="r1-mono" id="hdrVolText">40%</span>
+        </button>
 
-        <!-- 系统节点与设置入口胶囊 (纯正黑金浮雕样式) -->
-        <a href="settings.html" class="group relative flex items-center gap-2 px-2.5 py-1 pr-3.5 rounded-full bg-gradient-to-b from-surface-container-high to-surface-container border border-primary/45 hover:border-primary/60 shadow-[0_2px_8px_rgba(0,0,0,0.6),inset_0_1px_1px_rgba(255,255,255,0.15)] hover:shadow-[0_0_12px_rgba(253,211,133,0.25)] transition-all active:scale-95 no-underline" title="前往智脑与系统维护设置">
-          <div class="w-7 h-7 rounded-full bg-surface-container-lowest border border-primary/50 text-primary flex items-center justify-center shadow-[0_0_8px_rgba(253,211,133,0.25)]">
-            <span class="material-symbols-outlined text-[16px] text-primary">&#xE7FD;</span>
-          </div>
-          <div class="flex flex-col text-left">
-            <span class="font-label-xs text-label-xs text-primary font-medium leading-none">R1 节点</span>
-            <span class="font-label-xs text-[9px] text-secondary/70 leading-none mt-0.5" id="hdrNodeSub">系统设置</span>
-          </div>
-        </a>
-        <!-- 右上角外观主题切换：黑金 / 清透，同一份 DOM 只换样式表 -->
+        <!-- 外观主题切换：黑金暗色 / 清透新拟态 -->
         <button type="button" id="r1ThemeBtn" class="r1-theme-btn" onclick="R1Theme.toggle()" title="切换外观主题" aria-label="切换外观主题">
-          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" aria-hidden="true"><circle cx="12" cy="12" r="8"/><path d="M12 4a8 8 0 0 1 0 16z" fill="currentColor" stroke="none"/></svg>
+          <svg viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="currentColor" stroke-width="1.9" aria-hidden="true"><circle cx="12" cy="12" r="4"/></svg>
         </button>
       </div>
     </header>
 
-    <!-- 页面核心内容挂载区 -->
-    <main class="relative pt-16 bg-surface-container-lowest min-h-screen">
-      <div class="w-full p-space-lg">
-        <div class="flex flex-col w-full gap-space-lg">
+    <main class="r1-main">
+      <div class="r1-container">
 
-          <!-- 顶部设置模块分类切换栏 -->
-          <section class="w-full bg-gradient-to-b from-surface-container-high/90 to-surface-container-low/95 rounded-[26px] p-5 shadow-xl border border-primary/25 relative overflow-hidden backdrop-blur-md flex flex-wrap items-center justify-between gap-4">
-            <div class="absolute inset-x-0 top-0 h-[1px] bg-gradient-to-r from-transparent via-primary/50 to-transparent pointer-events-none"></div>
-            <div class="flex items-center gap-3">
-              <div class="w-10 h-10 rounded-2xl bg-surface-container-lowest border border-primary/40 flex items-center justify-center text-primary">
-                <span class="material-symbols-outlined text-[22px]">&#xE8C0;</span>
+        <div class="r1-settings-grid">
+          <!-- 左侧二级导航目录 -->
+          <nav class="r1-settings-nav" id="setTabNav" aria-label="设置分组">
+            <button type="button" data-tab="llm" class="set-tab r1-set-nav-btn is-active">
+              <span class="material-symbols-outlined" aria-hidden="true">&#xE7FD;</span>
+              <span>AI 模型</span>
+            </button>
+            <button type="button" data-tab="tts" class="set-tab r1-set-nav-btn">
+              <span class="material-symbols-outlined" aria-hidden="true">&#xE049;</span>
+              <span>语音与识别</span>
+            </button>
+            <button type="button" data-tab="alarms" class="set-tab r1-set-nav-btn">
+              <span class="material-symbols-outlined" aria-hidden="true">&#xE425;</span>
+              <span>闹钟与定时</span>
+            </button>
+            <button type="button" data-tab="home-weather" class="set-tab r1-set-nav-btn">
+              <span class="material-symbols-outlined" aria-hidden="true">&#xE2C7;</span>
+              <span>家居与天气</span>
+            </button>
+            <button type="button" data-tab="ops" class="set-tab r1-set-nav-btn">
+              <span class="material-symbols-outlined" aria-hidden="true">&#xE32D;</span>
+              <span>应用与系统</span>
+            </button>
+            <button type="button" data-tab="logs" class="set-tab r1-set-nav-btn">
+              <span class="material-symbols-outlined" aria-hidden="true">&#xE88E;</span>
+              <span>日志与配置</span>
+            </button>
+          </nav>
+
+          <!-- 右侧受限宽度表单内容区 -->
+          <div class="r1-settings-content">
+
+            <!-- 分组 1: AI 大模型配置 -->
+            <section data-panel="llm" class="set-panel r1-card">
+              <div class="r1-card-head">
+                <h2 class="r1-card-title">
+                  <span class="material-symbols-outlined" aria-hidden="true">&#xE7FD;</span>
+                  <span>AI 大模型</span>
+                </h2>
+                <span id="llmKeyStatusBadge" class="r1-badge">待配置密钥</span>
               </div>
-              <div>
-                <h1 class="font-headline-md text-headline-md text-on-surface font-semibold">设置</h1>
-              </div>
-            </div>
 
-            <div class="flex items-center gap-2 flex-wrap" id="setTabNav">
-              <button data-tab="all" class="set-tab px-3.5 py-1.5 rounded-full bg-gradient-to-b from-primary/25 via-primary/15 to-surface-container border border-primary/60 text-primary font-label-xs text-label-xs font-mono font-bold">全部</button>
-              <button data-tab="llm" class="set-tab px-3.5 py-1.5 rounded-full bg-surface-container-high border border-primary/20 text-secondary hover:text-primary font-label-xs text-label-xs font-mono">模型</button>
-              <button data-tab="tts" class="set-tab px-3.5 py-1.5 rounded-full bg-surface-container-high border border-primary/20 text-secondary hover:text-primary font-label-xs text-label-xs font-mono">语音</button>
-              <button data-tab="alarms" class="set-tab px-3.5 py-1.5 rounded-full bg-surface-container-high border border-primary/20 text-secondary hover:text-primary font-label-xs text-label-xs font-mono">闹钟</button>
-              <button data-tab="ha" class="set-tab px-3.5 py-1.5 rounded-full bg-surface-container-high border border-primary/20 text-secondary hover:text-primary font-label-xs text-label-xs font-mono">家居</button>
-              <button data-tab="weather" class="set-tab px-3.5 py-1.5 rounded-full bg-surface-container-high border border-primary/20 text-secondary hover:text-primary font-label-xs text-label-xs font-mono">天气</button>
-              <button data-tab="file" class="set-tab px-3.5 py-1.5 rounded-full bg-surface-container-high border border-primary/20 text-secondary hover:text-primary font-label-xs text-label-xs font-mono">配置文件</button>
-              <button data-tab="ops" class="set-tab px-3.5 py-1.5 rounded-full bg-surface-container-high border border-primary/20 text-secondary hover:text-primary font-label-xs text-label-xs font-mono">应用</button>
-              <button data-tab="logs" class="set-tab px-3.5 py-1.5 rounded-full bg-surface-container-high border border-primary/20 text-secondary hover:text-primary font-label-xs text-label-xs font-mono">日志</button>
-            </div>
-          </section>
-
-          <!-- 双列配置机架网格 (等高对齐 items-stretch) -->
-          <div class="grid grid-cols-1 lg:grid-cols-12 gap-space-lg w-full items-stretch">
-            <!-- 1. AI 大模型配置卡 (6 列) -->
-            <section data-panel="llm" class="set-panel lg:col-span-6 bg-gradient-to-b from-surface-container-high/90 to-surface-container-low/95 rounded-[26px] p-6 shadow-xl border border-primary/25 relative overflow-hidden flex flex-col justify-between gap-4">
-              <div class="flex flex-col gap-4">
-                <div class="flex items-center justify-between pb-2 border-b border-white/5">
-                  <div class="flex items-center gap-2">
-                    <span class="material-symbols-outlined text-primary text-[20px]">&#xE7FD;</span>
-                    <span class="font-headline-sm text-headline-sm text-on-surface font-semibold">模型</span>
-                  </div>
-                  <span id="llmKeyStatusBadge" class="px-3 py-1 rounded-full bg-surface-container-lowest border border-primary/30 text-primary font-label-xs text-label-xs font-mono">待配置密钥</span>
+              <div class="r1-form-grid">
+                <div class="r1-field">
+                  <span class="r1-label">接口协议</span>
+                  <div class="r1-input r1-mono" style="opacity:0.85;">OpenAI 兼容</div>
                 </div>
 
-                <div class="grid grid-cols-1 sm:grid-cols-2 gap-3">
-                  <div class="flex flex-col gap-1">
-                    <label class="font-label-xs text-label-xs text-secondary/80 font-mono">协议</label>
-                    <div class="bg-surface-container-lowest/90 rounded-2xl px-3.5 py-2 border border-primary/25 text-body-sm text-on-surface font-mono">OpenAI 兼容</div>
+                <div class="r1-field">
+                  <label class="r1-label" for="cfgLlmModel">模型名称</label>
+                  <div class="r1-row" style="gap:8px;">
+                    <input id="cfgLlmModel" type="text" list="llmModelList" placeholder="例如 GLM-4.5-Flash" class="r1-input r1-mono r1-flex-1">
+                    <button type="button" id="btnFetchModels" class="r1-btn r1-btn-tonal">获取</button>
                   </div>
-                  <div class="flex flex-col gap-1">
-                    <label class="font-label-xs text-label-xs text-secondary/80 font-mono">模型</label>
-                    <div class="flex items-center gap-2">
-                      <input id="cfgLlmModel" type="text" list="llmModelList" placeholder="模型名" class="flex-1 min-w-0 bg-surface-container-lowest/90 rounded-2xl px-3.5 py-2 border border-primary/25 text-body-sm text-on-surface font-mono focus:outline-none">
-                      <button id="btnFetchModels" class="btn-gold shrink-0">获取</button>
-                    </div>
-                    <datalist id="llmModelList"></datalist>
-                    <span id="llmModelHint" class="font-label-xs text-label-xs text-secondary/50"></span>
-                  </div>
-                  <div class="sm:col-span-2 flex flex-col gap-1">
-                    <label class="font-label-xs text-label-xs text-secondary/80 font-mono">思考</label>
-                    <select id="cfgLlmReasoning" class="bg-surface-container-lowest/90 rounded-2xl px-3.5 py-2 border border-primary/25 text-body-sm text-on-surface focus:outline-none">
-                      <option value="auto">自动（不干预）</option>
-                      <option value="none">关闭</option>
-                      <option value="low">低</option>
-                      <option value="medium">中</option>
-                      <option value="high">高</option>
-                    </select>
-                    <span class="font-label-xs text-label-xs text-secondary/50">推理型模型会先思考再作答，思考同样消耗输出额度；答不出正文时改成「关闭」</span>
-                  </div>
-                  <div class="sm:col-span-2 flex flex-col gap-1">
-                    <label class="font-label-xs text-label-xs text-secondary/80 font-mono">地址</label>
-                    <input id="cfgLlmBaseUrl" type="text" list="llmUrlPresets" placeholder="https://api.openai.com" class="bg-surface-container-lowest/90 rounded-2xl px-3.5 py-2 border border-primary/25 text-body-sm text-on-surface font-mono focus:outline-none">
-                    <datalist id="llmUrlPresets">
-                      <option value="https://open.bigmodel.cn/api/paas/v4/chat/completions"></option>
-                      <option value="https://api.deepseek.com/v1/chat/completions"></option>
-                      <option value="https://api.siliconflow.cn/v1/chat/completions"></option>
-                      <option value="https://api.openai.com/v1/chat/completions"></option>
-                      <option value="http://127.0.0.1:11434/v1/chat/completions"></option>
-                    </datalist>
-                    <span class="font-label-xs text-label-xs text-secondary/50">只填域名会补全路径</span>
-                  </div>
-                  <div class="sm:col-span-2 flex flex-col gap-1">
-                    <label class="font-label-xs text-label-xs text-secondary/80 font-mono">密钥</label>
-                    <input id="cfgLlmApiKey" type="password" placeholder="请输入 API Key" class="bg-surface-container-lowest/90 rounded-2xl px-3.5 py-2 border border-primary/25 text-body-sm text-on-surface font-mono focus:outline-none">
-                  </div>
-                  <div class="sm:col-span-2 flex flex-col gap-1">
-                    <label class="font-label-xs text-label-xs text-secondary/80 font-mono">人设</label>
-                    <textarea id="cfgLlmPrompt" rows="2" class="bg-surface-container-lowest/90 rounded-2xl p-3 border border-primary/25 text-body-sm text-on-surface focus:outline-none"></textarea>
-                  </div>
+                  <datalist id="llmModelList"></datalist>
+                  <span id="llmModelHint" class="r1-hint"></span>
                 </div>
 
-                <div id="llmTestResult" class="hidden px-3.5 py-2 rounded-2xl bg-surface-container-lowest border border-white/10 font-label-xs text-label-xs font-mono leading-relaxed"></div>
+                <div class="r1-field r1-col-full">
+                  <label class="r1-label" for="cfgLlmBaseUrl">接口地址</label>
+                  <input id="cfgLlmBaseUrl" type="text" list="llmUrlPresets" placeholder="https://api.openai.com" class="r1-input r1-mono">
+                  <datalist id="llmUrlPresets">
+                    <option value="https://open.bigmodel.cn/api/paas/v4/chat/completions"></option>
+                    <option value="https://api.deepseek.com/v1/chat/completions"></option>
+                    <option value="https://api.siliconflow.cn/v1/chat/completions"></option>
+                    <option value="https://api.openai.com/v1/chat/completions"></option>
+                    <option value="http://127.0.0.1:11434/v1/chat/completions"></option>
+                  </datalist>
+                  <span class="r1-hint">仅填写域名时自动补全 /v1/chat/completions</span>
+                </div>
+
+                <div class="r1-field">
+                  <label class="r1-label" for="cfgLlmApiKey">API 密钥</label>
+                  <input id="cfgLlmApiKey" type="password" placeholder="请输入 API Key" class="r1-input r1-mono" autocomplete="off">
+                </div>
+
+                <div class="r1-field">
+                  <label class="r1-label" for="cfgLlmReasoning">思考深度</label>
+                  <select id="cfgLlmReasoning" class="r1-select">
+                    <option value="auto">自动（不干预）</option>
+                    <option value="none">关闭</option>
+                    <option value="low">低</option>
+                    <option value="medium">中</option>
+                    <option value="high">高</option>
+                  </select>
+                  <span class="r1-hint">推理模型回复过慢或无正文时选「关闭」</span>
+                </div>
+
+                <div class="r1-field r1-col-full">
+                  <label class="r1-label" for="cfgLlmPrompt">系统人设</label>
+                  <textarea id="cfgLlmPrompt" rows="3" class="r1-textarea"></textarea>
+                </div>
               </div>
 
-              <div class="flex items-center justify-end gap-3 pt-2 border-t border-white/5">
-                <button id="btnTestLlm" class="btn-gold">测试连接</button>
+              <div id="llmTestResult" class="r1-result-box r1-hidden"></div>
+
+              <div class="r1-row-between" style="padding-top:12px;border-top:1px solid var(--r1-border-subtle);">
+                <span class="r1-hint">修改后点击右下角悬浮按钮审查并写入音箱</span>
+                <button type="button" id="btnTestLlm" class="r1-btn r1-btn-tonal">测试连接</button>
               </div>
             </section>
 
-            <!-- 2. TTS 语音合成引擎配置卡 (6 列) -->
-            <section data-panel="tts" class="set-panel lg:col-span-6 bg-gradient-to-b from-surface-container-high/90 to-surface-container-low/95 rounded-[26px] p-6 shadow-xl border border-primary/25 relative overflow-hidden flex flex-col justify-between gap-4">
-              <div class="flex flex-col gap-4">
-                <div class="flex items-center justify-between pb-2 border-b border-white/5">
-                  <div class="flex items-center gap-2">
-                    <span class="material-symbols-outlined text-primary text-[20px]">&#xE049;</span>
-                    <span class="font-headline-sm text-headline-sm text-on-surface font-semibold">语音</span>
-                  </div>
-                  <div class="flex items-center gap-2">
-                    <button onclick="R1.stopSpeak()" class="btn-gold">停止播报</button>
-                  </div>
+            <!-- 分组 2: 语音合成 (TTS) 与语音识别 (ASR) -->
+            <section data-panel="tts" class="set-panel r1-card" style="display:none;">
+              <div class="r1-card-head">
+                <h2 class="r1-card-title">
+                  <span class="material-symbols-outlined" aria-hidden="true">&#xE049;</span>
+                  <span>语音合成与识别</span>
+                </h2>
+                <button type="button" onclick="R1.stopSpeak()" class="r1-btn r1-btn-outlined r1-btn-sm">停止播报</button>
+              </div>
+
+              <div class="r1-form-grid">
+                <div class="r1-field">
+                  <label class="r1-label" for="cfgTtsEngine">语音合成引擎 (TTS)</label>
+                  <select id="cfgTtsEngine" class="r1-select">
+                    <option value="native">原厂语音</option>
+                    <option value="openai">自建语音 (OpenAI 兼容)</option>
+                    <option value="edge">Edge 语音</option>
+                  </select>
                 </div>
 
-                <div class="grid grid-cols-1 sm:grid-cols-2 gap-3">
-                  <div class="flex flex-col gap-1">
-                    <label class="font-label-xs text-label-xs text-secondary/80 font-mono">合成</label>
-                    <select id="cfgTtsEngine" class="bg-surface-container-lowest/90 rounded-2xl px-3.5 py-2 border border-primary/25 text-body-sm text-on-surface focus:outline-none">
-                      <option value="native">原厂语音</option>
-                      <option value="openai">自建语音</option>
-                      <option value="edge">Edge</option>
-                    </select>
-                  </div>
-                  <div id="asrBlock" class="sm:col-span-2 flex flex-col gap-2 pt-3 mt-1 border-t border-white/5">
-                     <label class="font-label-xs text-label-xs text-secondary/80 font-mono">识别</label>
-                     <select id="cfgAsrEngine" class="bg-surface-container-lowest/90 rounded-2xl px-3.5 py-2 border border-primary/25 text-body-sm text-on-surface focus:outline-none">
-                       <option value="native">原厂识别</option>
-                       <option value="self">自建识别</option>
-                     </select>
-                     <div id="asrCustomFields" class="flex flex-col gap-2" style="display:none">
-                       <input id="cfgAsrUrl" type="text" placeholder="网关地址，如 http://192.168.1.100:8720" class="bg-surface-container-lowest/90 rounded-2xl px-3.5 py-2 border border-primary/25 text-body-sm text-on-surface font-mono focus:outline-none">
-                       <input id="cfgAsrToken" type="password" placeholder="网关令牌（X-API-Key，留空表示不改）" class="bg-surface-container-lowest/90 rounded-2xl px-3.5 py-2 border border-primary/25 text-body-sm text-on-surface font-mono focus:outline-none">
-                       <div class="flex flex-wrap items-center gap-2">
-                         <button type="button" id="btnTestAsrHealth" class="btn-gold">查看用量</button>
-                         <button type="button" id="btnTestAsrWav" class="btn-gold">识别文件</button>
-                         <input type="file" id="asrWavFile" accept=".wav,audio/wav" class="hidden">
-                         <span id="cfgAsrTokenHint" class="font-label-xs text-label-xs text-secondary/50">16kHz · 单声道</span>
-                       </div>
-                       <div id="asrTestResult" class="hidden px-3.5 py-2 rounded-2xl bg-surface-container-lowest border border-white/10 font-label-xs text-label-xs font-mono leading-relaxed"></div>
-                     </div>
-                   </div>
-                   <div id="ttsCustomFields" class="sm:col-span-2 grid grid-cols-1 sm:grid-cols-2 gap-3" style="display:none">
-                  <div class="flex flex-col gap-1">
-                    <label class="font-label-xs text-label-xs text-secondary/80 font-mono">音色</label>
-                    <input id="cfgTtsVoice" type="text" list="ttsVoicePresets" placeholder="音色" class="bg-surface-container-lowest/90 rounded-2xl px-3.5 py-2 border border-primary/25 text-body-sm text-on-surface font-mono focus:outline-none">
+                <div class="r1-field">
+                  <label class="r1-label" for="cfgTtsSpeed">
+                    <span>播报语速</span>
+                    <span id="ttsSpeedVal" class="r1-mono r1-primary-text">1.0x</span>
+                  </label>
+                  <input id="cfgTtsSpeed" type="range" min="0.6" max="1.8" step="0.1" value="1.0" class="r1-slider" style="--val:33%;">
+                </div>
+
+                <!-- 自定义 TTS 字段 -->
+                <div id="ttsCustomFields" class="r1-col-full r1-form-grid" style="display:none;">
+                  <div class="r1-field">
+                    <label class="r1-label" for="cfgTtsVoice">音色</label>
+                    <input id="cfgTtsVoice" type="text" list="ttsVoicePresets" placeholder="zh-CN-XiaoxiaoNeural" class="r1-input r1-mono">
                     <datalist id="ttsVoicePresets">
                       <option value="zh-CN-XiaoxiaoNeural"></option>
                       <option value="zh-CN-YunxiNeural"></option>
@@ -290,292 +258,318 @@
                       <option value="nova"></option>
                     </datalist>
                   </div>
-                  <div class="flex flex-col gap-1">
-                    <label class="font-label-xs text-label-xs text-secondary/80 font-mono">语音模型</label>
-                    <input id="cfgTtsModel" type="text" placeholder="模型" class="bg-surface-container-lowest/90 rounded-2xl px-3.5 py-2 border border-primary/25 text-body-sm text-on-surface font-mono focus:outline-none">
+                  <div class="r1-field">
+                    <label class="r1-label" for="cfgTtsModel">语音模型</label>
+                    <input id="cfgTtsModel" type="text" placeholder="模型名" class="r1-input r1-mono">
                   </div>
-                  <div class="sm:col-span-2 flex flex-col gap-1">
-                    <label class="font-label-xs text-label-xs text-secondary/80 font-mono">语音地址</label>
-                    <input id="cfgTtsUrl" type="text" placeholder="https://example.com/v1/audio/speech" class="bg-surface-container-lowest/90 rounded-2xl px-3.5 py-2 border border-primary/25 text-body-sm text-on-surface font-mono focus:outline-none">
+                  <div class="r1-field r1-col-full">
+                    <label class="r1-label" for="cfgTtsUrl">语音接口地址</label>
+                    <input id="cfgTtsUrl" type="text" placeholder="https://example.com/v1/audio/speech" class="r1-input r1-mono">
                   </div>
-                  <div class="sm:col-span-2 flex flex-col gap-1">
-                    <label class="font-label-xs text-label-xs text-secondary/80 font-mono">语音密钥</label>
-                    <input id="cfgTtsKey" type="password" placeholder="可选" class="bg-surface-container-lowest/90 rounded-2xl px-3.5 py-2 border border-primary/25 text-body-sm text-on-surface font-mono focus:outline-none">
+                  <div class="r1-field r1-col-full">
+                    <label class="r1-label" for="cfgTtsKey">语音密钥（可选）</label>
+                    <input id="cfgTtsKey" type="password" placeholder="服务需要 Bearer 令牌时填写" class="r1-input r1-mono" autocomplete="off">
                   </div>
-                  </div>
-                  <div class="flex flex-col gap-1">
-                    <label class="font-label-xs text-label-xs text-secondary/80 font-mono">播报语速: <span id="ttsSpeedVal" class="text-primary">1.0x</span></label>
-                    <input id="cfgTtsSpeed" type="range" min="0.6" max="1.8" step="0.1" value="1.0" class="w-full range-gold mt-2">
-                  </div>
-                  <div class="flex flex-col gap-1">
-                    <label class="font-label-xs text-label-xs text-secondary/80 font-mono">自动播报</label>
-                    <select id="cfgAutoSpeak" class="bg-surface-container-lowest/90 rounded-2xl px-3.5 py-2 border border-primary/25 text-body-sm text-on-surface focus:outline-none">
-                      <option value="true">开</option>
-                      <option value="false">关</option>
+                </div>
+
+                <!-- 语音识别区块 -->
+                <div id="asrBlock" class="r1-col-full r1-col" style="padding-top:14px;border-top:1px solid var(--r1-border-subtle);">
+                  <div class="r1-field">
+                    <label class="r1-label" for="cfgAsrEngine">语音识别引擎 (ASR)</label>
+                    <select id="cfgAsrEngine" class="r1-select">
+                      <option value="native">原厂识别</option>
+                      <option value="self">自建 ASR 网关</option>
                     </select>
                   </div>
-                  <div class="flex flex-col gap-1">
-                    <label class="font-label-xs text-label-xs text-secondary/80 font-mono">连续对话</label>
-                    <select id="cfgContinuous" class="bg-surface-container-lowest/90 rounded-2xl px-3.5 py-2 border border-primary/25 text-body-sm text-on-surface focus:outline-none">
-                      <option value="false">关</option>
-                      <option value="true">开</option>
-                    </select>
-                  </div>
-                  <div class="flex flex-col gap-1">
-                    <label class="font-label-xs text-label-xs text-secondary/80 font-mono" title="说完静音 1.2 秒就收尾，不等原厂判断（需新版 L1）">提前判停</label>
-                    <select id="cfgEarlyEndpoint" class="bg-surface-container-lowest/90 rounded-2xl px-3.5 py-2 border border-primary/25 text-body-sm text-on-surface focus:outline-none">
-                      <option value="false">关</option>
-                      <option value="true">开</option>
-                    </select>
-                  </div>
-                  <div class="sm:col-span-2 flex flex-col gap-1">
-                    <label class="font-label-xs text-label-xs text-secondary/80 font-mono">试听</label>
-                    <input id="cfgTtsSample" type="text" value="斐讯 R1 语音合成测试正常。" class="bg-surface-container-lowest/90 rounded-2xl px-3.5 py-2 border border-primary/25 text-body-sm text-on-surface focus:outline-none">
-                  </div>
-                </div>
 
-                <div id="ttsTestResult" class="hidden px-3.5 py-2 rounded-2xl bg-surface-container-lowest border border-white/10 font-label-xs text-label-xs font-mono leading-relaxed"></div>
-              </div>
-
-              <div class="flex items-center justify-end gap-3 pt-2 border-t border-white/5">
-                <button id="btnTestTts" class="btn-gold">试听</button>
-              </div>
-            </section>
-
-            <!-- 3. 定时闹钟与睡眠倒计时 (6 列) -->
-            <section data-panel="alarms" class="set-panel lg:col-span-6 bg-gradient-to-b from-surface-container-high/90 to-surface-container-low/95 rounded-[26px] p-6 shadow-xl border border-primary/25 relative overflow-hidden flex flex-col justify-between gap-4">
-              <div class="flex flex-col gap-4">
-                <div class="flex items-center justify-between pb-2 border-b border-white/5">
-                  <div class="flex items-center gap-2">
-                    <span class="material-symbols-outlined text-primary text-[20px]">&#xE425;</span>
-                    <span class="font-headline-sm text-headline-sm text-on-surface font-semibold">闹钟</span>
-                  </div>
-                  <span class="font-label-xs text-label-xs font-mono text-primary tabular-nums" id="sleepTimerBadge">未开启</span>
-                </div>
-
-                <!-- 快捷睡眠倒计时 -->
-                <div class="flex items-center justify-between gap-2 p-3 rounded-2xl bg-surface-container-lowest/80 border border-white/5">
-                  <span class="font-label-xs text-label-xs font-mono text-secondary/80">睡眠</span>
-                  <div class="flex items-center gap-1.5">
-                    <button onclick="R1.setSleepTimer(15)" class="px-2.5 py-1 rounded-full bg-gradient-to-b from-surface-container-high to-surface-container border border-primary/30 text-primary font-label-xs text-label-xs font-mono">15分</button>
-                    <button onclick="R1.setSleepTimer(30)" class="px-2.5 py-1 rounded-full bg-gradient-to-b from-surface-container-high to-surface-container border border-primary/30 text-primary font-label-xs text-label-xs font-mono">30分</button>
-                    <button onclick="R1.setSleepTimer(60)" class="px-2.5 py-1 rounded-full bg-gradient-to-b from-surface-container-high to-surface-container border border-primary/30 text-primary font-label-xs text-label-xs font-mono">60分</button>
-                    <button onclick="R1.setSleepTimer(0)" class="px-2.5 py-1 rounded-full bg-surface-container-high border border-outline-variant/40 text-secondary font-label-xs text-label-xs font-mono">关闭</button>
-                  </div>
-                </div>
-
-                <!-- 快速添加闹钟栏 (黑金按钮) -->
-                <div class="flex items-center gap-2">
-                  <input id="newAlarmTime" type="time" value="08:00" class="bg-surface-container-lowest/90 rounded-2xl px-3.5 py-2 border border-primary/30 text-body-sm text-primary font-mono focus:outline-none">
-                  <input id="newAlarmLabel" type="text" placeholder="备注" class="flex-1 bg-surface-container-lowest/90 rounded-2xl px-3.5 py-2 border border-primary/30 text-body-sm text-on-surface focus:outline-none">
-                  <select id="newAlarmAction" class="bg-surface-container-lowest/90 rounded-2xl px-3 py-2 border border-primary/30 text-body-sm text-primary font-mono focus:outline-none">
-                    <option value="speak">语音提醒</option>
-                    <option value="weather">播报天气</option>
-                  </select>
-                  <button id="btnAddAlarm" class="px-4 py-2 rounded-full bg-gradient-to-b from-surface-container-high to-surface-container border border-primary/45 hover:border-primary/60 text-primary font-label-xs text-label-xs font-mono font-bold shrink-0 shadow-[0_2px_8px_rgba(0,0,0,0.6),inset_0_1px_1px_rgba(255,255,255,0.15)] active:scale-95 transition-all">添加</button>
-                </div>
-
-                <!-- 闹钟列表 -->
-                <div id="alarmListBox" class="flex flex-col gap-2 h-40 overflow-y-auto pr-1"></div>
-              </div>
-
-              <div class="flex items-center justify-between pt-2 border-t border-white/5 font-label-xs text-label-xs text-secondary/70 font-mono">
-                <span>北京时间</span>
-                <span id="alarmNowClock">--:--:--</span>
-              </div>
-            </section>
-
-            <!-- 4. 智能家居 Home Assistant (6 列) -->
-            <section data-panel="ha" class="set-panel lg:col-span-6 bg-gradient-to-b from-surface-container-high/90 to-surface-container-low/95 rounded-[26px] p-6 shadow-xl border border-primary/25 relative overflow-hidden flex flex-col justify-between gap-4">
-              <div class="flex flex-col gap-4">
-                <div class="flex items-center justify-between pb-2 border-b border-white/5">
-                  <div class="flex items-center gap-2">
-                    <span class="material-symbols-outlined text-primary text-[20px]">&#xE429;</span>
-                    <span class="font-headline-sm text-headline-sm text-on-surface font-semibold">家居</span>
-                  </div>
-                  <span class="font-label-xs text-label-xs font-mono text-secondary/70" id="haStatusBadge">可选</span>
-                </div>
-
-                <div class="flex flex-col gap-3">
-                  <div class="flex flex-col gap-1">
-                    <label class="font-label-xs text-label-xs text-secondary/80 font-mono">地址</label>
-                    <input id="cfgHaUrl" type="text" placeholder="http://192.168.1.10:8123" class="bg-surface-container-lowest/90 rounded-2xl px-3.5 py-2 border border-primary/25 text-body-sm text-on-surface font-mono focus:outline-none">
-                  </div>
-                  <div class="flex flex-col gap-1">
-                    <label class="font-label-xs text-label-xs text-secondary/80 font-mono">令牌</label>
-                    <input id="cfgHaToken" type="password" placeholder="令牌" class="bg-surface-container-lowest/90 rounded-2xl px-3.5 py-2 border border-primary/25 text-body-sm text-on-surface font-mono focus:outline-none">
-                </div>
-
-                <div id="haTestResult" class="hidden px-3.5 py-2 rounded-2xl bg-surface-container-lowest border border-white/10 font-label-xs text-label-xs font-mono leading-relaxed"></div>
-              </div>
-
-              <div class="flex items-center justify-end gap-3 pt-2 border-t border-white/5">
-                <button type="button" id="btnTestHa" class="btn-gold">测试连接</button>
-              </div>
-            </section>
-
-            <!-- 5. 城市天气 (6 列) -->
-            <section data-panel="weather" class="set-panel lg:col-span-6 bg-gradient-to-b from-surface-container-high/90 to-surface-container-low/95 rounded-[26px] p-6 shadow-xl border border-primary/25 relative overflow-hidden flex flex-col justify-between gap-4">
-              <div class="flex flex-col gap-4">
-                <div class="flex items-center justify-between pb-2 border-b border-white/5">
-                  <div class="flex items-center gap-2">
-                    <span class="material-symbols-outlined text-primary text-[20px]">&#xE2C7;</span>
-                    <span class="font-headline-sm text-headline-sm text-on-surface font-semibold">城市天气</span>
-                  </div>
-                  <span class="px-2.5 py-0.5 rounded-full bg-surface-container-lowest border border-primary/30 text-secondary font-label-xs text-label-xs font-mono" id="weatherProviderBadge">未测试</span>
-                </div>
-
-                <div class="grid grid-cols-1 sm:grid-cols-2 gap-3">
-                  <div class="flex flex-col gap-1">
-                    <label class="font-label-xs text-label-xs text-secondary/80 font-mono">所在城市</label>
-                    <input id="cfgWeatherCity" type="text" placeholder="城市" class="bg-surface-container-lowest/90 rounded-2xl px-3.5 py-2 border border-primary/25 text-body-sm text-on-surface focus:outline-none">
-                  </div>
-                  <div id="weatherJwtFields" class="sm:col-span-2 grid grid-cols-1 sm:grid-cols-2 gap-3">
-                    <div class="flex flex-col gap-1">
-                      <label class="font-label-xs text-label-xs text-secondary/80 font-mono">开发者 ID</label>
-                      <input id="cfgWeatherJwtIss" type="text" placeholder="开发者 ID" class="bg-surface-container-lowest/90 rounded-2xl px-3.5 py-2 border border-primary/25 text-body-sm text-on-surface font-mono focus:outline-none">
+                  <div id="asrCustomFields" class="r1-form-grid" style="display:none;">
+                    <div class="r1-field">
+                      <label class="r1-label" for="cfgAsrUrl">ASR 网关地址</label>
+                      <input id="cfgAsrUrl" type="text" placeholder="http://192.168.1.100:8710" class="r1-input r1-mono">
                     </div>
-                    <div class="flex flex-col gap-1">
-                      <label class="font-label-xs text-label-xs text-secondary/80 font-mono">项目 ID</label>
-                      <input id="cfgWeatherJwtProjectId" type="text" placeholder="项目 ID" class="bg-surface-container-lowest/90 rounded-2xl px-3.5 py-2 border border-primary/25 text-body-sm text-on-surface font-mono focus:outline-none">
+                    <div class="r1-field">
+                      <label class="r1-label" for="cfgAsrToken">网关令牌 (X-API-Key)</label>
+                      <input id="cfgAsrToken" type="password" placeholder="留空表示不修改" class="r1-input r1-mono" autocomplete="off">
                     </div>
-                    <div class="flex flex-col gap-1">
-                      <label class="font-label-xs text-label-xs text-secondary/80 font-mono">凭据 ID</label>
-                      <input id="cfgWeatherJwtKeyId" type="text" placeholder="凭据 ID" class="bg-surface-container-lowest/90 rounded-2xl px-3.5 py-2 border border-primary/25 text-body-sm text-on-surface font-mono focus:outline-none">
+                    <div class="r1-col-full r1-row-wrap">
+                      <button type="button" id="btnTestAsrHealth" class="r1-btn r1-btn-tonal r1-btn-sm">查看网关用量</button>
+                      <button type="button" id="btnTestAsrWav" class="r1-btn r1-btn-outlined r1-btn-sm">上传 WAV 识别测试</button>
+                      <input type="file" id="asrWavFile" accept=".wav,audio/wav" class="r1-hidden">
+                      <span id="cfgAsrTokenHint" class="r1-hint">16kHz · 单声道</span>
                     </div>
-                    <div class="sm:col-span-2 flex flex-col gap-1">
-                      <label class="font-label-xs text-label-xs text-secondary/80 font-mono">私钥</label>
-                      <textarea id="cfgWeatherJwtKey" rows="3" placeholder="私钥" class="bg-surface-container-lowest/90 rounded-2xl px-3.5 py-2 border border-primary/25 text-body-sm text-on-surface font-mono focus:outline-none"></textarea>
-                    </div>
-                    <div class="sm:col-span-2 flex flex-col gap-1">
-                      <label class="font-label-xs text-label-xs text-secondary/80 font-mono">公钥</label>
-                      <textarea id="cfgWeatherJwtPub" rows="4" readonly placeholder="公钥" class="bg-surface-container-lowest/60 rounded-2xl px-3.5 py-2 border border-primary/20 text-body-sm text-primary font-mono focus:outline-none"></textarea>
-                    </div>
-                    <div class="sm:col-span-2 flex flex-wrap items-center gap-2">
-                      <button type="button" id="btnJwtKeygen" class="px-3.5 py-1.5 rounded-full bg-surface-container-lowest border border-primary/40 hover:border-primary/60 text-primary font-label-xs text-label-xs font-mono active:scale-95">生成密钥</button>
-                      <button type="button" id="btnJwtDownload" class="px-3.5 py-1.5 rounded-full bg-surface-container-lowest border border-primary/40 hover:border-primary/60 text-primary font-label-xs text-label-xs font-mono active:scale-95">下载密钥</button>
-                      <button type="button" id="btnJwtPub" class="px-3.5 py-1.5 rounded-full bg-surface-container-lowest border border-primary/40 hover:border-primary/60 text-primary font-label-xs text-label-xs font-mono active:scale-95">推导公钥</button>
-                      <button type="button" id="btnJwtCopyPub" class="px-3.5 py-1.5 rounded-full bg-surface-container-lowest border border-primary/40 hover:border-primary/60 text-primary font-label-xs text-label-xs font-mono active:scale-95">复制公钥</button>
-                      <button type="button" id="btnJwtPreview" class="px-3.5 py-1.5 rounded-full bg-surface-container-lowest border border-primary/40 hover:border-primary/60 text-primary font-label-xs text-label-xs font-mono active:scale-95">预览</button>
-                    </div>
-                  </div>
-                  <div class="sm:col-span-2 flex flex-col gap-1">
-                    <label class="font-label-xs text-label-xs text-secondary/80 font-mono">接口域名</label>
-                    <input id="cfgWeatherHost" type="text" placeholder="devapi.qweather.com" class="bg-surface-container-lowest/90 rounded-2xl px-3.5 py-2 border border-primary/25 text-body-sm text-on-surface font-mono focus:outline-none">
+                    <div id="asrTestResult" class="r1-col-full r1-result-box r1-hidden"></div>
                   </div>
                 </div>
 
-                <div id="weatherTestResult" class="hidden px-3.5 py-2 rounded-2xl bg-surface-container-lowest border border-white/10 font-label-xs text-label-xs font-mono leading-relaxed"></div>
-              </div>
+                <!-- 三个二元交互开关 (M3 Switch) -->
+                <div class="r1-col-full r1-col" style="gap:10px;padding-top:10px;border-top:1px solid var(--r1-border-subtle);">
+                  <label class="r1-switch-row" for="cfgAutoSpeak">
+                    <span class="r1-switch-meta">
+                      <span class="r1-switch-title">自动播报回复</span>
+                      <span class="r1-switch-desc">控制台或语音对话得到回复后自动通过音箱喇叭发声</span>
+                    </span>
+                    <input id="cfgAutoSpeak" type="checkbox" role="switch" class="r1-switch" checked>
+                  </label>
 
-              <div class="flex items-center justify-between gap-3 pt-2 border-t border-white/5">
-                <span class="font-label-xs text-label-xs text-secondary/60 font-mono"></span>
-                <div class="flex items-center gap-2 flex-wrap">
-                  <button type="button" id="btnTestWeatherQw" class="btn-gold">测和风</button>
-                  <button type="button" id="btnTestWeatherWttr" class="btn-gold">测通用</button>
-                  <button type="button" id="btnTestWeather" class="btn-gold">自动</button>
-                </div>
-              </div>
-            </section>
+                  <label class="r1-switch-row" for="cfgContinuous">
+                    <span class="r1-switch-meta">
+                      <span class="r1-switch-title">连续对话</span>
+                      <span class="r1-switch-desc">播报结束后自动重新拾音，无需再次喊唤醒词</span>
+                    </span>
+                    <input id="cfgContinuous" type="checkbox" role="switch" class="r1-switch">
+                  </label>
 
-            <!-- 5. 斐讯 R1 运维中枢与应用管理 (12 列全宽) -->
-            <section data-panel="ops" class="set-panel lg:col-span-12 bg-gradient-to-b from-surface-container-high/90 to-surface-container-low/95 rounded-[26px] p-6 shadow-xl border border-primary/25 relative overflow-hidden flex flex-col gap-5">
-              <div class="flex flex-wrap items-center justify-between gap-3 pb-2 border-b border-white/5">
-                <div class="flex items-center gap-2">
-                  <span class="material-symbols-outlined text-primary text-[20px]">&#xE32D;</span>
-                  <span class="font-headline-sm text-headline-sm text-on-surface font-semibold">应用</span>
+                  <label class="r1-switch-row" for="cfgEarlyEndpoint">
+                    <span class="r1-switch-meta">
+                      <span class="r1-switch-title">提前判停</span>
+                      <span class="r1-switch-desc">说完静音 1.2 秒即结束录音，缩短响应延迟（需新版 L1）</span>
+                    </span>
+                    <input id="cfgEarlyEndpoint" type="checkbox" role="switch" class="r1-switch">
+                  </label>
                 </div>
-                <div class="flex items-center gap-2 flex-wrap">
-                  <button onclick="doSystemClean()" class="px-3.5 py-1.5 rounded-full bg-gradient-to-b from-surface-container-high to-surface-container border border-primary/40 hover:border-primary/60 text-primary font-label-xs text-label-xs font-mono shadow-[0_2px_6px_rgba(0,0,0,0.5)] active:scale-95">清理</button>
-                  <button onclick="doSystemReboot()" class="px-3.5 py-1.5 rounded-full bg-surface-container-lowest border border-error/40 hover:border-error/70 text-error font-label-xs text-label-xs font-mono shadow-[0_2px_6px_rgba(0,0,0,0.5)] active:scale-95">重启</button>
-                  <button onclick="loadAppsList()" class="px-3.5 py-1.5 rounded-full bg-gradient-to-b from-surface-container-high to-surface-container border border-primary/40 hover:border-primary/60 text-primary font-label-xs text-label-xs font-mono shadow-[0_2px_6px_rgba(0,0,0,0.5)] active:scale-95">刷新</button>
-                </div>
-              </div>
 
-              <!-- 上传 APK 拖拽区与进度条 -->
-              <div class="flex flex-col gap-2">
-                <input type="file" id="apkFileInput" accept=".apk" class="hidden">
-                <div id="apkDropZone" onclick="document.getElementById('apkFileInput').click()" class="border border-dashed border-primary/35 hover:border-primary/60 rounded-2xl p-5 bg-surface-container-lowest/80 text-center cursor-pointer transition-all flex flex-col items-center justify-center gap-2">
-                  <span class="material-symbols-outlined text-primary text-[28px]">&#xE5D8;</span>
-                  <div class="text-body-sm text-on-surface font-semibold">安装应用</div>
-                </div>
-                <div id="apkUploadProgress" style="display:none" class="flex-col gap-1.5 p-3 rounded-2xl bg-surface-container-lowest border border-primary/30">
-                  <div class="flex items-center justify-between font-mono text-label-xs text-primary">
-                    <span id="apkProgressText">正在流式上传...</span>
-                  </div>
-                  <div class="w-full h-2 rounded-full bg-surface-container-high overflow-hidden">
-                    <div id="apkProgressBar" class="h-full bg-primary rounded-full transition-all duration-200" style="width: 0%;"></div>
+                <div class="r1-field r1-col-full">
+                  <label class="r1-label" for="cfgTtsSample">试听文本</label>
+                  <div class="r1-row" style="gap:10px;">
+                    <input id="cfgTtsSample" type="text" value="斐讯 R1 语音合成测试正常。" class="r1-input r1-flex-1">
+                    <button type="button" id="btnTestTts" class="r1-btn r1-btn-tonal">立即试听</button>
                   </div>
                 </div>
               </div>
 
-              <!-- 已安装应用清单 -->
-              <div class="flex flex-col gap-2">
-                <div class="flex items-center justify-between text-label-xs font-mono text-secondary/80">
-                  <span>已安装</span>
-                  <span id="appsCountBadge">正在加载...</span>
+              <div id="ttsTestResult" class="r1-result-box r1-hidden"></div>
+            </section>
+
+            <!-- 分组 3: 闹钟与睡眠定时 -->
+            <section data-panel="alarms" class="set-panel r1-card" style="display:none;">
+              <div class="r1-card-head">
+                <h2 class="r1-card-title">
+                  <span class="material-symbols-outlined" aria-hidden="true">&#xE425;</span>
+                  <span>闹钟与睡眠定时</span>
+                </h2>
+                <span class="r1-badge r1-badge-primary r1-mono" id="sleepTimerBadge">睡眠定时: 未开启</span>
+              </div>
+
+              <div class="r1-subcard r1-row-between" style="flex-wrap:wrap;gap:10px;">
+                <span style="font-size:13px;font-weight:500;">快捷睡眠倒计时</span>
+                <div class="r1-row-wrap">
+                  <button type="button" onclick="R1.setSleepTimer(15)" class="r1-chip">15 分钟</button>
+                  <button type="button" onclick="R1.setSleepTimer(30)" class="r1-chip">30 分钟</button>
+                  <button type="button" onclick="R1.setSleepTimer(60)" class="r1-chip">60 分钟</button>
+                  <button type="button" onclick="R1.setSleepTimer(0)" class="r1-chip">关闭</button>
                 </div>
-                <div id="installedAppsBox" class="flex flex-col gap-2 max-h-80 overflow-y-auto pr-1"></div>
+              </div>
+
+              <div class="r1-row" style="flex-wrap:wrap;gap:10px;">
+                <input id="newAlarmTime" type="time" value="08:00" class="r1-input r1-mono" style="width:130px;" aria-label="闹钟时间">
+                <input id="newAlarmLabel" type="text" placeholder="闹钟备注，例如：起床 / 喝水" class="r1-input r1-flex-1" aria-label="闹钟备注">
+                <select id="newAlarmAction" class="r1-select" style="width:136px;" aria-label="触发动作">
+                  <option value="speak">语音提醒</option>
+                  <option value="weather">播报天气</option>
+                </select>
+                <button type="button" id="btnAddAlarm" class="r1-btn r1-btn-primary">添加闹钟</button>
+              </div>
+
+              <div id="alarmListBox" class="r1-col" style="gap:10px;"></div>
+
+              <div class="r1-row-between r1-subtle r1-mono" style="font-size:12px;padding-top:10px;border-top:1px solid var(--r1-border-subtle);">
+                <span>音箱触发时区：中国标准时间 (UTC+8)</span>
+                <span id="alarmNowClock">北京时间 --:--:--</span>
               </div>
             </section>
 
-            <!-- 5. 实时 Logcat 日志终端与系统维护 (12 列全宽) -->
-            <section data-panel="logs" class="set-panel lg:col-span-12 bg-gradient-to-b from-surface-container-high/90 to-surface-container-low/95 rounded-[26px] p-6 shadow-xl border border-primary/25 relative overflow-hidden flex flex-col gap-4">
-              <div class="flex flex-wrap items-center justify-between gap-3 pb-2 border-b border-white/5">
-                <div class="flex items-center gap-2">
-                  <span class="material-symbols-outlined text-primary text-[20px]">&#xE88E;</span>
-                  <span class="font-headline-sm text-headline-sm text-on-surface font-semibold">日志</span>
+            <!-- 分组 4: 家居与天气（合并为单列两张清晰卡片） -->
+            <div data-panel="home-weather" class="set-panel r1-col" style="display:none;gap:20px;">
+              <section class="r1-card">
+                <div class="r1-card-head">
+                  <h2 class="r1-card-title">
+                    <span class="material-symbols-outlined" aria-hidden="true">&#xE429;</span>
+                    <span>Home Assistant 智能家居</span>
+                  </h2>
+                  <span class="r1-badge" id="haStatusBadge">可选</span>
                 </div>
-                <div class="flex items-center gap-2 flex-wrap">
-                  <button id="btnSpeakerHost" class="px-3.5 py-1.5 rounded-full bg-gradient-to-b from-surface-container-high to-surface-container border border-primary/40 hover:border-primary/60 text-primary font-label-xs text-label-xs font-mono shadow-[0_2px_6px_rgba(0,0,0,0.5)] active:scale-95">音箱地址</button>
-                  <button id="btnAccessToken" class="px-3.5 py-1.5 rounded-full bg-gradient-to-b from-surface-container-high to-surface-container border border-primary/40 hover:border-primary/60 text-primary font-label-xs text-label-xs font-mono shadow-[0_2px_6px_rgba(0,0,0,0.5)] active:scale-95">访问令牌</button>
-                  <button id="btnSyncLogs" class="px-3.5 py-1.5 rounded-full bg-gradient-to-b from-surface-container-high to-surface-container border border-primary/40 hover:border-primary/60 text-primary font-label-xs text-label-xs font-mono shadow-[0_2px_6px_rgba(0,0,0,0.5)] active:scale-95">刷新日志</button>
-                  <button id="btnExportConfig" class="px-3.5 py-1.5 rounded-full bg-gradient-to-b from-surface-container-high to-surface-container border border-primary/35 text-primary font-label-xs text-label-xs font-mono shadow-[0_2px_6px_rgba(0,0,0,0.5)] active:scale-95">导出配置</button>
-                  <button id="btnImportConfig" class="px-3.5 py-1.5 rounded-full bg-gradient-to-b from-surface-container-high to-surface-container border border-primary/35 text-primary font-label-xs text-label-xs font-mono shadow-[0_2px_6px_rgba(0,0,0,0.5)] active:scale-95">导入配置</button>
-                  <input type="file" id="importConfigFile" accept="application/json,.json" style="display:none">
-                  <button id="btnClearCache" class="px-3.5 py-1.5 rounded-full bg-surface-container-lowest border border-error/40 text-error font-label-xs text-label-xs font-mono active:scale-95">清除本机记录</button>
+                <div class="r1-form-grid">
+                  <div class="r1-field">
+                    <label class="r1-label" for="cfgHaUrl">服务地址</label>
+                    <input id="cfgHaUrl" type="text" placeholder="http://192.168.1.10:8123" class="r1-input r1-mono">
+                  </div>
+                  <div class="r1-field">
+                    <label class="r1-label" for="cfgHaToken">长期访问令牌</label>
+                    <input id="cfgHaToken" type="password" placeholder="粘贴 HA Token" class="r1-input r1-mono" autocomplete="off">
+                  </div>
                 </div>
-              </div>
-
-              <!-- 实时 Logcat 视窗 -->
-              <div id="logTerminalBox" class="log-terminal rounded-2xl p-4 border border-primary/20 h-56 overflow-y-auto font-mono text-label-sm flex flex-col gap-1.5 shadow-inner"></div>
-            </section>
-
-            <!-- 配置文件：和上面的表单改的是同一份配置，同样不立即生效 -->
-            <section data-panel="file" style="display:none" class="set-panel lg:col-span-12 bg-gradient-to-b from-surface-container-high/90 to-surface-container-low/95 rounded-[26px] p-6 shadow-xl border border-primary/25 relative overflow-hidden flex flex-col gap-4">
-              <div class="flex items-center justify-between pb-2 border-b border-white/5">
-                <div class="flex items-center gap-2">
-                  <span class="material-symbols-outlined text-primary text-[20px]">&#xE88E;</span>
-                  <span class="font-headline-sm text-headline-sm text-on-surface font-semibold">配置文件</span>
+                <div id="haTestResult" class="r1-result-box r1-hidden"></div>
+                <div class="r1-row" style="justify-content:flex-end;">
+                  <button type="button" id="btnTestHa" class="r1-btn r1-btn-tonal">测试连接</button>
                 </div>
-                <span class="font-label-xs text-label-xs text-secondary/60 font-mono">与面板二选一 · 改完点右下角对勾确认</span>
-              </div>
-              <textarea id="cfgFileEditor" rows="18" spellcheck="false" class="bg-surface-container-lowest/90 rounded-2xl p-3.5 border border-primary/25 text-body-sm text-on-surface font-mono focus:outline-none leading-relaxed"></textarea>
-            </section>
-          </div>
+              </section>
 
-          <!-- 改动浮出确认按钮：带红点对勾，点开按 git diff 方式查看待写入内容 -->
-          <button type="button" id="cfgFab" class="cfg-fab" title="查看配置更改并确认写入">
-            <svg viewBox="0 0 24 24" width="26" height="26" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M20 6 9 17l-5-5"></path></svg>
-            <span id="cfgFabDot" class="cfg-fab-dot"></span>
-          </button>
+              <section class="r1-card">
+                <div class="r1-card-head">
+                  <h2 class="r1-card-title">
+                    <span class="material-symbols-outlined" aria-hidden="true">&#xE2C7;</span>
+                    <span>城市天气</span>
+                  </h2>
+                  <span class="r1-badge" id="weatherProviderBadge">未测试</span>
+                </div>
 
-          <div id="cfgReviewModal" class="cfg-review-mask" style="display:none">
-            <div class="cfg-review-card">
-              <div class="cfg-review-head">
-                <span class="font-headline-sm text-headline-sm text-on-surface font-semibold">待写入的配置更改</span>
-                <button type="button" id="cfgReviewClose" class="cfg-review-x" title="关闭" aria-label="关闭">×</button>
-              </div>
-              <div id="cfgReviewSub" class="cfg-review-sub">以下改动尚未写入音箱，确认后才会生效</div>
-              <div id="cfgDiffBox" class="cfg-diff"></div>
-              <div class="cfg-review-foot">
-                <button type="button" id="cfgReviewDiscard" class="cfg-bar-ghost">放弃更改</button>
-                <button type="button" id="cfgReviewCancel" class="cfg-bar-ghost">返回</button>
-                <button type="button" id="cfgReviewConfirm" class="btn-gold">确认写入</button>
-              </div>
+                <div class="r1-form-grid">
+                  <div class="r1-field">
+                    <label class="r1-label" for="cfgWeatherCity">默认城市</label>
+                    <input id="cfgWeatherCity" type="text" placeholder="例如 杭州 / 北京" class="r1-input">
+                  </div>
+                  <div class="r1-field">
+                    <label class="r1-label" for="cfgWeatherHost">和风接口域名</label>
+                    <input id="cfgWeatherHost" type="text" placeholder="devapi.qweather.com" class="r1-input r1-mono">
+                  </div>
+                </div>
+
+                <details class="r1-details">
+                  <summary>高级：和风天气 Ed25519 JWT 凭据管理</summary>
+                  <div id="weatherJwtFields" class="r1-form-grid">
+                    <div class="r1-field">
+                      <label class="r1-label" for="cfgWeatherJwtIss">开发者 ID</label>
+                      <input id="cfgWeatherJwtIss" type="text" placeholder="开发者 ID" class="r1-input r1-mono">
+                    </div>
+                    <div class="r1-field">
+                      <label class="r1-label" for="cfgWeatherJwtProjectId">项目 ID</label>
+                      <input id="cfgWeatherJwtProjectId" type="text" placeholder="项目 ID" class="r1-input r1-mono">
+                    </div>
+                    <div class="r1-field r1-col-full">
+                      <label class="r1-label" for="cfgWeatherJwtKeyId">凭据 ID (kid)</label>
+                      <input id="cfgWeatherJwtKeyId" type="text" placeholder="凭据 ID" class="r1-input r1-mono">
+                    </div>
+                    <div class="r1-field r1-col-full">
+                      <label class="r1-label" for="cfgWeatherJwtKey">私钥 (Ed25519)</label>
+                      <textarea id="cfgWeatherJwtKey" rows="3" placeholder="粘贴或生成私钥" class="r1-textarea r1-mono"></textarea>
+                    </div>
+                    <div class="r1-field r1-col-full">
+                      <label class="r1-label" for="cfgWeatherJwtPub">公钥 (粘贴至和风控制台)</label>
+                      <textarea id="cfgWeatherJwtPub" rows="3" readonly placeholder="生成或推导后自动显示" class="r1-textarea r1-mono"></textarea>
+                    </div>
+                    <div class="r1-col-full r1-row-wrap">
+                      <button type="button" id="btnJwtKeygen" class="r1-btn r1-btn-tonal r1-btn-sm">生成密钥对</button>
+                      <button type="button" id="btnJwtDownload" class="r1-btn r1-btn-outlined r1-btn-sm">下载密钥</button>
+                      <button type="button" id="btnJwtPub" class="r1-btn r1-btn-outlined r1-btn-sm">推导公钥</button>
+                      <button type="button" id="btnJwtCopyPub" class="r1-btn r1-btn-outlined r1-btn-sm">复制公钥</button>
+                      <button type="button" id="btnJwtPreview" class="r1-btn r1-btn-outlined r1-btn-sm">签名预览</button>
+                    </div>
+                  </div>
+                </details>
+
+                <div id="weatherTestResult" class="r1-result-box r1-hidden"></div>
+
+                <div class="r1-row-wrap" style="justify-content:flex-end;padding-top:10px;border-top:1px solid var(--r1-border-subtle);">
+                  <button type="button" id="btnTestWeatherQw" class="r1-btn r1-btn-outlined r1-btn-sm">测和风</button>
+                  <button type="button" id="btnTestWeatherWttr" class="r1-btn r1-btn-outlined r1-btn-sm">测通用源</button>
+                  <button type="button" id="btnTestWeather" class="r1-btn r1-btn-tonal r1-btn-sm">自动测试</button>
+                </div>
+              </section>
             </div>
+
+            <!-- 分组 5: 应用与系统维护 -->
+            <div data-panel="ops" class="set-panel r1-col" style="display:none;gap:20px;">
+              <section class="r1-card">
+                <div class="r1-card-head">
+                  <h2 class="r1-card-title">
+                    <span class="material-symbols-outlined" aria-hidden="true">&#xE32D;</span>
+                    <span>系统维护与连接</span>
+                  </h2>
+                </div>
+                <div class="r1-row-wrap">
+                  <button type="button" id="btnSpeakerHost" class="r1-btn r1-btn-tonal r1-btn-sm">音箱地址</button>
+                  <button type="button" id="btnAccessToken" class="r1-btn r1-btn-tonal r1-btn-sm">访问令牌</button>
+                  <button type="button" id="btnExportConfig" class="r1-btn r1-btn-outlined r1-btn-sm">导出配置</button>
+                  <button type="button" id="btnImportConfig" class="r1-btn r1-btn-outlined r1-btn-sm">导入配置</button>
+                  <input type="file" id="importConfigFile" accept="application/json,.json" class="r1-hidden">
+                  <button type="button" onclick="doSystemClean()" class="r1-btn r1-btn-outlined r1-btn-sm">深度清理缓存</button>
+                  <button type="button" id="btnClearCache" class="r1-btn r1-btn-danger r1-btn-sm">清除本机记录</button>
+                  <button type="button" onclick="doSystemReboot()" class="r1-btn r1-btn-danger r1-btn-sm">重启音箱</button>
+                </div>
+              </section>
+
+              <section class="r1-card">
+                <div class="r1-card-head">
+                  <h2 class="r1-card-title">
+                    <span class="material-symbols-outlined" aria-hidden="true">&#xE5D8;</span>
+                    <span>应用安装与管理</span>
+                  </h2>
+                  <div class="r1-row" style="gap:10px;">
+                    <span id="appsCountBadge" class="r1-badge r1-mono">等待读取</span>
+                    <button type="button" onclick="loadAppsList()" class="r1-btn r1-btn-tonal r1-btn-sm">刷新列表</button>
+                  </div>
+                </div>
+
+                <input type="file" id="apkFileInput" accept=".apk" class="r1-hidden">
+                <button type="button" id="apkDropZone" onclick="document.getElementById('apkFileInput').click()" class="r1-dropzone">
+                  <span class="material-symbols-outlined r1-primary-text" style="font-size:28px;" aria-hidden="true">&#xE5D8;</span>
+                  <span style="font-size:14px;font-weight:600;">点击选择或拖拽 .apk 安装包到此区域</span>
+                  <span class="r1-hint">低内存流式上传并自动静默安装</span>
+                </button>
+
+                <div id="apkUploadProgress" class="r1-subcard r1-col r1-hidden" style="gap:8px;">
+                  <span id="apkProgressText" class="r1-mono r1-primary-text" style="font-size:12px;">准备上传...</span>
+                  <div style="width:100%;height:8px;border-radius:999px;background:var(--r1-surface-inset);overflow:hidden;">
+                    <div id="apkProgressBar" style="height:100%;width:0%;background:var(--r1-primary);border-radius:999px;transition:width 0.2s ease;"></div>
+                  </div>
+                </div>
+
+                <div id="installedAppsBox" class="r1-col" style="gap:8px;max-height:360px;overflow-y:auto;"></div>
+              </section>
+            </div>
+
+            <!-- 分组 6: 实时日志与原始配置文件 -->
+            <div data-panel="logs" class="set-panel r1-col" style="display:none;gap:20px;">
+              <section class="r1-card">
+                <div class="r1-card-head">
+                  <h2 class="r1-card-title">
+                    <span class="material-symbols-outlined" aria-hidden="true">&#xE88E;</span>
+                    <span>实时运行日志</span>
+                  </h2>
+                  <button type="button" id="btnSyncLogs" class="r1-btn r1-btn-tonal r1-btn-sm">立即刷新</button>
+                </div>
+                <div id="logTerminalBox" class="r1-log-box"></div>
+              </section>
+
+              <section class="r1-card">
+                <div class="r1-card-head">
+                  <h2 class="r1-card-title">
+                    <span class="material-symbols-outlined" aria-hidden="true">&#xE8C0;</span>
+                    <span>原始 JSON 配置文件</span>
+                  </h2>
+                  <span class="r1-hint">与上方表单二选一 · 修改后点右下角确认写入</span>
+                </div>
+                <textarea id="cfgFileEditor" rows="16" spellcheck="false" class="r1-textarea r1-mono" aria-label="JSON 配置文件编辑器"></textarea>
+              </section>
+            </div>
+
           </div>
         </div>
+
+        <!-- 未保存更改悬浮确认 FAB -->
+        <button type="button" id="cfgFab" class="r1-fab" title="查看待写入的配置更改">
+          <span id="cfgFabDot" class="r1-fab-dot" aria-hidden="true"></span>
+          <span>审查并保存更改</span>
+        </button>
+
+        <!-- 原生 <dialog> Git Diff 审查弹窗 -->
+        <dialog id="cfgReviewModal" class="r1-modal r1-modal-wide" closedby="any" aria-labelledby="cfgReviewTitle">
+          <div class="r1-modal-head">
+            <h1 id="cfgReviewTitle" class="r1-modal-title">待写入的配置更改</h1>
+            <button type="button" id="cfgReviewClose" class="r1-btn r1-btn-ghost r1-btn-icon-sm" title="关闭" aria-label="关闭">×</button>
+          </div>
+          <div class="r1-modal-body">
+            <p id="cfgReviewSub" style="margin:0;font-size:13px;">以下改动尚未写入音箱，确认后才会生效</p>
+            <div id="cfgDiffBox" class="r1-diff-box"></div>
+          </div>
+          <div class="r1-modal-foot r1-modal-foot-split">
+            <button type="button" id="cfgReviewDiscard" class="r1-btn r1-btn-danger">放弃更改</button>
+            <div class="r1-row" style="gap:10px;">
+              <button type="button" id="cfgReviewCancel" class="r1-btn r1-btn-outlined">返回编辑</button>
+              <button type="button" id="cfgReviewConfirm" class="r1-btn r1-btn-primary">确认写入音箱</button>
+            </div>
+          </div>
+        </dialog>
       </div>
     </main>
   </div>
@@ -583,123 +577,214 @@
   <script src="../assets/r1-engine.js"></script>
   <script>
     R1.onStateChange(function(st) {
-      const cnNow = R1.nowTimeStr();
-      const hdrStatus = document.getElementById('hdrStatusText');
-      if (hdrStatus) {
-        if (st.online) {
-          const mem = st.memTotalMb > 0 ? (st.memUsedMb + 'M / ' + st.memTotalMb + 'M') : '--';
-          hdrStatus.textContent = '已运行 ' + R1.formatUptime(st.uptimeSec) + ' · 内存 ' + mem;
-        } else {
-          hdrStatus.textContent = st.hostIp ? ('未连接 (' + st.hostIp + ') · 点击重设') : '未连接音箱 · 点击设置地址';
-        }
+      var hdrHost = document.getElementById('hdrHostPill');
+      if (hdrHost) {
+        hdrHost.textContent = st.online
+          ? ((st.ip && st.ip !== '--') ? (st.ip + ':8686') : '已连接 :8686')
+          : (st.hostIp ? ('离线 · ' + st.hostIp) : '连接音箱');
       }
-      const hdrHost = document.getElementById('hdrHostPill');
-      if (hdrHost) hdrHost.textContent = st.online ? (st.ip !== '--' ? st.ip + ':8686' : ':8686') : (st.hostIp || '设置IP');
-      const hdrDot = document.getElementById('hdrHostDot');
-      if (hdrDot) hdrDot.className = 'w-1.5 h-1.5 rounded-full ' + (st.online ? 'bg-tertiary animate-pulse' : 'bg-outline');
+      var hdrDot = document.getElementById('hdrHostDot');
+      if (hdrDot) hdrDot.className = 'r1-dot' + (st.online ? ' is-online' : '');
 
-      const hdrVol = document.getElementById('hdrVolText');
-      if (hdrVol) hdrVol.textContent = st.muted ? '已静音' : ('音量 ' + st.volume + '%');
+      var hdrVol = document.getElementById('hdrVolText');
+      if (hdrVol) hdrVol.textContent = st.muted ? '静音' : (st.volume + '%');
 
-      const hw = document.getElementById('hdrHwText');
-      if (hw) hw.textContent = '北京时间 ' + cnNow + (st.online ? (' · ' + st.hardware) : '');
+      var asideDot = document.getElementById('asideOnlineDot');
+      if (asideDot) asideDot.className = 'r1-dot' + (st.online ? ' is-online' : '');
 
-      const cnEl = document.getElementById('asideCnTime');
-      if (cnEl) cnEl.textContent = cnNow;
-      const soc = document.getElementById('asideSoc');
-      if (soc) soc.textContent = st.online ? (st.hardware + (st.memTotalMb ? ' · ' + st.memTotalMb + 'M' : '')) : '--';
-      const ver = document.getElementById('asideVer');
-      if (ver) ver.textContent = st.online ? ('v' + st.version + ' · Android ' + st.androidRelease) : 'TCP :8686';
-
-      const asideText = document.getElementById('asideOnlineText');
+      var asideText = document.getElementById('asideOnlineText');
       if (asideText) {
         asideText.textContent = st.online ? '在线' : '离线';
-        asideText.className = 'font-label-xs text-label-xs uppercase ' + (st.online ? 'text-tertiary' : 'text-secondary');
+        asideText.className = st.online ? 'r1-success-text' : 'r1-subtle';
       }
-      const asideDot = document.getElementById('asideOnlineDot');
-      if (asideDot) asideDot.className = 'w-1.5 h-1.5 rounded-full ' + (st.online ? 'bg-tertiary animate-pulse' : 'bg-outline');
+
+      var soc = document.getElementById('asideSoc');
+      if (soc) soc.textContent = st.online ? (st.hardware + (st.memTotalMb ? (' · ' + st.memTotalMb + 'M') : '')) : '--';
+
+      var ver = document.getElementById('asideVer');
+      if (ver) ver.textContent = st.online ? ('v' + st.version + ' · A' + st.androidRelease) : ':8686';
+    });
+
+    // 全局桌面快捷体验：非输入态按 "/" 快速聚焦主输入框
+    document.addEventListener('keydown', function(e) {
+      var tag = (e.target && e.target.tagName) ? e.target.tagName.toLowerCase() : '';
+      var isEditable = tag === 'input' || tag === 'textarea' || tag === 'select' || (e.target && e.target.isContentEditable);
+      if (e.key === '/' && !isEditable && !e.ctrlKey && !e.metaKey && !e.altKey) {
+        var targetInput = document.querySelector('#cmdInput, #chatPageInput, #cloudSearchInput, #musicSearchInput');
+        if (targetInput) {
+          e.preventDefault();
+          targetInput.focus();
+        }
+      }
     });
   </script>
 
   <script>
     (function() {
-      // 子标签过滤
-      document.querySelectorAll('#setTabNav .set-tab').forEach(btn => {
+      var savedSnapshot = null;
+      var formDirty = false;
+      var reviewDlg = document.getElementById('cfgReviewModal');
+      if (reviewDlg) R1.bindLightDismiss(reviewDlg);
+
+      // 左侧二级设置目录切换
+      document.querySelectorAll('#setTabNav .set-tab').forEach(function(btn) {
         btn.addEventListener('click', function() {
-          const tab = this.getAttribute('data-tab');
-          document.querySelectorAll('#setTabNav .set-tab').forEach(b => {
-            b.className = b === this
-              ? 'set-tab px-3.5 py-1.5 rounded-full bg-gradient-to-b from-primary/25 via-primary/15 to-surface-container border border-primary/60 text-primary font-label-xs text-label-xs font-mono font-bold'
-              : 'set-tab px-3.5 py-1.5 rounded-full bg-surface-container-high border border-primary/20 text-secondary hover:text-primary font-label-xs text-label-xs font-mono';
+          var tab = this.getAttribute('data-tab');
+          document.querySelectorAll('#setTabNav .set-tab').forEach(function(b) {
+            b.classList.toggle('is-active', b === btn);
           });
-          document.querySelectorAll('.set-panel').forEach(p => {
-            const panel = p.getAttribute('data-panel');
-            // 配置文件与面板是「二选一」：全部视图不显示它，只有专门切到配置文件才露出
-            const show = (tab === 'all') ? (panel !== 'file') : (panel === tab);
+          document.querySelectorAll('.set-panel').forEach(function(p) {
+            var show = p.getAttribute('data-panel') === tab;
             p.style.display = show ? 'flex' : 'none';
           });
+          if (tab === 'ops' && R1.getState().online) loadAppsList();
+          if (tab === 'logs') R1.fetchSpeakerLogs();
         });
       });
 
       function updateModelHint() {
-        const hint = document.getElementById('llmModelHint');
+        var hint = document.getElementById('llmModelHint');
         if (!hint) return;
-        const url = document.getElementById('cfgLlmBaseUrl').value.trim();
-        if (!url) {
-          hint.textContent = '先填地址，再点「获取模型」';
-          return;
-        }
-        // 不用正则（模板字符串会把 / 吃掉），改用字符串裁切，逻辑与后端 LlmClient 一致
-        const suffix = '/chat/completions';
-        let base = url;
+        var url = document.getElementById('cfgLlmBaseUrl').value.trim();
+        if (!url) { hint.textContent = '先填接口地址，再点「获取」拉取模型列表'; return; }
+        var suffix = '/chat/completions';
+        var base = url;
         while (base.length > 0 && base.charAt(base.length - 1) === '/') base = base.slice(0, -1);
         if (base.slice(-suffix.length) !== suffix) {
-          const scheme = base.indexOf('://');
+          var scheme = base.indexOf('://');
           if (base.indexOf('/', scheme + 3) < 0) base = base + '/v1' + suffix;
         }
-        let models = base;
-        if (models.slice(-suffix.length) === suffix) models = models.slice(0, -suffix.length);
-        hint.textContent = '会请求 ' + models + '/models';
+        var models = base.slice(-suffix.length) === suffix ? base.slice(0, -suffix.length) : base;
+        hint.textContent = '将请求 ' + models + '/models';
       }
       document.getElementById('cfgLlmBaseUrl').addEventListener('input', updateModelHint);
 
+      function isAllStars(v) {
+        if (!v) return false;
+        for (var i = 0; i < v.length; i++) { if (v.charAt(i) !== '*') return false; }
+        return true;
+      }
+      function secretValue(id) {
+        var el = document.getElementById(id);
+        if (!el) return '';
+        var v = el.value.trim();
+        return isAllStars(v) ? '' : v;
+      }
+      function applySecretMask(id, hasSaved) {
+        var el = document.getElementById(id);
+        if (!el) return;
+        el.dataset.saved = hasSaved ? '1' : '0';
+        if (hasSaved && !el.value) {
+          el.value = '********';
+          el.dataset.masked = '1';
+        }
+        if (!el.dataset.bound) {
+          el.dataset.bound = '1';
+          el.addEventListener('focus', function() {
+            if (el.dataset.masked === '1') { el.value = ''; el.dataset.masked = '0'; }
+          });
+          el.addEventListener('blur', function() {
+            if (!el.value && el.dataset.saved === '1') { el.value = '********'; el.dataset.masked = '1'; }
+          });
+        }
+      }
+
+      function applyVoiceFields() {
+        var tts = document.getElementById('cfgTtsEngine').value;
+        var asr = document.getElementById('cfgAsrEngine').value;
+        document.getElementById('ttsCustomFields').style.display = (tts === 'native') ? 'none' : 'grid';
+        document.getElementById('asrCustomFields').style.display = (asr === 'self') ? 'grid' : 'none';
+      }
+      document.getElementById('cfgTtsEngine').addEventListener('change', applyVoiceFields);
+      document.getElementById('cfgAsrEngine').addEventListener('change', applyVoiceFields);
+
+      function syncSpeedVisual(val) {
+        var v = parseFloat(val) || 1.0;
+        var pct = Math.round(((v - 0.6) / 1.2) * 100);
+        document.getElementById('cfgTtsSpeed').style.setProperty('--val', Math.max(0, Math.min(100, pct)) + '%');
+        document.getElementById('ttsSpeedVal').textContent = v.toFixed(1) + 'x';
+      }
+      document.getElementById('cfgTtsSpeed').addEventListener('input', function() { syncSpeedVisual(this.value); });
+
+      function collectPatch() {
+        var patch = {
+          llmProvider: 'openai',
+          llmModel: document.getElementById('cfgLlmModel').value.trim(),
+          llmBaseUrl: document.getElementById('cfgLlmBaseUrl').value.trim(),
+          reasoningEffort: document.getElementById('cfgLlmReasoning').value,
+          llmSystemPrompt: document.getElementById('cfgLlmPrompt').value.trim(),
+          ttsEngine: document.getElementById('cfgTtsEngine').value,
+          ttsVoice: document.getElementById('cfgTtsVoice').value.trim(),
+          ttsModel: document.getElementById('cfgTtsModel').value.trim(),
+          ttsUrl: document.getElementById('cfgTtsUrl').value.trim(),
+          ttsSpeed: parseFloat(document.getElementById('cfgTtsSpeed').value) || 1.0,
+          asrEngine: document.getElementById('cfgAsrEngine').value,
+          asrUrl: document.getElementById('cfgAsrUrl').value.trim(),
+          asrToken: secretValue('cfgAsrToken'),
+          autoSpeak: !!document.getElementById('cfgAutoSpeak').checked,
+          continuousChat: !!document.getElementById('cfgContinuous').checked,
+          earlyEndpoint: !!document.getElementById('cfgEarlyEndpoint').checked,
+          haUrl: document.getElementById('cfgHaUrl').value.trim(),
+          weatherCity: document.getElementById('cfgWeatherCity').value.trim(),
+          weatherHost: document.getElementById('cfgWeatherHost').value.trim(),
+          weatherAuth: 'jwt',
+          weatherJwtIss: document.getElementById('cfgWeatherJwtIss').value.trim(),
+          weatherJwtProjectId: document.getElementById('cfgWeatherJwtProjectId').value.trim(),
+          weatherJwtKeyId: document.getElementById('cfgWeatherJwtKeyId').value.trim(),
+          weatherJwtKey: document.getElementById('cfgWeatherJwtKey').value.trim(),
+          weatherJwtPub: document.getElementById('cfgWeatherJwtPub').value.trim()
+        };
+        var keyVal = secretValue('cfgLlmApiKey');
+        if (keyVal) patch.llmApiKey = keyVal;
+        var ttsKey = secretValue('cfgTtsKey');
+        if (ttsKey) patch.ttsKey = ttsKey;
+        var haTok = secretValue('cfgHaToken');
+        if (haTok) patch.haToken = haTok;
+        return patch;
+      }
+
       function syncFormFromState(st) {
-        const c = st.config;
+        var c = st.config;
         document.getElementById('cfgLlmModel').value = c.llmModel || 'GLM-4.5-Flash';
         document.getElementById('cfgLlmReasoning').value = c.llmReasoning || 'none';
         document.getElementById('cfgLlmBaseUrl').value = c.llmBaseUrl || '';
         applySecretMask('cfgLlmApiKey', !!c.hasKey);
         document.getElementById('cfgLlmPrompt').value = c.llmSystemPrompt || '';
 
-        const badge = document.getElementById('llmKeyStatusBadge');
+        var badge = document.getElementById('llmKeyStatusBadge');
         if (badge) {
           badge.textContent = c.hasKey ? ('已启用 · ' + (c.llmModel || 'LLM')) : '待配置密钥';
-          badge.className = c.hasKey
-            ? 'px-3 py-1 rounded-full bg-primary/15 border border-primary/40 text-primary font-label-xs text-label-xs font-mono'
-            : 'px-3 py-1 rounded-full bg-surface-container-lowest border border-outline-variant/40 text-secondary font-label-xs text-label-xs font-mono';
+          badge.className = c.hasKey ? 'r1-badge r1-badge-success r1-mono' : 'r1-badge r1-badge-warn';
         }
 
         document.getElementById('cfgTtsEngine').value = c.ttsEngine || 'native';
-        applyVoiceFields();
         document.getElementById('cfgTtsVoice').value = c.ttsVoice || 'zh-CN-XiaoxiaoNeural';
         document.getElementById('cfgTtsModel').value = c.ttsModel || '';
         document.getElementById('cfgTtsUrl').value = c.ttsUrl || '';
-        document.getElementById('cfgTtsKey').placeholder = '服务需要 Bearer 令牌时填';
         applySecretMask('cfgTtsKey', !!c.hasTtsKey);
         document.getElementById('cfgTtsSpeed').value = c.ttsSpeed || 1.0;
-        document.getElementById('ttsSpeedVal').textContent = (c.ttsSpeed || 1.0) + 'x';
+        syncSpeedVisual(c.ttsSpeed || 1.0);
+
         document.getElementById('cfgAsrEngine').value = c.asrEngine || 'native';
         applyVoiceFields();
         document.getElementById('cfgAsrUrl').value = c.asrUrl || '';
         applySecretMask('cfgAsrToken', !!c.hasAsrToken);
-        const asrTokHint = document.getElementById('cfgAsrTokenHint'); if (asrTokHint) asrTokHint.textContent = c.hasAsrToken ? '令牌已保存，留空不改' : '未设置令牌（网关会返回 401）';
-        document.getElementById('cfgAutoSpeak').value = String(c.autoSpeak !== false);
-        document.getElementById('cfgContinuous').value = String(!!c.continuousChat);
-        document.getElementById('cfgEarlyEndpoint').value = String(!!c.earlyEndpoint);
+        var asrTokHint = document.getElementById('cfgAsrTokenHint');
+        if (asrTokHint) asrTokHint.textContent = c.hasAsrToken ? '令牌已保存，留空不改' : '未设置令牌（需鉴权网关会返回 401）';
+
+        document.getElementById('cfgAutoSpeak').checked = c.autoSpeak !== false;
+        document.getElementById('cfgContinuous').checked = !!c.continuousChat;
+        document.getElementById('cfgEarlyEndpoint').checked = !!c.earlyEndpoint;
         updateModelHint();
 
         document.getElementById('cfgHaUrl').value = c.haUrl || '';
         applySecretMask('cfgHaToken', !!c.hasHaToken);
+        var haBadge = document.getElementById('haStatusBadge');
+        if (haBadge) {
+          haBadge.textContent = c.haUrl ? '已配置' : '可选';
+          haBadge.className = c.haUrl ? 'r1-badge r1-badge-success' : 'r1-badge';
+        }
+
         document.getElementById('cfgWeatherCity').value = c.weatherCity || '';
         document.getElementById('cfgWeatherHost').value = c.weatherHost || 'devapi.qweather.com';
         document.getElementById('cfgWeatherJwtIss').value = c.weatherJwtIss || '';
@@ -707,48 +792,45 @@
         document.getElementById('cfgWeatherJwtKeyId').value = c.weatherJwtKeyId || '';
         document.getElementById('cfgWeatherJwtKey').value = c.weatherJwtKey || '';
         document.getElementById('cfgWeatherJwtPub').value = c.weatherJwtPub || '';
-        // 表单刚按已保存状态填好，此刻的内容就是「未改动」的基准
+
         savedSnapshot = JSON.stringify(collectPatch());
         refreshCfgDirty();
       }
 
-      // 配置文件文本框：拉音箱上的完整配置（含密钥），和表单改的是同一份
       function loadConfigFile() {
-        const box = document.getElementById('cfgFileEditor');
+        var box = document.getElementById('cfgFileEditor');
         if (!box || box.dataset.dirty === '1') return;
         R1.request('GET', '/api/v1/config/export', null, 10000)
-          .then(function (j) {
+          .then(function(j) {
             if (box.dataset.dirty === '1') return;
             box.value = JSON.stringify(j, null, 2);
             box.dataset.saved = box.value;
           })
-          .catch(function () {});
+          .catch(function() {});
       }
 
-      // 以实际内容为准判断是否需要浮出确认按钮；表单和「配置文件」改的是同一份配置的两种改法
       function isFileDirty() {
-        const fileBox = document.getElementById('cfgFileEditor');
+        var fileBox = document.getElementById('cfgFileEditor');
         return !!(fileBox && fileBox.dataset.saved !== undefined && fileBox.value !== fileBox.dataset.saved);
       }
       function isFormChanged() {
         return savedSnapshot !== null && JSON.stringify(collectPatch()) !== savedSnapshot;
       }
       function refreshCfgDirty() {
-        const fab = document.getElementById('cfgFab');
+        var fab = document.getElementById('cfgFab');
         if (!fab) return;
-        const fileDirty = isFileDirty();
+        var fileDirty = isFileDirty();
         if (fileDirty || isFormChanged()) {
           fab.classList.add('show');
           document.getElementById('cfgReviewSub').textContent = fileDirty
-            ? '配置文件有未保存的更改 · 确认后整份写入音箱（密钥不展示）'
+            ? '配置文件有未保存更改 · 确认后整份写入音箱（密钥已脱敏）'
             : '以下字段尚未写入音箱 · 确认后才会生效';
         } else {
           fab.classList.remove('show');
-          document.getElementById('cfgReviewModal').style.display = 'none';
+          if (reviewDlg && reviewDlg.open) reviewDlg.close();
         }
       }
 
-      // 密钥类字段只显示占位符，绝不在差异弹窗里回显明文
       var CFG_SECRET_KEYS = ['llmApiKey', 'asrToken', 'ttsKey', 'haToken', 'weatherJwtKey'];
       var CFG_FIELD_LABELS = {
         llmProvider: '协议', llmModel: '模型', llmBaseUrl: '接口地址', reasoningEffort: '思考',
@@ -759,14 +841,10 @@
         weatherCity: '城市', weatherHost: '天气域名', weatherAuth: '天气鉴权', weatherJwtIss: '开发者 ID',
         weatherJwtProjectId: '项目 ID', weatherJwtKeyId: '凭据 ID', weatherJwtKey: '天气私钥', weatherJwtPub: '天气公钥'
       };
-      function escDiff(s) {
-        return String(s).replace(/&/g, '&amp;').replace(/</g, '&lt;').replace(/>/g, '&gt;');
-      }
       function fmtDiffVal(key, v) {
         if (v === undefined || v === null || v === '') return '""';
         if (CFG_SECRET_KEYS.indexOf(key) >= 0) return '"••••••"';
-        if (typeof v === 'string') return '"' + v + '"';
-        return String(v);
+        return typeof v === 'string' ? ('"' + v + '"') : String(v);
       }
       function diffLine(cls, text) {
         var span = document.createElement('span');
@@ -779,14 +857,14 @@
         try { before = JSON.parse(savedSnapshot || '{}'); } catch (e) { before = {}; }
         var after = collectPatch();
         var keys = Object.keys(after);
-        Object.keys(before).forEach(function (k) { if (keys.indexOf(k) < 0) keys.push(k); });
+        Object.keys(before).forEach(function(k) { if (keys.indexOf(k) < 0) keys.push(k); });
         var out = [
           diffLine('cfg-diff-file', '--- 当前配置（已保存）'),
           diffLine('cfg-diff-file', '+++ 待写入配置'),
           diffLine('cfg-diff-hunk', '@@ 改动的字段 @@')
         ];
         var changed = 0;
-        keys.forEach(function (k) {
+        keys.forEach(function(k) {
           if (JSON.stringify(before[k]) === JSON.stringify(after[k])) return;
           changed++;
           var label = CFG_FIELD_LABELS[k] || k;
@@ -801,7 +879,7 @@
           var obj = JSON.parse(text);
           (function walk(o) {
             if (!o || typeof o !== 'object') return;
-            Object.keys(o).forEach(function (k) {
+            Object.keys(o).forEach(function(k) {
               if (CFG_SECRET_KEYS.indexOf(k) >= 0 && o[k]) o[k] = '••••••';
               else walk(o[k]);
             });
@@ -827,22 +905,20 @@
           else if (dp[i + 1][j] >= dp[i][j + 1]) { ops.push(['-', a[i]]); i++; }
           else { ops.push(['+', b[j]]); j++; }
         }
-        while (i < n) { ops.push(['-', a[i++]]); }
-        while (j < m) { ops.push(['+', b[j++]]); }
+        while (i < n) ops.push(['-', a[i++]]);
+        while (j < m) ops.push(['+', b[j++]]);
         var out = [
           diffLine('cfg-diff-file', '--- config.json（当前）'),
           diffLine('cfg-diff-file', '+++ config.json（待写入）'),
           diffLine('cfg-diff-hunk', '@@ -1,' + n + ' +1,' + m + ' @@')
         ];
-        ops.forEach(function (op) {
+        ops.forEach(function(op) {
           var cls = op[0] === '+' ? 'cfg-diff-add' : (op[0] === '-' ? 'cfg-diff-del' : 'cfg-diff-ctx');
           out.push(diffLine(cls, op[0] + ' ' + op[1]));
         });
         return out.join('');
       }
-      function buildCfgDiff() { return isFileDirty() ? buildFileDiff() : buildFormDiff(); }
 
-      // 真正写入：表单补丁或整份配置文件，二选一
       function saveCfgChanges(btn) {
         var fileBox = document.getElementById('cfgFileEditor');
         btn.disabled = true;
@@ -850,36 +926,38 @@
         if (isFileDirty()) {
           var parsed;
           try { parsed = JSON.parse(fileBox.value); }
-          catch (e) { R1.toast('配置文件不是合法 JSON：' + e.message, 'err'); btn.disabled = false; return; }
-          job = R1.request('POST', '/api/v1/config/import', parsed, 15000).then(function () {
+          catch (e) { R1.toast('配置文件不是合法 JSON', 'err'); btn.disabled = false; return; }
+          job = R1.request('POST', '/api/v1/config/import', parsed, 15000).then(function() {
             fileBox.dataset.dirty = '0';
             fileBox.dataset.saved = fileBox.value;
             R1.toast('配置文件已写入音箱', 'ok');
             return R1.syncFromSpeaker(true);
           });
         } else {
-          // 整份表单一并提交，避免只存一个模块把其它模块的改动冲掉
           savedSnapshot = null;
-          job = R1.updateConfig(collectPatch()).then(function () {
-            ['cfgLlmApiKey', 'cfgTtsKey', 'cfgHaToken'].forEach(function (id) { applySecretMask(id, true); });
+          job = R1.updateConfig(collectPatch()).then(function() {
+            ['cfgLlmApiKey', 'cfgTtsKey', 'cfgHaToken', 'cfgAsrToken'].forEach(function(id) { applySecretMask(id, true); });
           });
         }
-        Promise.resolve(job).catch(function (e) {
+        Promise.resolve(job).catch(function(e) {
           R1.toast('保存失败：' + e.message, 'err');
-        }).then(function () { btn.disabled = false; refreshCfgDirty(); });
+        }).then(function() {
+          btn.disabled = false;
+          refreshCfgDirty();
+        });
       }
 
-      function closeCfgReview() { document.getElementById('cfgReviewModal').style.display = 'none'; }
-      document.getElementById('cfgFab').addEventListener('click', function () {
-        document.getElementById('cfgDiffBox').innerHTML = buildCfgDiff();
-        document.getElementById('cfgReviewModal').style.display = 'flex';
-      });
+      function openCfgReview() {
+        document.getElementById('cfgDiffBox').innerHTML = isFileDirty() ? buildFileDiff() : buildFormDiff();
+        if (reviewDlg && reviewDlg.showModal) reviewDlg.showModal();
+      }
+      function closeCfgReview() {
+        if (reviewDlg && reviewDlg.open) reviewDlg.close();
+      }
+      document.getElementById('cfgFab').addEventListener('click', openCfgReview);
       document.getElementById('cfgReviewClose').addEventListener('click', closeCfgReview);
       document.getElementById('cfgReviewCancel').addEventListener('click', closeCfgReview);
-      document.getElementById('cfgReviewModal').addEventListener('click', function (e) {
-        if (e.target === this) closeCfgReview();
-      });
-      document.getElementById('cfgReviewDiscard').addEventListener('click', function () {
+      document.getElementById('cfgReviewDiscard').addEventListener('click', function() {
         var fileBox = document.getElementById('cfgFileEditor');
         if (isFileDirty()) {
           fileBox.value = fileBox.dataset.saved || '';
@@ -890,192 +968,86 @@
         closeCfgReview();
         refreshCfgDirty();
       });
-      document.getElementById('cfgReviewConfirm').addEventListener('click', function () {
+      document.getElementById('cfgReviewConfirm').addEventListener('click', function() {
         closeCfgReview();
         saveCfgChanges(this);
       });
 
-      
-       function applyVoiceFields() {
-         const tts = document.getElementById('cfgTtsEngine').value;
-         const asr = document.getElementById('cfgAsrEngine').value;
-         document.getElementById('ttsCustomFields').style.display = tts === 'native' ? 'none' : '';
-         document.getElementById('asrCustomFields').style.display = asr === 'self' ? '' : 'none';
-       }
-       document.getElementById('cfgTtsEngine').addEventListener('change', applyVoiceFields);
-       document.getElementById('cfgAsrEngine').addEventListener('change', applyVoiceFields);
-
-       document.getElementById('btnSpeakerHost').addEventListener('click', function() {
-         if (location.port === '8686') {
-           R1.toast('当前就开在这台音箱上');
-           return;
-         }
-         R1.promptSpeakerHost();
-       });
-       document.getElementById('btnAccessToken').addEventListener('click', function() { R1.promptToken(); });
-       document.getElementById('btnSyncLogs').addEventListener('click', function() { R1.fetchSpeakerLogs(); });
-       document.getElementById('btnClearCache').addEventListener('click', function() {
-         if (confirm('只清除这台浏览器里的对话和音频链接，音箱上的配置不动。继续？')) R1.resetFactory();
-       });
-
-      // 先声明再初始化：syncFormFromState 会写 savedSnapshot，
-      // 若等到这里才 var 声明，提升的 undefined 会把刚建立的基准冲掉
-      var savedSnapshot = null;
-      let lastCfgSig = configSig(R1.getState().config);
-      let formDirty = false;
-
-      syncFormFromState(R1.getState());
-      loadConfigFile();
-      R1.fetchSpeakerLogs();
-
-      // 密钥输入框的统一行为：已保存就显示圆点；点进去清空，失焦且没填就恢复圆点
-      var SECRET_MASK = '********';
-      function isMaskedValue(v) {
-        if (!v) return false;
-        for (var mi = 0; mi < v.length; mi++) {
-          if (v.charAt(mi) !== '*') return false;
+      // Ctrl+S 快捷打开配置审查窗
+      document.addEventListener('keydown', function(e) {
+        if ((e.ctrlKey || e.metaKey) && e.key.toLowerCase() === 's') {
+          if (isFileDirty() || isFormChanged()) {
+            e.preventDefault();
+            openCfgReview();
+          }
         }
-        return true;
-      }
-      function secretValue(id) {
-        const el = document.getElementById(id);
-        if (!el) return '';
-        return isMaskedValue(el.value.trim()) ? '' : el.value.trim();
-      }
-      function applySecretMask(id, hasSaved) {
-        const el = document.getElementById(id);
-        if (!el) return;
-        el.dataset.saved = hasSaved ? '1' : '0';
-        if (hasSaved && !el.value) {
-          el.value = '********';
-          el.dataset.masked = '1';
-        }
-        if (!el.dataset.bound) {
-          el.dataset.bound = '1';
-          el.addEventListener('focus', function () {
-            if (el.dataset.masked === '1') {
-              el.value = '';
-              el.dataset.masked = '0';
-            }
-          });
-          el.addEventListener('blur', function () {
-            if (!el.value && el.dataset.saved === '1') {
-              el.value = '********';
-              el.dataset.masked = '1';
-            }
-          });
-        }
-      }
-
-      // 设备配置异步到达时刷新表单；用户正在编辑时不要覆盖输入
-      function configSig(c) {
-        return JSON.stringify([
-          c.llmProvider, c.llmModel, c.llmBaseUrl, c.llmSystemPrompt, c.hasKey,
-          c.ttsEngine, c.ttsVoice, c.ttsModel, c.ttsUrl, c.ttsSpeed, c.autoSpeak, c.continuousChat, c.earlyEndpoint, c.hasTtsKey,
-        c.asrEngine, c.asrUrl,
-          c.haUrl, c.hasHaToken, c.weatherCity, c.weatherHost, c.hasWeatherKey, c.weatherAuth, c.weatherJwtProjectId, c.weatherJwtKeyId, c.hasWeatherJwtKey
-        ]);
-      }
-      // 用 var：syncFormFromState 定义在它前面、运行时会读写它，let 会触发暂时性死区
-      // 配置状态变量已前移到首次同步之前声明
-      [
-        'cfgLlmModel', 'cfgLlmBaseUrl', 'cfgLlmApiKey', 'cfgLlmPrompt',
-        'cfgTtsEngine', 'cfgTtsVoice', 'cfgTtsModel', 'cfgTtsUrl', 'cfgTtsKey', 'cfgTtsSpeed', 'cfgAutoSpeak', 'cfgContinuous', 'cfgEarlyEndpoint',
-        'cfgAsrEngine', 'cfgAsrUrl',
-        'cfgHaUrl', 'cfgHaToken', 'cfgWeatherCity', 'cfgWeatherHost', 'cfgWeatherJwtIss', 'cfgWeatherJwtProjectId', 'cfgWeatherJwtKeyId', 'cfgWeatherJwtKey'
-      ].forEach(function (id) {
-        const el = document.getElementById(id);
-        if (!el) return;
-        el.addEventListener('input', function () { formDirty = true; refreshCfgDirty(); });
-        el.addEventListener('change', function () { formDirty = true; refreshCfgDirty(); });
       });
-      const cfgFileEditor = document.getElementById('cfgFileEditor');
+
+      // 绑定脏检测
+      [
+        'cfgLlmModel', 'cfgLlmReasoning', 'cfgLlmBaseUrl', 'cfgLlmApiKey', 'cfgLlmPrompt',
+        'cfgTtsEngine', 'cfgTtsVoice', 'cfgTtsModel', 'cfgTtsUrl', 'cfgTtsKey', 'cfgTtsSpeed',
+        'cfgAutoSpeak', 'cfgContinuous', 'cfgEarlyEndpoint',
+        'cfgAsrEngine', 'cfgAsrUrl', 'cfgAsrToken',
+        'cfgHaUrl', 'cfgHaToken', 'cfgWeatherCity', 'cfgWeatherHost',
+        'cfgWeatherJwtIss', 'cfgWeatherJwtProjectId', 'cfgWeatherJwtKeyId', 'cfgWeatherJwtKey'
+      ].forEach(function(id) {
+        var el = document.getElementById(id);
+        if (!el) return;
+        el.addEventListener('input', function() { formDirty = true; refreshCfgDirty(); });
+        el.addEventListener('change', function() { formDirty = true; refreshCfgDirty(); });
+      });
+
+      var cfgFileEditor = document.getElementById('cfgFileEditor');
       if (cfgFileEditor) {
-        cfgFileEditor.addEventListener('input', function () {
-          // 和已加载的原文比对，而不是「只要输入过就算改过」：
-          // 程序填值也会触发 input，误标脏会让确认条永远走文件分支
+        cfgFileEditor.addEventListener('input', function() {
           cfgFileEditor.dataset.dirty = (cfgFileEditor.value === (cfgFileEditor.dataset.saved || '')) ? '0' : '1';
           refreshCfgDirty();
         });
       }
-      R1.onStateChange(function (st) {
-        const sig = configSig(st.config);
+
+      function configSig(c) {
+        return JSON.stringify([
+          c.llmProvider, c.llmModel, c.llmReasoning, c.llmBaseUrl, c.llmSystemPrompt, c.hasKey,
+          c.ttsEngine, c.ttsVoice, c.ttsModel, c.ttsUrl, c.ttsSpeed, c.autoSpeak, c.continuousChat, c.earlyEndpoint, c.hasTtsKey,
+          c.asrEngine, c.asrUrl, c.hasAsrToken,
+          c.haUrl, c.hasHaToken, c.weatherCity, c.weatherHost, c.hasWeatherKey, c.weatherAuth, c.weatherJwtProjectId, c.weatherJwtKeyId, c.hasWeatherJwtKey
+        ]);
+      }
+      var lastCfgSig = '';
+      R1.onStateChange(function(st) {
+        var sig = configSig(st.config);
         if (sig === lastCfgSig) return;
         lastCfgSig = sig;
-        // 正在编辑时不覆盖输入；保存后 savedSnapshot 被清空，这里才会重新对齐
         if (formDirty && savedSnapshot !== null) return;
         formDirty = false;
         syncFormFromState(st);
         loadConfigFile();
       });
 
-      let logsFetched = false;
-      R1.onStateChange(function (st) {
-        if (st.online && !logsFetched) {
-          logsFetched = true;
-          R1.fetchSpeakerLogs();
-        }
-      });
-
-      document.getElementById('cfgTtsSpeed').addEventListener('input', function() {
-        document.getElementById('ttsSpeedVal').textContent = this.value + 'x';
-      });
-
-      // 各模块不再各自落盘：表单和「配置文件」文本框改的是同一份配置，
-      // 统一收进 collectPatch()，由页面底部的确认条一次性写入。
-      function collectPatch() {
-        const patch = {
-          llmProvider: 'openai',
-          llmModel: document.getElementById('cfgLlmModel').value.trim(),
-          llmBaseUrl: document.getElementById('cfgLlmBaseUrl').value.trim(),
-          reasoningEffort: document.getElementById('cfgLlmReasoning').value,
-          llmSystemPrompt: document.getElementById('cfgLlmPrompt').value.trim(),
-          ttsEngine: document.getElementById('cfgTtsEngine').value,
-          ttsVoice: document.getElementById('cfgTtsVoice').value.trim(),
-          ttsModel: document.getElementById('cfgTtsModel').value.trim(),
-          ttsUrl: document.getElementById('cfgTtsUrl').value.trim(),
-          ttsSpeed: parseFloat(document.getElementById('cfgTtsSpeed').value) || 1.0,
-          asrEngine: document.getElementById('cfgAsrEngine').value,
-          asrUrl: document.getElementById('cfgAsrUrl').value.trim(),
-          asrToken: secretValue('cfgAsrToken'),
-          autoSpeak: document.getElementById('cfgAutoSpeak').value === 'true',
-          continuousChat: document.getElementById('cfgContinuous').value === 'true',
-          earlyEndpoint: document.getElementById('cfgEarlyEndpoint').value === 'true',
-          haUrl: document.getElementById('cfgHaUrl').value.trim(),
-          weatherCity: document.getElementById('cfgWeatherCity').value.trim(),
-          weatherHost: document.getElementById('cfgWeatherHost').value.trim(),
-          weatherAuth: 'jwt',
-          weatherJwtIss: document.getElementById('cfgWeatherJwtIss').value.trim(),
-          weatherJwtProjectId: document.getElementById('cfgWeatherJwtProjectId').value.trim(),
-          weatherJwtKeyId: document.getElementById('cfgWeatherJwtKeyId').value.trim(),
-          weatherJwtKey: document.getElementById('cfgWeatherJwtKey').value.trim(),
-          weatherJwtPub: document.getElementById('cfgWeatherJwtPub').value.trim()
-        };
-        const keyVal = secretValue('cfgLlmApiKey');
-        if (keyVal) patch.llmApiKey = keyVal;
-        const ttsKey = secretValue('cfgTtsKey');
-        if (ttsKey) patch.ttsKey = ttsKey;
-        const haTok = secretValue('cfgHaToken');
-        if (haTok) patch.haToken = haTok;
-        return patch;
+      function showResult(id, text, kind) {
+        var box = document.getElementById(id);
+        if (!box) return;
+        box.className = 'r1-result-box ' + (kind === 'ok' ? 'is-ok' : (kind === 'err' ? 'is-err' : 'is-info'));
+        box.textContent = text;
       }
 
-      // 获取模型列表：用页面上当前的值（未保存也可以测）
+      // 获取模型列表
       document.getElementById('btnFetchModels').addEventListener('click', function() {
-        const hint = document.getElementById('llmModelHint');
-        const url = document.getElementById('cfgLlmBaseUrl').value.trim();
-        const key = secretValue('cfgLlmApiKey');
-        if (!url) { R1.toast('先填接口地址'); return; }
+        var hint = document.getElementById('llmModelHint');
+        var url = document.getElementById('cfgLlmBaseUrl').value.trim();
+        var key = secretValue('cfgLlmApiKey');
+        if (!url) { R1.toast('请先填写接口地址', 'err'); return; }
         hint.textContent = '正在拉取模型列表…';
-        R1.request('GET', '/api/v1/llm/models?baseUrl=' + encodeURIComponent(url)
-            + (key ? '&apiKey=' + encodeURIComponent(key) : ''), null, 20000)
+        R1.request('GET', '/api/v1/llm/models?baseUrl=' + encodeURIComponent(url) + (key ? '&apiKey=' + encodeURIComponent(key) : ''), null, 20000)
           .then(function(res) {
-            const models = res.models || [];
-            const list = document.getElementById('llmModelList');
-            list.innerHTML = models.map(function(m) { return '<option value="' + R1.escapeHtml(m) + '"></option>'; }).join('');
+            var models = res.models || [];
+            document.getElementById('llmModelList').innerHTML = models.map(function(m) {
+              return '<option value="' + R1.escapeHtml(m) + '"></option>';
+            }).join('');
             hint.textContent = models.length
-              ? ('共 ' + models.length + ' 个模型，点输入框下拉选择（来自 ' + res.endpoint + '）')
-              : ('接口通了，但没有返回模型（' + res.endpoint + '）');
+              ? ('共获取到 ' + models.length + ' 个模型，点击输入框下拉选择')
+              : ('接口可达，但未返回模型列表（' + res.endpoint + '）');
             R1.toast(models.length ? ('获取到 ' + models.length + ' 个模型') : '没有返回模型', models.length ? 'ok' : 'err');
           })
           .catch(function(e) {
@@ -1084,224 +1056,178 @@
           });
       });
 
-      // 测试连接：真发一条 8 token 的请求
+      // 测试 LLM 连接
       document.getElementById('btnTestLlm').addEventListener('click', function() {
-        const box = document.getElementById('llmTestResult');
-        const body = {
+        var body = {
           baseUrl: document.getElementById('cfgLlmBaseUrl').value.trim(),
           apiKey: secretValue('cfgLlmApiKey'),
           model: document.getElementById('cfgLlmModel').value.trim()
         };
-        box.classList.remove('hidden');
-        box.className = 'px-3.5 py-2 rounded-2xl bg-surface-container-lowest border border-primary/30 text-primary font-label-xs text-label-xs font-mono leading-relaxed';
-        box.textContent = '正在请求 ' + (body.baseUrl || '（未填地址）') + ' …';
+        showResult('llmTestResult', '正在请求 ' + (body.baseUrl || '（未填地址）') + ' …', 'info');
         R1.request('POST', '/api/v1/llm/test', body, 25000)
           .then(function(res) {
-            box.textContent = '✅ 通了 · ' + res.model + ' · ' + res.costMs + 'ms · 回复「' + (res.reply || '').trim() + '」｜地址：' + res.endpoint;
+            showResult('llmTestResult', '连接成功 · ' + res.model + ' · ' + res.costMs + 'ms · 回复「' + (res.reply || '').trim() + '」｜' + res.endpoint, 'ok');
             R1.toast('大模型连接正常', 'ok');
           })
           .catch(function(e) {
-            box.className = 'px-3.5 py-2 rounded-2xl bg-surface-container-lowest border border-error/40 text-error font-label-xs text-label-xs font-mono leading-relaxed';
-            box.textContent = '❌ ' + e.message;
+            showResult('llmTestResult', '连接失败：' + e.message, 'err');
             R1.toast('测试失败：' + e.message, 'err');
           });
       });
 
-      // TTS 测试：真合成一句并播放。原厂语音不走 HTTP 合成，没有首音耗时，不能拼出 undefinedms
-
-      // TTS 测试：真合成一句并播放，结果里写明请求的是哪个端点
+      // TTS 试听
       document.getElementById('btnTestTts').addEventListener('click', function() {
-        const box = document.getElementById('ttsTestResult');
-        const text = document.getElementById('cfgTtsSample').value.trim() || '斐讯 R1 语音合成测试正常。';
-        box.classList.remove('hidden');
-        box.className = 'px-3.5 py-2 rounded-2xl bg-surface-container-lowest border border-primary/30 text-primary font-label-xs text-label-xs font-mono leading-relaxed';
-        box.textContent = '正在合成并播放…';
+        var text = document.getElementById('cfgTtsSample').value.trim() || '斐讯 R1 语音合成测试正常。';
+        showResult('ttsTestResult', '正在合成并下发音箱播报…', 'info');
         R1.request('POST', '/api/v1/tts/test', { text: text }, 25000)
           .then(function(res) {
             if (res.engine === 'native') {
-              box.textContent = '✅ 已用原厂语音播报（不经过 HTTP 合成，没有首音耗时）';
+              showResult('ttsTestResult', '已用原厂语音播报（本地直出，无首音耗时）', 'ok');
             } else {
-              const ms = (typeof res.firstAudioMs === 'number' && res.firstAudioMs >= 0)
-                ? (res.firstAudioMs + 'ms') : '未测到';
-              box.textContent = '✅ 已播放 · 首音 ' + ms + ' · 端点 ' + (res.endpoint || '（空）');
+              var ms = (typeof res.firstAudioMs === 'number' && res.firstAudioMs >= 0) ? (res.firstAudioMs + 'ms') : '未测到';
+              showResult('ttsTestResult', '已播报 · 首音 ' + ms + ' · 端点 ' + (res.endpoint || '（空）'), 'ok');
             }
-            R1.toast('TTS 正常', 'ok');
+            R1.toast('语音试听正常', 'ok');
           })
           .catch(function(e) {
-            box.className = 'px-3.5 py-2 rounded-2xl bg-surface-container-lowest border border-error/40 text-error font-label-xs text-label-xs font-mono leading-relaxed';
-            box.textContent = '❌ ' + e.message;
+            showResult('ttsTestResult', '试听失败：' + e.message, 'err');
             R1.toast('TTS 测试失败：' + e.message, 'err');
           });
       });
 
-      // 自建 ASR：健康检查
-      function asrBox(text, ok) {
-        const box = document.getElementById('asrTestResult');
-        box.classList.remove('hidden');
-        box.className = ok
-          ? 'px-3.5 py-2 rounded-2xl bg-surface-container-lowest border border-primary/30 text-primary font-label-xs text-label-xs font-mono leading-relaxed'
-          : 'px-3.5 py-2 rounded-2xl bg-surface-container-lowest border border-error/40 text-error font-label-xs text-label-xs font-mono leading-relaxed';
-        box.textContent = text;
-      }
-
+      // 自建 ASR 健康检查与 WAV 测试
       document.getElementById('btnTestAsrHealth').addEventListener('click', function() {
-        const url = document.getElementById('cfgAsrUrl').value.trim();
-        const tok = secretValue('cfgAsrToken');
-        asrBox('正在读取网关用量 /usage …', true);
+        var url = document.getElementById('cfgAsrUrl').value.trim();
+        var tok = secretValue('cfgAsrToken');
+        showResult('asrTestResult', '正在读取网关用量 /usage …', 'info');
         R1.request('GET', '/api/v1/asr/health?url=' + encodeURIComponent(url) + '&token=' + encodeURIComponent(tok), null, 15000)
           .then(function(res) {
             if (res.ok) {
-              asrBox('✅ 网关可用 · 端点 ' + res.endpoint
-                + ' · 账单月 ' + (res.billingMonth || '?')
-                + ' · 重置日 ' + (res.resetDate || '?')
-                + (res.hasToken ? '' : ' · ⚠ 未设置令牌'), true);
+              showResult('asrTestResult', '网关可用 · 端点 ' + res.endpoint + ' · 账单月 ' + (res.billingMonth || '?') + ' · 重置日 ' + (res.resetDate || '?') + (res.hasToken ? '' : ' · 未设置令牌'), 'ok');
               R1.toast('ASR 网关用量已读取', 'ok');
             } else {
-              asrBox('❌ ' + (res.error || '用量读取失败') + ' · 端点 ' + res.endpoint, false);
+              showResult('asrTestResult', (res.error || '用量读取失败') + ' · 端点 ' + res.endpoint, 'err');
             }
           })
-          .catch(function(e) { asrBox('❌ ' + e.message, false); });
+          .catch(function(e) { showResult('asrTestResult', e.message, 'err'); });
       });
 
-      // 自建 ASR：上传一段 WAV 真跑一次识别
       document.getElementById('btnTestAsrWav').addEventListener('click', function() {
         document.getElementById('asrWavFile').click();
       });
       document.getElementById('asrWavFile').addEventListener('change', function() {
-        const f = this.files && this.files[0];
+        var f = this.files && this.files[0];
         if (!f) return;
         if (f.size > 3 * 1024 * 1024) {
-          asrBox('❌ 文件太大（上限 3MB，约 10 秒 16k 单声道）', false);
+          showResult('asrTestResult', '文件超过 3MB 上限（约 10 秒 16k 单声道 WAV）', 'err');
           return;
         }
-        asrBox('正在上传并识别 ' + f.name + ' …', true);
-        const reader = new FileReader();
+        showResult('asrTestResult', '正在上传并识别 ' + f.name + ' …', 'info');
+        var reader = new FileReader();
         reader.onload = function() {
-          const b64 = String(reader.result || '').split(',')[1] || '';
-          R1.request('POST', '/api/v1/asr/test', {
-            url: document.getElementById('cfgAsrUrl').value.trim(),
-            audio: b64
-          }, 60000)
+          var b64 = String(reader.result || '').split(',')[1] || '';
+          R1.request('POST', '/api/v1/asr/test', { url: document.getElementById('cfgAsrUrl').value.trim(), audio: b64 }, 60000)
             .then(function(res) {
               if (res.ok) {
-                const extra = [];
+                var extra = [];
                 if (res.durationMs) extra.push(res.durationMs + 'ms');
                 if (res.engine) extra.push('引擎 ' + res.engine);
-                asrBox('✅ ' + (res.via || '') + ' · "' + res.text + '"'
-                  + (extra.length ? ' · ' + extra.join(' · ') : ''), true);
+                showResult('asrTestResult', '识别成功 · "' + res.text + '"' + (extra.length ? (' · ' + extra.join(' · ')) : ''), 'ok');
                 R1.toast('识别成功：' + res.text, 'ok');
               } else {
-                asrBox('❌ ' + (res.error || '识别失败') + ' · 端点 ' + (res.endpoint || ''), false);
+                showResult('asrTestResult', (res.error || '识别失败') + ' · ' + (res.endpoint || ''), 'err');
               }
             })
-            .catch(function(e) { asrBox('❌ ' + e.message, false); });
+            .catch(function(e) { showResult('asrTestResult', e.message, 'err'); });
         };
         reader.readAsDataURL(f);
         this.value = '';
       });
 
+      // Home Assistant 测试
       document.getElementById('btnTestHa').addEventListener('click', function() {
-        const box = document.getElementById('haTestResult');
-        box.classList.remove('hidden');
-        box.className = 'px-3.5 py-2 rounded-2xl bg-surface-container-lowest border border-primary/30 text-primary font-label-xs text-label-xs font-mono leading-relaxed';
-        box.textContent = '正在读取 /api/states …';
+        showResult('haTestResult', '正在读取 /api/states …', 'info');
         R1.request('POST', '/api/v1/ha/test', {
           haUrl: document.getElementById('cfgHaUrl').value.trim(),
-          haToken: document.getElementById('cfgHaToken').value.trim()
+          haToken: secretValue('cfgHaToken')
         }, 15000)
           .then(function(res) {
-            box.textContent = '✅ 连上了 · 实体 ' + res.entities + ' 个 · 可语音控制的 ' + res.controllable + ' 个';
+            showResult('haTestResult', '连接成功 · 实体 ' + res.entities + ' 个 · 可语音控制 ' + res.controllable + ' 个', 'ok');
             R1.toast('Home Assistant 连接正常', 'ok');
           })
-          .catch(function(e) {
-            box.className = 'px-3.5 py-2 rounded-2xl bg-surface-container-lowest border border-error/40 text-error font-label-xs text-label-xs font-mono leading-relaxed';
-            box.textContent = '❌ ' + e.message;
-          });
+          .catch(function(e) { showResult('haTestResult', '连接失败：' + e.message, 'err'); });
       });
 
-      // 天气字段并入 collectPatch()，不再单独落盘
-
-      // 生成 Ed25519 密钥对：私钥存设备，公钥贴到和风控制台
+      // 和风 Ed25519 密钥与天气测试
       function downloadText(name, text) {
-        const blob = new Blob([text], { type: 'text/plain' });
-        const a = document.createElement('a');
+        var blob = new Blob([text], { type: 'text/plain' });
+        var a = document.createElement('a');
         a.href = URL.createObjectURL(blob);
         a.download = name;
         a.click();
       }
       document.getElementById('btnJwtKeygen').addEventListener('click', function() {
-        const existed = document.getElementById('cfgWeatherJwtKey').value.trim()
-          || document.getElementById('cfgWeatherJwtPub').value.trim();
-        if (existed && !confirm('已有密钥。重新生成会覆盖音箱上的旧私钥，旧公钥在和风那边也会失效。先下载一份再继续？')) return;
-        const box = document.getElementById('weatherTestResult');
-        box.classList.remove('hidden');
-        box.className = 'px-3.5 py-2 rounded-2xl bg-surface-container-lowest border border-primary/30 text-primary font-label-xs text-label-xs font-mono leading-relaxed';
-        box.textContent = '正在生成密钥对…';
-        R1.request('POST', '/api/v1/weather/keygen', { save: false }, 20000)
-          .then(function(res) {
-            if (!res.ok) { box.textContent = '❌ ' + res.error; return null; }
-            document.getElementById('cfgWeatherJwtKey').value = res.privateKey;
-            document.getElementById('cfgWeatherJwtPub').value = res.publicKeyPem;
-            downloadText('r1-qweather-keys.txt', ['privateKey', res.privateKey, '', 'publicKey', res.publicKeyPem, ''].join(String.fromCharCode(10)));
-            box.textContent = '已生成。密钥文件已下载，请把公钥贴到和风。';
-            // 密钥是这里生成的，不是用户手改的，直接落盘，不走底部确认条
-            savedSnapshot = null;
-            return R1.updateConfig({ weatherJwtKey: res.privateKey, weatherJwtPub: res.publicKeyPem, weatherAuth: 'jwt' });
-          })
-          .then(function(saved) {
-            if (!saved) return;
-            R1.toast('密钥已保存，文件已下载', 'ok');
-          })
-          .catch(function(e) { box.textContent = '❌ ' + e.message; });
+        var existed = document.getElementById('cfgWeatherJwtKey').value.trim() || document.getElementById('cfgWeatherJwtPub').value.trim();
+        var runGen = function() {
+          showResult('weatherTestResult', '正在生成 Ed25519 密钥对…', 'info');
+          R1.request('POST', '/api/v1/weather/keygen', { save: false }, 20000)
+            .then(function(res) {
+              if (!res.ok) { showResult('weatherTestResult', res.error, 'err'); return null; }
+              document.getElementById('cfgWeatherJwtKey').value = res.privateKey;
+              document.getElementById('cfgWeatherJwtPub').value = res.publicKeyPem;
+              downloadText('r1-qweather-keys.txt', ['privateKey', res.privateKey, '', 'publicKey', res.publicKeyPem, ''].join(String.fromCharCode(10)));
+              showResult('weatherTestResult', '密钥已生成并下载，请将公钥粘贴至和风控制台。', 'ok');
+              savedSnapshot = null;
+              return R1.updateConfig({ weatherJwtKey: res.privateKey, weatherJwtPub: res.publicKeyPem, weatherAuth: 'jwt' });
+            })
+            .then(function(saved) { if (saved) R1.toast('密钥已保存并下载', 'ok'); })
+            .catch(function(e) { showResult('weatherTestResult', e.message, 'err'); });
+        };
+        if (existed) {
+          R1.confirmModal({
+            title: '重新生成和风密钥对',
+            desc: '已有密钥。重新生成会覆盖音箱上的旧私钥，和风控制台原公钥也会失效。确认继续？',
+            confirmText: '确认重新生成',
+            danger: true
+          }).then(function(ok) { if (ok) runGen(); });
+        } else {
+          runGen();
+        }
       });
 
-      // 从私钥推导公钥（导入现成私钥时用）
       document.getElementById('btnJwtDownload').addEventListener('click', function() {
-        const priv = document.getElementById('cfgWeatherJwtKey').value.trim();
-        const pub = document.getElementById('cfgWeatherJwtPub').value.trim();
-        if (!priv && !pub) { R1.toast('还没有密钥', 'err'); return; }
+        var priv = document.getElementById('cfgWeatherJwtKey').value.trim();
+        var pub = document.getElementById('cfgWeatherJwtPub').value.trim();
+        if (!priv && !pub) { R1.toast('当前没有可下载的密钥', 'err'); return; }
         downloadText('r1-qweather-keys.txt', ['privateKey', priv, '', 'publicKey', pub, ''].join(String.fromCharCode(10)));
-        R1.toast('已下载', 'ok');
+        R1.toast('密钥文件已下载', 'ok');
       });
+
       document.getElementById('btnJwtPub').addEventListener('click', function() {
-        const box = document.getElementById('weatherTestResult');
-        box.classList.remove('hidden');
-        R1.request('POST', '/api/v1/weather/pubkey', {
-          weatherJwtKey: document.getElementById('cfgWeatherJwtKey').value.trim()
-        }, 20000)
+        R1.request('POST', '/api/v1/weather/pubkey', { weatherJwtKey: document.getElementById('cfgWeatherJwtKey').value.trim() }, 20000)
           .then(function(res) {
-            if (!res.ok) {
-              box.className = 'px-3.5 py-2 rounded-2xl bg-surface-container-lowest border border-error/40 text-error font-label-xs text-label-xs font-mono leading-relaxed';
-              box.textContent = '❌ ' + res.error;
-              return;
-            }
+            if (!res.ok) { showResult('weatherTestResult', res.error, 'err'); return; }
             document.getElementById('cfgWeatherJwtPub').value = res.publicKeyPem;
             savedSnapshot = null;
             R1.updateConfig({ weatherJwtPub: res.publicKeyPem });
-            box.className = 'px-3.5 py-2 rounded-2xl bg-surface-container-lowest border border-primary/30 text-primary font-label-xs text-label-xs font-mono leading-relaxed';
-            box.textContent = '✅ 公钥已推导出来，裸 base64：' + res.publicKeyBase64;
+            showResult('weatherTestResult', '公钥推导成功 · base64：' + res.publicKeyBase64, 'ok');
           })
-          .catch(function(e) { box.textContent = '❌ ' + e.message; });
+          .catch(function(e) { showResult('weatherTestResult', e.message, 'err'); });
       });
 
-      // 复制公钥：http 页面没有 clipboard API 时退回选中文本
       document.getElementById('btnJwtCopyPub').addEventListener('click', function() {
-        const el = document.getElementById('cfgWeatherJwtPub');
-        if (!el.value.trim()) { R1.toast('上面还没有公钥', 'err'); return; }
+        var el = document.getElementById('cfgWeatherJwtPub');
+        if (!el.value.trim()) { R1.toast('还没有公钥可复制', 'err'); return; }
         el.removeAttribute('readonly');
         el.select();
-        let ok = false;
+        var ok = false;
         try { ok = document.execCommand('copy'); } catch (e) { ok = false; }
         el.setAttribute('readonly', 'readonly');
         R1.toast(ok ? '公钥已复制' : '请手动选中复制', ok ? 'ok' : 'err');
       });
 
-      // JWT 预览：只签发，不发请求，用来确认三样凭据是否配套
       document.getElementById('btnJwtPreview').addEventListener('click', function() {
-        const box = document.getElementById('weatherTestResult');
-        box.classList.remove('hidden');
-        box.className = 'px-3.5 py-2 rounded-2xl bg-surface-container-lowest border border-primary/30 text-primary font-label-xs text-label-xs font-mono leading-relaxed';
-        box.textContent = '正在签名…';
+        showResult('weatherTestResult', '正在签名预览…', 'info');
         R1.request('POST', '/api/v1/weather/jwt', {
           weatherJwtIss: document.getElementById('cfgWeatherJwtIss').value.trim(),
           weatherJwtProjectId: document.getElementById('cfgWeatherJwtProjectId').value.trim(),
@@ -1310,23 +1236,20 @@
         }, 20000)
           .then(function(res) {
             if (res.ok) {
-              box.textContent = '✅ 签名成功 · header=' + res.header + ' · payload=' + res.payload
-                + ' · token 前 40 位 ' + res.token.substring(0, 40) + '…';
+              showResult('weatherTestResult', '签名成功 · header=' + res.header + ' · payload=' + res.payload + ' · token=' + res.token.substring(0, 40) + '…', 'ok');
               R1.toast('JWT 签发正常', 'ok');
             } else {
-              box.className = 'px-3.5 py-2 rounded-2xl bg-surface-container-lowest border border-error/40 text-error font-label-xs text-label-xs font-mono leading-relaxed';
-              box.textContent = '❌ ' + res.error;
+              showResult('weatherTestResult', res.error, 'err');
             }
           })
-          .catch(function(e) { box.className = 'px-3.5 py-2 rounded-2xl bg-surface-container-lowest border border-error/40 text-error font-label-xs text-label-xs font-mono leading-relaxed'; box.textContent = '❌ ' + e.message; });
+          .catch(function(e) { showResult('weatherTestResult', e.message, 'err'); });
       });
 
-      // 天气测试：每个源单独一个按钮，结果里写清「谁答的 / 谁失败了 / 失败原因」
       function testWeather(provider) {
-        const box = document.getElementById('weatherTestResult');
-        const badge = document.getElementById('weatherProviderBadge');
-        const city = document.getElementById('cfgWeatherCity').value.trim() || '北京';
-        const body = {
+        var badge = document.getElementById('weatherProviderBadge');
+        var city = document.getElementById('cfgWeatherCity').value.trim() || '北京';
+        showResult('weatherTestResult', '正在查询 ' + city + ' 天气…', 'info');
+        R1.request('POST', '/api/v1/weather/test', {
           city: city,
           provider: provider || 'auto',
           weatherHost: document.getElementById('cfgWeatherHost').value.trim(),
@@ -1335,294 +1258,281 @@
           weatherJwtProjectId: document.getElementById('cfgWeatherJwtProjectId').value.trim(),
           weatherJwtKeyId: document.getElementById('cfgWeatherJwtKeyId').value.trim(),
           weatherJwtKey: secretValue('cfgWeatherJwtKey')
-        };
-        box.classList.remove('hidden');
-        box.className = 'px-3.5 py-2 rounded-2xl bg-surface-container-lowest border border-primary/30 text-primary font-label-xs text-label-xs font-mono leading-relaxed';
-        box.textContent = '正在查询 ' + city + ' …';
-        // 测试用的是表单里的值，不写配置；要保留改动请点底部确认条
-        R1.request('POST', '/api/v1/weather/test', body, 30000)
+        }, 30000)
           .then(function(res) {
-            const name = res.provider === 'qweather' ? '和风天气'
-                       : res.provider === 'wttr' ? '通用源 wttr.in'
-                       : '没有源成功';
-            const lines = [];
-            lines.push('来源：' + name + (res.degraded ? '（降级）' : ''));
-            if (res.testedKey) lines.push('用的 Key：' + res.testedKey);
+            var name = res.provider === 'qweather' ? '和风天气' : (res.provider === 'wttr' ? '通用源 wttr.in' : '无可用源');
+            var lines = ['来源：' + name + (res.degraded ? '（降级）' : '')];
+            if (res.testedKey) lines.push('凭据：' + res.testedKey);
             if (res.detail) lines.push('过程：' + res.detail);
-            if (res.report) lines.push('内容：' + res.report);
-            box.textContent = lines.join(' ｜ ');
-            box.className = res.ok
-              ? 'px-3.5 py-2 rounded-2xl bg-surface-container-lowest border border-primary/30 text-primary font-label-xs text-label-xs font-mono leading-relaxed'
-              : 'px-3.5 py-2 rounded-2xl bg-surface-container-lowest border border-error/40 text-error font-label-xs text-label-xs font-mono leading-relaxed';
+            if (res.report) lines.push('播报：' + res.report);
+            showResult('weatherTestResult', lines.join(' ｜ '), res.ok ? 'ok' : 'err');
             if (badge) {
-              badge.textContent = res.provider === 'qweather' ? '和风'
-                                : res.provider === 'wttr' ? 'wttr'
-                                : res.ok ? '自动' : '失败';
+              badge.textContent = res.provider === 'qweather' ? '和风' : (res.provider === 'wttr' ? 'wttr' : (res.ok ? '自动' : '失败'));
+              badge.className = res.ok ? 'r1-badge r1-badge-success' : 'r1-badge r1-badge-danger';
             }
           })
-          .catch(function(e) {
-            box.className = 'px-3.5 py-2 rounded-2xl bg-surface-container-lowest border border-error/40 text-error font-label-xs text-label-xs font-mono leading-relaxed';
-            box.textContent = '❌ ' + e.message;
-          });
+          .catch(function(e) { showResult('weatherTestResult', e.message, 'err'); });
       }
       document.getElementById('btnTestWeatherQw').addEventListener('click', function() { testWeather('qweather'); });
       document.getElementById('btnTestWeatherWttr').addEventListener('click', function() { testWeather('wttr'); });
       document.getElementById('btnTestWeather').addEventListener('click', function() { testWeather(null); });
 
-      // 运维中枢与应用管理
-      function loadAppsList() {
-        const box = document.getElementById('installedAppsBox');
-        const badge = document.getElementById('appsCountBadge');
-        if (!box) return;
-        box.innerHTML = '<div class="text-secondary/60 text-center py-6 font-mono text-body-sm">正在读取音箱已安装应用列表...</div>';
-        R1.fetchApps().then(function(res) {
-          const apps = res.apps || [];
-          if (badge) badge.textContent = '共 ' + apps.length + ' 个应用';
-          if (!apps.length) {
-            box.innerHTML = '<div class="text-secondary/60 text-center py-6 font-mono text-body-sm">没有应用</div>';
-            return;
-          }
-          box.innerHTML = apps.map(function(a) {
-            const isSelf = a.packageName === 'com.r1.brain';
-            return `
-              <div class="flex items-center justify-between p-3 rounded-2xl bg-surface-container-lowest/80 border border-primary/15 hover:border-primary/35 transition-all">
-                <div class="flex items-center gap-3 min-w-0">
-                  <div class="w-9 h-9 rounded-xl bg-surface-container-high flex items-center justify-center text-primary font-mono text-label-sm font-bold shrink-0">
-                    ${(a.name || 'A').charAt(0).toUpperCase()}
-                  </div>
-                  <div class="flex flex-col min-w-0">
-                    <div class="flex items-center gap-2">
-                      <span class="text-on-surface font-semibold text-body-sm truncate">${R1.escapeHtml(a.name)}</span>
-                      <span class="px-2 py-0.5 rounded-full text-[10px] font-mono ${a.isSystem ? 'bg-white/5 text-secondary/70' : 'bg-primary/20 text-primary'}">${a.isSystem ? '系统' : '第三方'}</span>
-                      ${a.isRunning ? '<span class="px-2 py-0.5 rounded-full text-[10px] font-mono bg-emerald-500/20 text-emerald-400">运行中</span>' : ''}
-                      ${isSelf ? '<span class="px-2 py-0.5 rounded-full text-[10px] font-mono bg-amber-500/20 text-amber-300">本机</span>' : ''}
-                    </div>
-                    <div class="font-mono text-label-xs text-secondary/70 truncate">
-                      ${R1.escapeHtml(a.packageName)} · v${R1.escapeHtml(a.versionName)} · ${R1.escapeHtml(a.sizeMb)}
-                    </div>
-                  </div>
-                </div>
-                <div class="flex items-center gap-2 shrink-0">
-                  ${a.isRunning && !isSelf ? `<button onclick="doStopApp('${a.packageName}')" class="px-3 py-1 rounded-full bg-surface-container-high border border-primary/25 hover:border-primary/45 text-secondary hover:text-primary font-label-xs text-label-xs font-mono active:scale-95">强停</button>` : ''}
-                  ${!isSelf ? `<button onclick="doUninstallApp('${a.packageName}', '${R1.escapeHtml(a.name)}')" class="px-3 py-1 rounded-full bg-surface-container-lowest border border-error/40 hover:border-error/70 text-error font-label-xs text-label-xs font-mono active:scale-95">卸载</button>` : ''}
-                </div>
-              </div>
-            `;
-          }).join('');
-        }).catch(function(err) {
-          if (badge) badge.textContent = '读取失败';
-          box.innerHTML = '<div class="text-error text-center py-6 font-mono text-body-sm">读取应用列表失败：' + (err.message || err) + '</div>';
-        });
-      }
-
-      function handleApkFile(file) {
-        if (!file) return;
-        const progressBox = document.getElementById('apkUploadProgress');
-        const progressBar = document.getElementById('apkProgressBar');
-        const progressText = document.getElementById('apkProgressText');
-        if (progressBox) progressBox.style.display = 'flex';
-        if (progressBar) progressBar.style.width = '0%';
-        if (progressText) progressText.textContent = '准备流式上传 ' + file.name + ' ...';
-
-        R1.uploadApk(file, function(prog) {
-          if (progressBar) progressBar.style.width = prog.percent + '%';
-          if (progressText) progressText.textContent = '正在极低内存流式上传 ' + prog.percent + '% (' + (prog.loaded / 1024).toFixed(0) + 'KB / ' + (prog.total / 1024).toFixed(0) + 'KB)';
-        }).then(function(res) {
-          if (progressText) progressText.textContent = res.selfUpdate ? '已安装，正在重启' : '已安装';
-          R1.toast(res.selfUpdate ? '已安装，正在重启' : '已安装', 'ok');
-          setTimeout(function() {
-            if (progressBox) progressBox.style.display = 'none';
-            loadAppsList();
-          }, 2500);
-        }).catch(function(err) {
-          if (progressText) progressText.textContent = '安装失败：' + (err.message || err);
-          R1.toast('安装失败：' + (err.message || err), 'err');
-        });
-      }
-
-      const apkInput = document.getElementById('apkFileInput');
-      if (apkInput) {
-        apkInput.addEventListener('change', function(e) {
-          if (e.target.files && e.target.files[0]) {
-            handleApkFile(e.target.files[0]);
-            e.target.value = '';
-          }
-        });
-      }
-
-      const dropZone = document.getElementById('apkDropZone');
-      if (dropZone) {
-        dropZone.addEventListener('dragover', function(e) {
-          e.preventDefault();
-          dropZone.classList.add('border-primary');
-        });
-        dropZone.addEventListener('dragleave', function() {
-          dropZone.classList.remove('border-primary');
-        });
-        dropZone.addEventListener('drop', function(e) {
-          e.preventDefault();
-          dropZone.classList.remove('border-primary');
-          if (e.dataTransfer.files && e.dataTransfer.files[0]) {
-            handleApkFile(e.dataTransfer.files[0]);
-          }
-        });
-      }
-
-      window.loadAppsList = loadAppsList;
-      window.doStopApp = function(pkg) {
-        R1.stopApp(pkg).then(function() {
-          R1.toast('已强行停止 ' + pkg, 'ok');
-          setTimeout(loadAppsList, 800);
-        }).catch(function(e) { R1.toast(e.message, 'err'); });
-      };
-      window.doUninstallApp = function(pkg, name) {
-        if (!confirm('确认彻底卸载应用「' + name + '」(' + pkg + ') 吗？\n卸载后将自动回收存储与运行内存。')) return;
-        R1.toast('正在静默卸载 ' + name + ' ...');
-        R1.uninstallApp(pkg).then(function() {
-          R1.toast('已成功卸载 ' + name, 'ok');
-          setTimeout(loadAppsList, 1000);
-        }).catch(function(e) { R1.toast('卸载失败：' + e.message, 'err'); });
-      };
-      window.doSystemClean = function() {
-        R1.toast('正在执行系统深度清理...');
-        R1.cleanSystem().then(function(r) {
-          R1.toast('深度清理完成：已清理 ' + (r.deletedFiles || 0) + ' 个缓存包，释放 ' + (r.freedMb || '0MB'), 'ok');
-          R1.syncFromSpeaker(true);
-        }).catch(function(e) { R1.toast(e.message, 'err'); });
-      };
-      window.doSystemReboot = function() {
-        if (!confirm('警告：确认立即重启斐讯 R1 音箱硬件系统？\n重启过程约需 40 秒，音箱声学环与网络将重新初始化。')) return;
-        R1.rebootSystem().then(function() {
-          R1.toast('音箱系统正在重启，稍候请刷新页面', 'ok');
-        }).catch(function(e) { R1.toast(e.message, 'err'); });
-      };
-
-      if (R1.getState().online) {
-        loadAppsList();
-      }
-
-      document.getElementById('btnAddAlarm').addEventListener('click', () => {
-        const tm = document.getElementById('newAlarmTime').value || '08:00';
-        const lb = document.getElementById('newAlarmLabel').value.trim() || '定时唤醒提醒';
-        const act = document.getElementById('newAlarmAction').value || 'speak';
-        R1.addAlarm({ time: tm, label: lb, repeat: '每天', action: act });
-        document.getElementById('newAlarmLabel').value = '';
+      // 系统连接、导入导出与清缓存按钮
+      document.getElementById('btnSpeakerHost').addEventListener('click', function() { R1.promptSpeakerHost(); });
+      document.getElementById('btnAccessToken').addEventListener('click', function() { R1.promptToken(); });
+      document.getElementById('btnSyncLogs').addEventListener('click', function() { R1.fetchSpeakerLogs(); R1.toast('正在刷新日志'); });
+      document.getElementById('btnClearCache').addEventListener('click', function() {
+        R1.confirmModal({
+          title: '清除本机浏览器记录',
+          desc: '仅清除当前浏览器缓存的对话与自定义音频流，音箱端配置不受影响。',
+          confirmText: '确认清除',
+          danger: true
+        }).then(function(ok) { if (ok) R1.resetFactory(); });
       });
 
-      // 从音箱导出真实配置（含 Key），而不是浏览器缓存里的副本
-      document.getElementById('btnExportConfig').addEventListener('click', () => {
-        const st = R1.getState();
-        const base = (location.protocol === 'file:') ? ('http://' + (st.hostIp || '')) : '';
-        const headers = st.token ? { 'X-Token': st.token } : {};
-        R1.toast('正在从音箱读取配置…');
+      document.getElementById('btnExportConfig').addEventListener('click', function() {
+        var st = R1.getState();
+        var base = (location.protocol === 'file:') ? ('http://' + (st.hostIp || '')) : '';
+        var headers = st.token ? { 'X-Token': st.token } : {};
+        R1.toast('正在导出音箱配置…');
         fetch(base + '/api/v1/config/export', { headers: headers })
-          .then(function (r) { return r.json(); })
-          .then(function (j) {
+          .then(function(r) { return r.json(); })
+          .then(function(j) {
             if (!j || j.ok === false) throw new Error((j && j.error) || '导出失败');
-            const blob = new Blob([JSON.stringify(j, null, 2)], { type: 'application/json' });
-            const a = document.createElement('a');
+            var blob = new Blob([JSON.stringify(j, null, 2)], { type: 'application/json' });
+            var a = document.createElement('a');
             a.href = URL.createObjectURL(blob);
             a.download = 'r1-config-' + (new Date().toISOString().slice(0, 10)) + '.json';
             a.click();
-            R1.toast('已从音箱导出配置文件', 'ok');
+            R1.toast('已导出配置文件', 'ok');
           })
-          .catch(function (e) { R1.toast('导出失败：' + e.message, 'err'); });
+          .catch(function(e) { R1.toast('导出失败：' + e.message, 'err'); });
       });
 
-      const importFile = document.getElementById('importConfigFile');
-      document.getElementById('btnImportConfig').addEventListener('click', () => importFile.click());
-      importFile.addEventListener('change', () => {
-        const f = importFile.files && importFile.files[0];
+      var importFile = document.getElementById('importConfigFile');
+      document.getElementById('btnImportConfig').addEventListener('click', function() { importFile.click(); });
+      importFile.addEventListener('change', function() {
+        var f = importFile.files && importFile.files[0];
         if (!f) return;
-        const reader = new FileReader();
-        reader.onload = function () {
-          let data;
+        var reader = new FileReader();
+        reader.onload = function() {
+          var data;
           try { data = JSON.parse(reader.result); } catch (e) { R1.toast('文件不是合法 JSON', 'err'); return; }
-          if (!confirm('确认用该文件覆盖音箱当前配置？（访问令牌不会被覆盖）')) return;
-          const st = R1.getState();
-          const base = (location.protocol === 'file:') ? ('http://' + (st.hostIp || '')) : '';
-          const headers = { 'Content-Type': 'application/json' };
-          if (st.token) headers['X-Token'] = st.token;
-          fetch(base + '/api/v1/config/import', { method: 'POST', headers: headers, body: JSON.stringify(data) })
-            .then(function (r) { return r.json(); })
-            .then(function (j) {
-              if (!j || j.ok === false) throw new Error((j && j.error) || '导入失败');
-              R1.toast('配置已导入，正在刷新…', 'ok');
-              setTimeout(function () { R1.syncFromSpeaker(false); }, 500);
-            })
-            .catch(function (e) { R1.toast('导入失败：' + e.message, 'err'); });
+          R1.confirmModal({
+            title: '导入并覆盖音箱配置',
+            desc: '确认使用选中的 JSON 文件覆盖音箱当前配置？（访问令牌不会被覆盖）',
+            confirmText: '确认导入',
+            danger: true
+          }).then(function(ok) {
+            if (!ok) return;
+            R1.request('POST', '/api/v1/config/import', data, 15000)
+              .then(function() {
+                R1.toast('配置已导入，正在同步…', 'ok');
+                setTimeout(function() { R1.syncFromSpeaker(false); }, 500);
+              })
+              .catch(function(e) { R1.toast('导入失败：' + e.message, 'err'); });
+          });
         };
         reader.readAsText(f);
         importFile.value = '';
       });
 
-      let lastLogSig = '';
-      let logStick = true;
-      const logBox = document.getElementById('logTerminalBox');
-      if (logBox) {
-        logBox.addEventListener('scroll', function() {
-          logStick = (logBox.scrollHeight - logBox.scrollTop - logBox.clientHeight) < 40;
+      // 应用管理与 APK 安装
+      function loadAppsList() {
+        var box = document.getElementById('installedAppsBox');
+        var badge = document.getElementById('appsCountBadge');
+        if (!box) return;
+        box.innerHTML = '<div class="r1-subtle" style="text-align:center;padding:20px;">正在读取已安装应用...</div>';
+        R1.fetchApps().then(function(res) {
+          var apps = res.apps || [];
+          if (badge) badge.textContent = '共 ' + apps.length + ' 个应用';
+          if (!apps.length) {
+            box.innerHTML = '<div class="r1-empty">没有读取到应用</div>';
+            return;
+          }
+          box.innerHTML = apps.map(function(a) {
+            var isSelf = a.packageName === 'com.r1.brain';
+            var tags = '<span class="r1-badge ' + (a.isSystem ? '' : 'r1-badge-primary') + '">' + (a.isSystem ? '系统' : '第三方') + '</span>'
+              + (a.isRunning ? '<span class="r1-badge r1-badge-success">运行中</span>' : '')
+              + (isSelf ? '<span class="r1-badge r1-badge-warn">本机服务</span>' : '');
+            var actions = (a.isRunning && !isSelf ? '<button type="button" data-app-stop="' + R1.escapeHtml(a.packageName) + '" class="r1-btn r1-btn-outlined r1-btn-sm">强停</button>' : '')
+              + (!isSelf ? '<button type="button" data-app-uninstall="' + R1.escapeHtml(a.packageName) + '" data-app-name="' + R1.escapeHtml(a.name) + '" class="r1-btn r1-btn-danger r1-btn-sm">卸载</button>' : '');
+            return ''
+              + '<div class="r1-subcard r1-row-between" style="flex-wrap:wrap;gap:10px;">'
+              + '  <div class="r1-col r1-flex-1" style="gap:4px;">'
+              + '    <div class="r1-row-wrap">'
+              + '      <strong style="font-size:14px;">' + R1.escapeHtml(a.name) + '</strong>'
+              + tags
+              + '    </div>'
+              + '    <div class="r1-mono r1-subtle r1-truncate" style="font-size:12px;">' + R1.escapeHtml(a.packageName) + ' · v' + R1.escapeHtml(a.versionName) + ' · ' + R1.escapeHtml(a.sizeMb) + '</div>'
+              + '  </div>'
+              + '  <div class="r1-row" style="gap:8px;">' + actions + '</div>'
+              + '</div>';
+          }).join('');
+        }).catch(function(err) {
+          if (badge) badge.textContent = '读取失败';
+          box.innerHTML = '<div class="r1-result-box is-err">读取应用列表失败：' + R1.escapeHtml(err.message || err) + '</div>';
         });
       }
 
+      function handleApkFile(file) {
+        if (!file) return;
+        var progressBox = document.getElementById('apkUploadProgress');
+        var progressBar = document.getElementById('apkProgressBar');
+        var progressText = document.getElementById('apkProgressText');
+        progressBox.classList.remove('r1-hidden');
+        progressBar.style.width = '0%';
+        progressText.textContent = '准备上传 ' + file.name + ' ...';
+
+        R1.uploadApk(file, function(prog) {
+          progressBar.style.width = prog.percent + '%';
+          progressText.textContent = '流式上传 ' + prog.percent + '% (' + (prog.loaded / 1024).toFixed(0) + 'KB / ' + (prog.total / 1024).toFixed(0) + 'KB)';
+        }).then(function(res) {
+          progressText.textContent = res.selfUpdate ? '安装完成，服务正在重启...' : '安装完成';
+          R1.toast(res.selfUpdate ? '已安装，正在重启' : '应用已安装', 'ok');
+          setTimeout(function() { progressBox.classList.add('r1-hidden'); loadAppsList(); }, 2500);
+        }).catch(function(err) {
+          progressText.textContent = '安装失败：' + (err.message || err);
+          R1.toast('安装失败：' + (err.message || err), 'err');
+        });
+      }
+
+      var apkInput = document.getElementById('apkFileInput');
+      apkInput.addEventListener('change', function(e) {
+        if (e.target.files && e.target.files[0]) {
+          handleApkFile(e.target.files[0]);
+          e.target.value = '';
+        }
+      });
+      var dropZone = document.getElementById('apkDropZone');
+      dropZone.addEventListener('dragover', function(e) { e.preventDefault(); dropZone.classList.add('is-dragover'); });
+      dropZone.addEventListener('dragleave', function() { dropZone.classList.remove('is-dragover'); });
+      dropZone.addEventListener('drop', function(e) {
+        e.preventDefault();
+        dropZone.classList.remove('is-dragover');
+        if (e.dataTransfer.files && e.dataTransfer.files[0]) handleApkFile(e.dataTransfer.files[0]);
+      });
+
+      window.loadAppsList = loadAppsList;
+      document.getElementById('installedAppsBox').addEventListener('click', function(e) {
+        var stopBtn = e.target.closest ? e.target.closest('[data-app-stop]') : null;
+        if (stopBtn) { window.doStopApp(stopBtn.getAttribute('data-app-stop')); return; }
+        var unBtn = e.target.closest ? e.target.closest('[data-app-uninstall]') : null;
+        if (unBtn) { window.doUninstallApp(unBtn.getAttribute('data-app-uninstall'), unBtn.getAttribute('data-app-name') || ''); }
+      });
+      window.doStopApp = function(pkg) {
+        R1.stopApp(pkg).then(function() { R1.toast('已强行停止 ' + pkg, 'ok'); setTimeout(loadAppsList, 800); })
+          .catch(function(e) { R1.toast(e.message, 'err'); });
+      };
+      window.doUninstallApp = function(pkg, name) {
+        R1.confirmModal({
+          title: '卸载应用',
+          desc: '确认彻底卸载「' + name + '」(' + pkg + ') 吗？卸载后将回收存储与运行内存。',
+          confirmText: '确认卸载',
+          danger: true
+        }).then(function(ok) {
+          if (!ok) return;
+          R1.toast('正在静默卸载 ' + name + ' ...');
+          R1.uninstallApp(pkg).then(function() {
+            R1.toast('已卸载 ' + name, 'ok');
+            setTimeout(loadAppsList, 1000);
+          }).catch(function(e) { R1.toast('卸载失败：' + e.message, 'err'); });
+        });
+      };
+      window.doSystemClean = function() {
+        R1.toast('正在执行深度清理...');
+        R1.cleanSystem().then(function(r) {
+          R1.toast('清理完成：删除 ' + (r.deletedFiles || 0) + ' 个缓存，释放 ' + (r.freedMb || '0MB'), 'ok');
+          R1.syncFromSpeaker(true);
+        }).catch(function(e) { R1.toast(e.message, 'err'); });
+      };
+      window.doSystemReboot = function() {
+        R1.confirmModal({
+          title: '重启斐讯 R1 音箱',
+          desc: '确认立即重启音箱硬件系统？重启约需 40 秒，期间网络连接与播报将短暂中断。',
+          confirmText: '确认重启',
+          danger: true
+        }).then(function(ok) {
+          if (!ok) return;
+          R1.rebootSystem().then(function() { R1.toast('音箱正在重启，请稍候刷新页面', 'ok'); })
+            .catch(function(e) { R1.toast(e.message, 'err'); });
+        });
+      };
+
+      // 闹钟新增与渲染
+      document.getElementById('btnAddAlarm').addEventListener('click', function() {
+        var tm = document.getElementById('newAlarmTime').value || '08:00';
+        var lb = document.getElementById('newAlarmLabel').value.trim() || '定时唤醒提醒';
+        var act = document.getElementById('newAlarmAction').value || 'speak';
+        R1.addAlarm({ time: tm, label: lb, repeat: '每天', action: act });
+        document.getElementById('newAlarmLabel').value = '';
+      });
+
+      // 实时日志（修正 ERR 红 / WARN 黄 / INFO 绿 语义分级）
+      var lastLogSig = '';
+      var logStick = true;
+      var logBox = document.getElementById('logTerminalBox');
+      logBox.addEventListener('scroll', function() {
+        logStick = (logBox.scrollHeight - logBox.scrollTop - logBox.clientHeight) < 40;
+      });
       function renderLogs() {
-        const box = document.getElementById('logTerminalBox');
-        const list = R1.getLogs();
-        const sig = (list || []).map(function (l) { return (l.time || '') + '|' + (l.source || '') + '|' + (l.msg || '').length; }).join(';');
+        var list = R1.getLogs();
+        var sig = (list || []).map(function(l) { return (l.time || '') + '|' + (l.source || '') + '|' + (l.msg || '').length; }).join(';');
         if (sig === lastLogSig) return;
         lastLogSig = sig;
-        if (!list || list.length === 0) {
-          box.innerHTML = '<div class="text-secondary/60">没有日志</div>';
+        if (!list || !list.length) {
+          logBox.innerHTML = '<div class="r1-subtle">暂无运行日志</div>';
           return;
         }
-        box.innerHTML = list.map(l => `
-          <div class="flex items-start gap-2.5">
-            <span class="text-secondary/50 shrink-0 tabular-nums">${R1.escapeHtml(l.time)}</span>
-            <span class="px-2 py-0.5 rounded-full text-[10px] ${l.level === 'WARN' || l.level === 'ERR' ? 'text-primary bg-primary/15' : 'text-tertiary bg-tertiary/10'} shrink-0">${R1.escapeHtml(l.level)}</span>
-            <span class="text-primary/80 shrink-0">[${R1.escapeHtml(l.tag)}]</span>
-            <span class="text-on-surface">${R1.escapeHtml(l.msg)}</span>
-          </div>
-        `).join('');
-        if (logStick) box.scrollTop = box.scrollHeight;
+        logBox.innerHTML = list.map(function(l) {
+          var lvlCls = l.level === 'ERR' ? 'r1-badge-danger' : (l.level === 'WARN' ? 'r1-badge-warn' : 'r1-badge-success');
+          return ''
+            + '<div class="r1-row" style="align-items:flex-start;gap:8px;">'
+            + '  <span class="r1-subtle" style="flex-shrink:0;">' + R1.escapeHtml(l.time) + '</span>'
+            + '  <span class="r1-badge ' + lvlCls + '" style="padding:1px 7px;font-size:11px;flex-shrink:0;">' + R1.escapeHtml(l.level) + '</span>'
+            + '  <span class="r1-primary-text" style="flex-shrink:0;">[' + R1.escapeHtml(l.tag) + ']</span>'
+            + '  <span style="word-break:break-word;">' + R1.escapeHtml(l.msg) + '</span>'
+            + '</div>';
+        }).join('');
+        if (logStick) logBox.scrollTop = logBox.scrollHeight;
       }
       renderLogs();
       R1.onLog(renderLogs);
-      setInterval(function () {
-        if (document.visibilityState !== 'hidden') R1.fetchSpeakerLogs();
-      }, 15000);
 
+      var logsFetched = false;
+      setInterval(function() { if (document.visibilityState !== 'hidden') R1.fetchSpeakerLogs(); }, 15000);
+
+      var lastAlarmSig = '__init__';
       R1.onStateChange(function(s) {
-        const sb = document.getElementById('sleepTimerBadge');
-        sb.textContent = s.sleepRemainSec > 0 ? ('睡眠倒计时: ' + R1.formatTime(s.sleepRemainSec)) : '睡眠定时: 未开启';
+        if (s.online && !logsFetched) { logsFetched = true; R1.fetchSpeakerLogs(); }
+        document.getElementById('sleepTimerBadge').textContent = s.sleepRemainSec > 0 ? ('睡眠倒计时: ' + R1.formatTime(s.sleepRemainSec)) : '睡眠定时: 未开启';
+        document.getElementById('alarmNowClock').textContent = '北京时间 ' + R1.nowTimeStr();
 
-        const nowClock = document.getElementById('alarmNowClock');
-        if (nowClock) nowClock.textContent = '北京时间 ' + R1.nowTimeStr();
-
-        const badge = document.getElementById('llmKeyStatusBadge');
-        if (badge) {
-          badge.textContent = s.config.hasKey ? ('已启用 · ' + (s.config.llmModel || 'LLM')) : '待配置密钥';
-        }
-
-        const alarmBox = document.getElementById('alarmListBox');
+        var alarmSig = JSON.stringify(s.alarms || []);
+        if (alarmSig === lastAlarmSig) return;
+        lastAlarmSig = alarmSig;
+        var alarmBox = document.getElementById('alarmListBox');
         if (!s.alarms || s.alarms.length === 0) {
-          alarmBox.innerHTML = '<div class="h-full p-4 rounded-2xl bg-surface-container-lowest/60 border border-white/5 flex items-center justify-center text-center font-body-sm text-body-sm text-secondary/70">没有闹钟</div>';
+          alarmBox.innerHTML = '<div class="r1-empty" style="min-height:110px;"><span>还没有设置闹钟</span></div>';
           return;
         }
-        alarmBox.innerHTML = s.alarms.map(a => `
-          <div class="flex items-center justify-between p-3 rounded-2xl bg-surface-container-lowest/85 border ${a.enabled ? 'border-primary/35' : 'border-white/5'}">
-            <div class="flex items-center gap-3 min-w-0">
-              <span class="font-headline-sm text-headline-sm font-mono tabular-nums ${a.enabled ? 'text-primary font-bold' : 'text-secondary/50'}">${R1.escapeHtml(a.time)}</span>
-              <div class="flex flex-col min-w-0">
-                <span class="font-body-sm text-body-sm text-on-surface truncate">${R1.escapeHtml(a.label)}</span>
-                <span class="font-label-xs text-label-xs text-secondary/60 font-mono">${R1.escapeHtml(a.repeat)} · 北京时间</span>
-              </div>
-            </div>
-            <div class="flex items-center gap-2 shrink-0">
-              <button onclick="R1.toggleAlarm(${a.id})" class="px-2.5 py-1 rounded-full font-label-xs text-label-xs font-mono ${a.enabled ? 'bg-primary/20 text-primary border border-primary/40' : 'bg-surface-container text-secondary border border-white/10'}">${a.enabled ? '已启用' : '已停用'}</button>
-              <button onclick="R1.deleteAlarm(${a.id})" class="w-7 h-7 rounded-full bg-surface-container-high text-secondary hover:text-error flex items-center justify-center">×</button>
-            </div>
-          </div>
-        `).join('');
+        alarmBox.innerHTML = s.alarms.map(function(a) {
+          var actTag = a.action === 'weather' ? '<span class="r1-badge r1-badge-primary">天气</span>' : '<span class="r1-badge">提醒</span>';
+          return ''
+            + '<div class="r1-subcard r1-row-between" style="flex-wrap:wrap;gap:12px;">'
+            + '  <div class="r1-row" style="gap:14px;min-width:0;">'
+            + '    <span class="r1-mono ' + (a.enabled ? 'r1-primary-text' : 'r1-subtle') + '" style="font-size:20px;font-weight:700;">' + R1.escapeHtml(a.time) + '</span>'
+            + '    <div class="r1-col" style="gap:2px;min-width:0;">'
+            + '      <div class="r1-row" style="gap:8px;"><span style="font-size:14px;font-weight:500;">' + R1.escapeHtml(a.label) + '</span>' + actTag + '</div>'
+            + '      <span class="r1-subtle r1-mono" style="font-size:12px;">' + R1.escapeHtml(a.repeat || '每天') + ' · 北京时间</span>'
+            + '    </div>'
+            + '  </div>'
+            + '  <div class="r1-row" style="gap:12px;">'
+            + '    <input type="checkbox" role="switch" class="r1-switch" ' + (a.enabled ? 'checked' : '') + ' onchange="R1.toggleAlarm(' + a.id + ')" aria-label="切换闹钟 ' + R1.escapeHtml(a.time) + '">'
+            + '    <button type="button" onclick="R1.deleteAlarm(' + a.id + ')" class="r1-btn r1-btn-danger r1-btn-sm">删除</button>'
+            + '  </div>'
+            + '</div>';
+        }).join('');
       });
     })();
   </script>

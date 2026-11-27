@@ -80,16 +80,16 @@ html[data-theme="clear"] body { background: #EBEEF3 !important; }
 html[data-theme="clear"] main,
 html[data-theme="clear"] #mobileBodyRoot main { background-color: transparent !important; }
 
-/* 凸起面板：左上白光 + 右下冷灰柔光 + 顶部边缘光 */
+/* 凸起面板：左上白光 + 右下冷灰柔光 + 顶部边缘光 + 1px 冷灰兜底描边防融边 */
 html[data-theme="clear"] [class*="bg-surface-container-lowest"][class*="rounded-2xl"],
 html[data-theme="clear"] [class*="bg-surface-container-lowest"][class*="rounded-[2"],
-html[data-theme="clear"] [class*="bg-surface-container-low"][class*="rounded-[2"] {
-  background: #FDFEFF !important;
-  border: 1px solid rgba(255, 255, 255, 0.95) !important;
+html[data-theme="clear"] [class*="bg-surface-container-low"][class*="rounded-[2"],
+html[data-theme="clear"] [class*="from-surface-container-high"][class*="to-surface-container-low"][class*="rounded-[2"] {
+  background: #F9FBFD !important;
+  border: 1px solid rgba(100, 116, 139, 0.22) !important;
   box-shadow:
-    -4px -4px 8px #FFFFFF,
-    0 8px 20px rgba(${SHADOW_RGB}, 0.10),
-    0 2px 5px rgba(${SHADOW_RGB}, 0.05),
+    -4px -4px 10px rgba(255, 255, 255, 0.92),
+    5px 7px 16px rgba(${SHADOW_RGB}, 0.11),
     inset 0 1px 0 #FFFFFF !important;
 }
 
@@ -213,7 +213,32 @@ html[data-theme="clear"] .log-terminal {
 
 /* 白底上看不见的白色细线换成冷灰 */
 html[data-theme="clear"] .border-white\\/5,
-html[data-theme="clear"] .border-white\\/10 { border-color: rgba(${SHADOW_RGB}, 0.08) !important; }
+html[data-theme="clear"] .border-white\\/10 { border-color: rgba(${SHADOW_RGB}, 0.12) !important; }
+
+/* 修复弹窗遮罩、浅色按钮边框与反向光源渐变 */
+html[data-theme="clear"] .cfg-review-mask {
+  background: rgba(15, 23, 42, 0.38) !important;
+  backdrop-filter: blur(6px) !important;
+}
+html[data-theme="clear"] .cfg-review-card {
+  background: #F8FAFD !important;
+  border-color: rgba(100, 116, 139, 0.28) !important;
+  box-shadow: 0 24px 60px rgba(15, 23, 42, 0.22), -4px -4px 12px rgba(255, 255, 255, 0.85) !important;
+}
+html[data-theme="clear"] .cfg-bar-ghost,
+html[data-theme="clear"] .cfg-review-x {
+  border-color: rgba(100, 116, 139, 0.32) !important;
+  color: #475569 !important;
+}
+html[data-theme="clear"] .cfg-review-foot {
+  border-top-color: rgba(100, 116, 139, 0.16) !important;
+}
+html[data-theme="clear"] .cfg-fab,
+html[data-theme="clear"] .r1-theme-btn {
+  background: linear-gradient(180deg, #FFFFFF 0%, #EFF4F9 100%) !important;
+  border-color: rgba(47, 93, 124, 0.35) !important;
+  box-shadow: -3px -3px 7px #FFFFFF, 3px 4px 10px rgba(${SHADOW_RGB}, 0.14), inset 0 1px 0 #FFFFFF !important;
+}
 `;
 
 /**

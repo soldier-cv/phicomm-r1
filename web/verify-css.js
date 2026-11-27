@@ -2,6 +2,7 @@ const fs = require('fs');
 const path = require('path');
 
 const css = fs.readFileSync(path.join(__dirname, 'assets/blackgold.css'), 'utf-8');
+const clearCss = fs.readFileSync(path.join(__dirname, 'assets/clear.css'), 'utf-8');
 
 const files = [
   'desktop/home.html', 'desktop/chat.html', 'desktop/music.html', 'desktop/settings.html',
@@ -9,7 +10,8 @@ const files = [
 ];
 
 const ignoreCustomClasses = new Set([
-  'dark', 'group', 'src-tab', 'dsp-item', 'set-tab', 'set-panel', 'm-src', 'spec-bar', 'm-spec'
+  'dark', 'group', 'src-tab', 'dsp-item', 'set-tab', 'set-panel', 'm-src', 'spec-bar', 'm-spec',
+  'is-active', 'is-online', 'is-ok', 'is-err', 'is-info', 'is-dragover', 'show', 'active'
 ]);
 
 const validIcons = new Set([
@@ -28,9 +30,12 @@ files.forEach(f => {
   const s = fs.readFileSync(path.join(__dirname, f), 'utf-8');
   const matches = [...s.matchAll(/class="([^"]+)"/g), ...s.matchAll(/className\s*=\s*[`'"]([^`'"]+)[`'"]/g)];
   matches.forEach(m => {
-    const cleaned = m[1].replace(/\$\{[^}]+\}/g, ' ');
+    const cleaned = m[1]
+      .replace(/\$\{[^}]+\}/g, ' ')
+      .replace(/'\s*\+[^+]+\+\s*'/g, ' ')
+      .replace(/"\s*\+[^+]+\+\s*"/g, ' ');
     cleaned.split(/\s+/).forEach(c => {
-      if (c && /^[a-zA-Z0-9_\-\/\[\]\.:%]+$/.test(c) && !ignoreCustomClasses.has(c)) {
+      if (c && /^[a-zA-Z0-9_\-\/\[\]\.:%]+$/.test(c) && c !== ':' && !ignoreCustomClasses.has(c)) {
         allClasses.add(c);
       }
     });
@@ -50,19 +55,30 @@ function escapeSelector(cls) {
 }
 
 const missing = [];
+const missingClear = [];
 allClasses.forEach(c => {
   const sel = escapeSelector(c);
   if (!css.includes(sel)) {
     missing.push(c);
   }
+  if (!clearCss.includes(sel)) {
+    missingClear.push(c);
+  }
 });
 
 console.log('Total checked classes:', allClasses.size);
-console.log('Missing classes count:', missing.length);
+console.log('Missing classes (blackgold):', missing.length);
 if (missing.length > 0) {
-  console.log('Missing classes:', missing);
+  console.log('Missing blackgold classes:', missing);
+  process.exitCode = 1;
+}
+console.log('Missing classes (clear):', missingClear.length);
+if (missingClear.length > 0) {
+  console.log('Missing clear classes:', missingClear);
+  process.exitCode = 1;
 }
 console.log('Invalid subset font icons count:', invalidIcons.length);
 if (invalidIcons.length > 0) {
   console.log('Invalid icons:', invalidIcons);
+  process.exitCode = 1;
 }

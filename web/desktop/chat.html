@@ -5,209 +5,162 @@
   <meta charset="utf-8">
   <meta content="width=device-width, initial-scale=1.0" name="viewport">
   <meta content="web_dashboard" name="shell-type">
+  <meta content="dark" name="color-scheme">
+  <meta content="#0c0e12" name="theme-color">
   <link rel="icon" type="image/x-icon" href="../assets/favicon.ico">
   <link rel="apple-touch-icon" href="../assets/apple-touch-icon.png">
-  <title>R1 · 对话</title>
+  <title>对话 · 斐讯 R1 控制台</title>
   <link rel="stylesheet" href="../assets/fonts.css">
   <link rel="stylesheet" id="r1ThemeCss" href="../assets/blackgold.css">
   <script src="../assets/r1-theme.js"></script>
 </head>
-<body class="bg-surface-container-lowest text-on-surface font-body-md antialiased min-h-screen selection:bg-primary-container selection:text-on-primary-container" style="background: radial-gradient(circle at 50% 0%, rgba(253, 211, 133, 0.08) 0%, transparent 60%), radial-gradient(circle at 20% 40%, rgba(253, 211, 133, 0.05) 0%, transparent 50%), radial-gradient(circle at 80% 60%, rgba(253, 211, 133, 0.04) 0%, transparent 40%), rgb(12, 14, 17);">
+<body class="r1-desktop-body">
+  <a href="#mainContent" class="r1-skip-link">跳至主内容</a>
 
-  <!-- ================= 左侧固定机架式导航栏 (常驻可见，不含冗余播控卡) ================= -->
-  <aside class="fixed left-0 top-0 h-full w-64 bg-surface-container-low z-50 flex flex-col justify-between border-r border-outline-variant/30 shadow-[0_0_24px_rgba(0,0,0,0.6)]" style="position:fixed;left:0;top:0;bottom:0;width:16rem;z-index:50;display:flex;flex-direction:column;justify-content:space-between;">
-    <div class="flex flex-col">
-      <!-- 品牌头栏 -->
-      <div class="h-16 px-space-md flex items-center justify-between border-b border-outline-variant/20 bg-surface-container-lowest/80 backdrop-blur-sm">
-        <a href="home.html" class="flex items-center gap-space-sm no-underline">
-          <div class="w-9 h-9 rounded-2xl bg-surface-container-highest flex items-center justify-center border border-primary/35 shadow-inner">
-            <span class="material-symbols-outlined text-primary text-[20px]">&#xE32D;</span>
+  <!-- ================= 左侧自适应导航栏 (Drawer <-> Rail) ================= -->
+  <aside class="r1-aside" aria-label="侧栏导航">
+    <div class="r1-aside-top">
+      <div class="r1-brand-bar">
+        <a href="home.html" class="r1-brand-link" title="斐讯 R1 控制台首页">
+          <div class="r1-brand-mark" aria-hidden="true">
+            <span class="material-symbols-outlined">&#xE32D;</span>
           </div>
-          <div>
-            <span class="font-headline-sm text-headline-sm font-bold tracking-tight text-on-surface block leading-tight">斐讯 R1</span>
-            <span class="font-label-xs text-label-xs uppercase tracking-widest text-outline block">小讯</span>
+          <div class="r1-brand-text">
+            <span class="r1-brand-name">斐讯 R1</span>
+            <span class="r1-brand-sub">小讯智脑</span>
           </div>
         </a>
-        <div class="flex items-center gap-1.5 px-2.5 py-0.5 rounded-full bg-surface-container-high border border-primary/25 cursor-pointer shadow-inner" onclick="R1.promptSpeakerHost()" title="点击设置音箱服务地址 (:8686)">
-          <span class="w-1.5 h-1.5 rounded-full bg-outline" id="asideOnlineDot"></span>
-          <span class="font-label-xs text-label-xs text-secondary uppercase" id="asideOnlineText">离线</span>
-        </div>
+        <button type="button" onclick="R1Theme.toggleRail()" class="r1-btn r1-btn-ghost r1-btn-icon-sm r1-rail-toggle-aside" title="收起侧栏" aria-label="收起侧栏">
+          <svg viewBox="0 0 24 24" width="18" height="18" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="3" y="4" width="18" height="16" rx="3"/><path d="M9 4v16"/></svg>
+        </button>
       </div>
 
-      <!-- 导航菜单列表 -->
-      <div class="p-space-md">
-        <div class="px-space-xs py-space-xs mb-space-sm flex items-center justify-between">
-          <span class="font-label-xs text-label-xs uppercase tracking-widest text-outline">功能导航</span>
-          <span class="font-label-xs text-label-xs font-mono text-primary/70">R1BRAIN</span>
-        </div>
-        <nav class="flex flex-col gap-1.5">
+      <div class="r1-nav-wrap">
+        <div class="r1-nav-section-label">控制台</div>
+        <nav class="r1-nav-list" aria-label="主导航">
 
-        <a class="flex items-center justify-between px-4 py-3 rounded-2xl text-secondary hover:text-on-surface hover:bg-surface-container-high/60 transition-all group border border-transparent hover:border-outline-variant/30 no-underline" href="home.html">
-          <div class="flex items-center gap-3">
-            <span class="material-symbols-outlined text-[20px] text-secondary group-hover:text-primary transition-colors">&#xE429;</span>
-            <span class="font-headline-sm text-headline-sm">首页</span>
-          </div>
-          <span class="font-label-xs text-label-xs text-outline font-mono">01</span>
-        </a>
+          <a href="home.html" class="r1-nav-item" title="首页">
+            <span class="material-symbols-outlined" aria-hidden="true">&#xE429;</span>
+            <span class="r1-nav-label">首页</span>
+          </a>
 
-        <a aria-current="page" class="flex items-center justify-between px-4 py-3 rounded-2xl transition-all group bg-gradient-to-r from-primary/20 via-primary/10 to-transparent border border-primary/40 text-primary font-medium shadow-[0_0_16px_rgba(253,211,133,0.15)] no-underline" href="chat.html">
-          <div class="flex items-center gap-3">
-            <span class="material-symbols-outlined text-[20px] text-primary">&#xE0CA;</span>
-            <span class="font-headline-sm text-headline-sm font-semibold tracking-wide">对话</span>
-          </div>
-          <span class="font-label-xs text-label-xs text-primary font-mono">02</span>
-        </a>
+          <a href="chat.html" aria-current="page" class="r1-nav-item is-active" title="对话">
+            <span class="material-symbols-outlined" aria-hidden="true">&#xE0CA;</span>
+            <span class="r1-nav-label">对话</span>
+          </a>
 
-        <a class="flex items-center justify-between px-4 py-3 rounded-2xl text-secondary hover:text-on-surface hover:bg-surface-container-high/60 transition-all group border border-transparent hover:border-outline-variant/30 no-underline" href="music.html">
-          <div class="flex items-center gap-3">
-            <span class="material-symbols-outlined text-[20px] text-secondary group-hover:text-primary transition-colors">&#xE019;</span>
-            <span class="font-headline-sm text-headline-sm">音乐</span>
-          </div>
-          <span class="font-label-xs text-label-xs text-outline font-mono">03</span>
-        </a>
+          <a href="music.html" class="r1-nav-item" title="音乐">
+            <span class="material-symbols-outlined" aria-hidden="true">&#xE019;</span>
+            <span class="r1-nav-label">音乐</span>
+          </a>
 
-        <a class="flex items-center justify-between px-4 py-3 rounded-2xl text-secondary hover:text-on-surface hover:bg-surface-container-high/60 transition-all group border border-transparent hover:border-outline-variant/30 no-underline" href="settings.html">
-          <div class="flex items-center gap-3">
-            <span class="material-symbols-outlined text-[20px] text-secondary group-hover:text-primary transition-colors">&#xE8C0;</span>
-            <span class="font-headline-sm text-headline-sm">设置</span>
-          </div>
-          <span class="font-label-xs text-label-xs text-outline font-mono">04</span>
-        </a>
+          <a href="settings.html" class="r1-nav-item" title="设置">
+            <span class="material-symbols-outlined" aria-hidden="true">&#xE8C0;</span>
+            <span class="r1-nav-label">设置</span>
+          </a>
         </nav>
       </div>
     </div>
 
-    <!-- 侧栏底部设备与北京标准时间摘要 (圆角卡片 rounded-2xl) -->
-    <div class="p-space-md border-t border-outline-variant/20 bg-surface-container-lowest/60">
-      <div class="p-3.5 rounded-2xl bg-surface-container-high/90 border border-primary/20 shadow-inner flex flex-col gap-2">
-        <div class="flex items-center justify-between">
-          <span class="font-label-xs text-label-xs text-outline">北京时间</span>
-          <span class="font-label-xs text-label-xs text-primary font-mono tabular-nums" id="asideCnTime">--:--:--</span>
+    <div class="r1-aside-foot">
+      <div class="r1-device-card">
+        <div class="r1-device-row">
+          <span class="r1-subtle">连接状态</span>
+          <span class="r1-row" style="gap:6px;">
+            <span class="r1-dot" id="asideOnlineDot"></span>
+            <span id="asideOnlineText" style="font-weight:600;">离线</span>
+          </span>
         </div>
-        <div class="flex items-center justify-between">
-          <span class="font-label-xs text-label-xs text-outline">硬件平台</span>
-          <span class="font-label-xs text-label-xs text-tertiary font-mono" id="asideSoc">--</span>
+        <div class="r1-device-row">
+          <span class="r1-subtle">硬件</span>
+          <span class="r1-mono r1-muted r1-truncate" id="asideSoc" style="max-width:130px;">--</span>
         </div>
-        <div class="flex items-center justify-between">
-          <span class="font-label-xs text-label-xs text-outline">服务版本</span>
-          <span class="font-label-xs text-label-xs text-on-surface-variant font-mono" id="asideVer">--</span>
+        <div class="r1-device-row">
+          <span class="r1-subtle">版本</span>
+          <span class="r1-mono r1-muted r1-truncate" id="asideVer" style="max-width:130px;">--</span>
         </div>
       </div>
     </div>
   </aside>
 
-  <!-- ================= 右侧主工作区 (左留白 pl-64) ================= -->
-  <div class="pl-64" style="padding-left:16rem;">
-    <!-- 顶部固定全局状态栏 (全部采用圆润胶囊 rounded-full，无直角方框) -->
-    <header class="fixed top-0 left-64 right-0 h-16 bg-surface-container-lowest/90 backdrop-blur-md z-40 border-b border-outline-variant/30 flex items-center justify-between px-space-lg" style="left:16rem;right:0;top:0;">
-      <div class="flex items-center gap-space-md">
-        <div class="flex items-center gap-2 px-3.5 py-1.5 rounded-full bg-surface-container-high/90 border border-primary/25 shadow-inner cursor-pointer hover:border-primary/50 transition-all" onclick="R1.promptSpeakerHost()" title="点击配置音箱局域网地址 (:8686)">
-          <span class="material-symbols-outlined text-primary text-[16px]">&#xE88E;</span>
-          <span class="font-label-sm text-label-sm text-on-surface-variant font-mono tracking-tight" id="hdrStatusText">未连接音箱 · 点击设置地址</span>
-        </div>
-        <div class="hidden xl:flex items-center gap-1.5 px-3 py-1.5 rounded-full bg-surface-container-low/90 border border-primary/20 shadow-inner">
-          <span class="material-symbols-outlined text-[14px] text-primary">&#xE425;</span>
-          <span class="font-label-xs text-label-xs text-secondary font-mono tabular-nums" id="hdrHwText">北京时间 --:--:--</span>
-        </div>
+  <!-- ================= 右侧主工作区 ================= -->
+  <div class="r1-shell">
+    <header class="r1-topbar">
+      <div class="r1-topbar-left">
+        <button type="button" onclick="R1Theme.toggleRail()" class="r1-btn r1-btn-ghost r1-btn-icon-sm" title="展开/收起侧栏" aria-label="展开或收起侧栏">
+          <svg viewBox="0 0 24 24" width="18" height="18" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><line x1="4" y1="7" x2="20" y2="7"/><line x1="4" y1="12" x2="20" y2="12"/><line x1="4" y1="17" x2="20" y2="17"/></svg>
+        </button>
+        <h1 class="r1-page-title" id="mainContent" tabindex="-1">对话</h1>
       </div>
 
-      <div class="flex items-center gap-space-md">
-        <!-- 主音量状态与快捷静音胶囊 (纯正黑金浮雕按钮) -->
-        <button onclick="R1.toggleMute()" class="flex items-center gap-1.5 px-3.5 py-1.5 rounded-full bg-gradient-to-b from-surface-container-high to-surface-container border border-primary/35 hover:border-primary/60 text-primary shadow-[0_2px_6px_rgba(0,0,0,0.5),inset_0_1px_1px_rgba(255,255,255,0.1)] transition-all active:scale-95" title="点击静音或恢复主音量">
-          <span class="material-symbols-outlined text-[15px] text-primary">&#xE049;</span>
-          <span class="font-label-xs text-label-xs font-mono" id="hdrVolText">音量 40%</span>
+      <div class="r1-topbar-right">
+        <!-- 音箱连接状态与地址配置入口 -->
+        <button type="button" onclick="R1.promptSpeakerHost()" class="r1-btn r1-btn-outlined r1-btn-sm" title="点击配置音箱局域网地址或访问令牌">
+          <span class="r1-dot" id="hdrHostDot"></span>
+          <span class="r1-mono" id="hdrHostPill">未连接</span>
         </button>
 
-        <!-- 服务端点状态胶囊 -->
-        <div onclick="R1.promptSpeakerHost()" class="hidden sm:flex items-center gap-2 px-3.5 py-1.5 rounded-full bg-surface-container-high/80 border border-primary/25 shadow-inner backdrop-blur-sm cursor-pointer hover:border-primary/50 transition-all" title="点击配置音箱连接地址">
-          <span class="w-1.5 h-1.5 rounded-full bg-outline" id="hdrHostDot"></span>
-          <span class="font-label-xs text-label-xs text-secondary/80 font-mono tracking-wider" id="hdrHostPill">:8686</span>
-        </div>
+        <!-- 主音量状态与一键静音 -->
+        <button type="button" onclick="R1.toggleMute()" class="r1-btn r1-btn-tonal r1-btn-sm" title="点击静音或恢复主音量" aria-label="静音或恢复主音量">
+          <span class="material-symbols-outlined" aria-hidden="true">&#xE049;</span>
+          <span class="r1-mono" id="hdrVolText">40%</span>
+        </button>
 
-        <!-- 系统节点与设置入口胶囊 (纯正黑金浮雕样式) -->
-        <a href="settings.html" class="group relative flex items-center gap-2 px-2.5 py-1 pr-3.5 rounded-full bg-gradient-to-b from-surface-container-high to-surface-container border border-primary/45 hover:border-primary/60 shadow-[0_2px_8px_rgba(0,0,0,0.6),inset_0_1px_1px_rgba(255,255,255,0.15)] hover:shadow-[0_0_12px_rgba(253,211,133,0.25)] transition-all active:scale-95 no-underline" title="前往智脑与系统维护设置">
-          <div class="w-7 h-7 rounded-full bg-surface-container-lowest border border-primary/50 text-primary flex items-center justify-center shadow-[0_0_8px_rgba(253,211,133,0.25)]">
-            <span class="material-symbols-outlined text-[16px] text-primary">&#xE7FD;</span>
-          </div>
-          <div class="flex flex-col text-left">
-            <span class="font-label-xs text-label-xs text-primary font-medium leading-none">R1 节点</span>
-            <span class="font-label-xs text-[9px] text-secondary/70 leading-none mt-0.5" id="hdrNodeSub">系统设置</span>
-          </div>
-        </a>
-        <!-- 右上角外观主题切换：黑金 / 清透，同一份 DOM 只换样式表 -->
+        <!-- 外观主题切换：黑金暗色 / 清透新拟态 -->
         <button type="button" id="r1ThemeBtn" class="r1-theme-btn" onclick="R1Theme.toggle()" title="切换外观主题" aria-label="切换外观主题">
-          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" aria-hidden="true"><circle cx="12" cy="12" r="8"/><path d="M12 4a8 8 0 0 1 0 16z" fill="currentColor" stroke="none"/></svg>
+          <svg viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="currentColor" stroke-width="1.9" aria-hidden="true"><circle cx="12" cy="12" r="4"/></svg>
         </button>
       </div>
     </header>
 
-    <!-- 页面核心内容挂载区 -->
-    <main class="relative pt-16 bg-surface-container-lowest min-h-screen">
-      <div class="w-full p-space-lg">
-        <div class="flex flex-col w-full gap-space-lg">
-
-          <!-- 顶部状态与操作栏 (不含任何语音拾音或唤醒按钮) -->
-          <section class="w-full bg-gradient-to-b from-surface-container-high/90 to-surface-container-low/95 rounded-[26px] p-5 shadow-xl border border-primary/25 relative overflow-hidden backdrop-blur-md flex flex-col gap-4">
-            <div class="absolute inset-x-0 top-0 h-[1px] bg-gradient-to-r from-transparent via-primary/50 to-transparent pointer-events-none"></div>
-            <div class="flex flex-wrap items-center justify-between gap-4">
-              <div class="flex items-center gap-3.5">
-                <div class="w-11 h-11 rounded-2xl bg-surface-container-lowest border border-primary/40 flex items-center justify-center text-primary shadow-[0_0_16px_rgba(253,211,133,0.2)]">
-                  <span class="material-symbols-outlined text-[24px]">&#xE0CA;</span>
-                </div>
-                <div>
-                  <div class="flex items-center gap-2.5">
-                    <h1 class="font-headline-md text-headline-md text-on-surface font-semibold tracking-tight">对话</h1>
-                    <span class="px-2.5 py-0.5 rounded-full bg-primary/15 text-primary border border-primary/30 font-label-xs text-label-xs font-mono" id="chatModelBadge">小讯</span>
-                  </div>
-                </div>
-              </div>
-
-              <div class="flex items-center gap-2.5">
-                <button id="btnToggleAutoSpeak" class="flex items-center gap-1.5 px-3.5 py-2 rounded-full bg-gradient-to-b from-surface-container-high to-surface-container border border-primary/35 hover:border-primary/60 text-primary font-label-xs text-label-xs font-mono shadow-[0_2px_6px_rgba(0,0,0,0.5)] active:scale-95 transition-all">
-                  <span class="material-symbols-outlined text-[16px]">&#xE049;</span>
-                  <span id="autoSpeakText">自动播报: 开</span>
-                </button>
-                <button onclick="R1.clearChatHistory()" class="flex items-center gap-1.5 px-3.5 py-2 rounded-full bg-gradient-to-b from-surface-container-high to-surface-container border border-outline-variant/40 hover:border-error/50 text-secondary hover:text-error font-label-xs text-label-xs font-mono shadow-[0_2px_6px_rgba(0,0,0,0.5)] active:scale-95 transition-all">
-                  <span>清空</span>
-                </button>
-              </div>
+    <main class="r1-main">
+      
+      <div class="r1-chat-shell">
+        <!-- 顶部工具条 + 快捷指令栏 -->
+        <section class="r1-card r1-card-compact" style="flex-shrink:0;">
+          <div class="r1-row-between" style="flex-wrap:wrap;">
+            <div class="r1-row" style="gap:10px;">
+              <span class="r1-badge r1-badge-primary r1-mono" id="chatModelBadge">小讯</span>
+              <span class="r1-subtle" style="font-size:12px;">发送指令后由音箱自动执行与播报</span>
             </div>
-
-            <!-- 快捷指令胶囊栏 (Prompt Chips) -->
-            <div class="flex items-center gap-2 overflow-x-auto pt-2 border-t border-white/5 pb-1">
-              <span class="font-label-xs text-label-xs font-mono text-outline uppercase shrink-0">快捷</span>
-              <button onclick="R1.sendCommand('把主音量调到 50')" class="px-3 py-1.5 rounded-full bg-surface-container-lowest/90 border border-primary/25 hover:border-primary/60 text-on-surface hover:text-primary font-label-xs text-label-xs font-mono shrink-0 active:scale-95 transition-all">音量调到 50%</button>
-              <button onclick="R1.sendCommand('调高音量')" class="px-3 py-1.5 rounded-full bg-surface-container-lowest/90 border border-primary/25 hover:border-primary/60 text-on-surface hover:text-primary font-label-xs text-label-xs font-mono shrink-0 active:scale-95 transition-all">调高音量</button>
-              <button onclick="R1.sendCommand('调低音量')" class="px-3 py-1.5 rounded-full bg-surface-container-lowest/90 border border-primary/25 hover:border-primary/60 text-on-surface hover:text-primary font-label-xs text-label-xs font-mono shrink-0 active:scale-95 transition-all">调低音量</button>
-              <button onclick="R1.sendCommand('现在几点了')" class="px-3 py-1.5 rounded-full bg-surface-container-lowest/90 border border-primary/25 hover:border-primary/60 text-on-surface hover:text-primary font-label-xs text-label-xs font-mono shrink-0 active:scale-95 transition-all">现在几点了</button>
-              <button onclick="R1.sendCommand('暂停播放')" class="px-3 py-1.5 rounded-full bg-surface-container-lowest/90 border border-primary/25 hover:border-primary/60 text-on-surface hover:text-primary font-label-xs text-label-xs font-mono shrink-0 active:scale-95 transition-all">暂停播放</button>
-              <button onclick="R1.sendCommand('下一首')" class="px-3 py-1.5 rounded-full bg-surface-container-lowest/90 border border-primary/25 hover:border-primary/60 text-on-surface hover:text-primary font-label-xs text-label-xs font-mono shrink-0 active:scale-95 transition-all">下一首</button>
-              <button onclick="R1.sendCommand('30分钟后定时停止播放')" class="px-3 py-1.5 rounded-full bg-surface-container-lowest/90 border border-primary/25 hover:border-primary/60 text-on-surface hover:text-primary font-label-xs text-label-xs font-mono shrink-0 active:scale-95 transition-all">30 分钟后停止</button>
-              <button onclick="R1.sendCommand('系统体检')" class="px-3 py-1.5 rounded-full bg-surface-container-lowest/90 border border-primary/25 hover:border-primary/60 text-on-surface hover:text-primary font-label-xs text-label-xs font-mono shrink-0 active:scale-95 transition-all">系统体检</button>
+            <div class="r1-row" style="gap:12px;">
+              <label class="r1-row" style="gap:8px;cursor:pointer;font-size:13px;" for="chatAutoSpeakSwitch">
+                <span class="r1-muted">自动播报</span>
+                <input id="chatAutoSpeakSwitch" type="checkbox" role="switch" class="r1-switch" checked>
+              </label>
+              <button type="button" id="btnClearChat" class="r1-btn r1-btn-danger r1-btn-sm">清空对话</button>
             </div>
-          </section>
+          </div>
 
-          <!-- 对话历史流主容器 -->
-          <section class="w-full bg-gradient-to-b from-surface-container-high/90 to-surface-container-low/95 rounded-[26px] p-6 shadow-xl border border-primary/25 relative overflow-hidden backdrop-blur-md flex flex-col justify-between gap-4">
-            <div class="absolute inset-x-0 top-0 h-[1px] bg-gradient-to-r from-transparent via-primary/45 to-transparent pointer-events-none"></div>
+          <div class="r1-row-wrap" style="padding-top:10px;border-top:1px solid var(--r1-border-subtle);">
+            <span class="r1-subtle" style="font-size:12px;">快捷：</span>
+            <button type="button" onclick="R1.sendCommand('现在几点了')" class="r1-chip">现在几点了</button>
+            <button type="button" onclick="R1.sendCommand('今天天气怎么样')" class="r1-chip">今天天气</button>
+            <button type="button" onclick="R1.sendCommand('把主音量调到 20')" class="r1-chip">音量 20%</button>
+            <button type="button" onclick="R1.sendCommand('调高音量')" class="r1-chip">调高音量</button>
+            <button type="button" onclick="R1.sendCommand('调低音量')" class="r1-chip">调低音量</button>
+            <button type="button" onclick="R1.sendCommand('暂停播放')" class="r1-chip">暂停播放</button>
+            <button type="button" onclick="R1.sendCommand('下一首')" class="r1-chip">下一首</button>
+            <button type="button" onclick="R1.sendCommand('30分钟后定时停止播放')" class="r1-chip">30 分钟停止</button>
+            <button type="button" onclick="R1.sendCommand('系统体检')" class="r1-chip">系统体检</button>
+          </div>
+        </section>
 
-            <div id="chatStreamBox" class="flex flex-col gap-3.5 min-h-[380px] max-h-[500px] overflow-y-auto pr-1">
-              <!-- 由 JS 动态渲染真实对话历史或空状态引导 -->
-            </div>
+        <!-- 自适应全高消息流 -->
+        <section id="chatStreamBox" class="r1-chat-stream" aria-live="polite" aria-label="对话记录"></section>
 
-            <!-- 底部常驻纯文本输入坞 (左侧采用静态键盘标识 &#xE312;，无任何语音拾音按钮) -->
-            <div class="pt-3 border-t border-white/5">
-              <div class="bg-surface-container-lowest/90 rounded-full pl-5 pr-1.5 py-1.5 flex items-center gap-3 shadow-inner border border-primary/30 backdrop-blur-md">
-                <span class="material-symbols-outlined text-primary/70 text-[20px]">&#xE312;</span>
-                <input class="flex-1 bg-transparent border-none text-body-md text-on-surface placeholder:text-secondary/50 focus:outline-none py-1.5 font-body-md" id="chatPageInput" maxlength="500" placeholder="说点什么" type="text">
-                <button id="chatPageSendBtn" class="px-5 h-10 rounded-full bg-gradient-to-b from-surface-container-high to-surface-container border border-primary/45 hover:border-primary/60 text-primary font-label-md text-label-md font-mono font-semibold flex items-center gap-1.5 shrink-0 shadow-[0_2px_8px_rgba(0,0,0,0.6),inset_0_1px_1px_rgba(255,255,255,0.15)] hover:shadow-[0_0_12px_rgba(253,211,133,0.25)] active:scale-95 active:shadow-inner transition-all">
-                  <span>发送</span>
-                  <span class="material-symbols-outlined text-[18px] text-primary">&#xE5D8;</span>
-                </button>
-              </div>
-            </div>
-          </section>
-        </div>
+        <!-- 底部常驻纯文本输入坞 -->
+        <section class="r1-card r1-card-compact" style="flex-shrink:0;">
+          <div class="r1-search-bar">
+            <span class="material-symbols-outlined r1-primary-text" style="font-size:20px;" aria-hidden="true">&#xE312;</span>
+            <input id="chatPageInput" type="text" maxlength="500" placeholder="给小讯发送指令或提问（Enter 发送，Esc 清空）" aria-label="对话输入框">
+            <button type="button" id="chatClearInputBtn" class="r1-btn r1-btn-ghost r1-btn-sm">清空</button>
+            <button type="button" id="chatPageSendBtn" class="r1-btn r1-btn-primary">
+              <span>发送</span>
+              <span class="material-symbols-outlined" aria-hidden="true">&#xE5D8;</span>
+            </button>
+          </div>
+        </section>
       </div>
     </main>
   </div>
@@ -215,71 +168,91 @@
   <script src="../assets/r1-engine.js"></script>
   <script>
     R1.onStateChange(function(st) {
-      const cnNow = R1.nowTimeStr();
-      const hdrStatus = document.getElementById('hdrStatusText');
-      if (hdrStatus) {
-        if (st.online) {
-          const mem = st.memTotalMb > 0 ? (st.memUsedMb + 'M / ' + st.memTotalMb + 'M') : '--';
-          hdrStatus.textContent = '已运行 ' + R1.formatUptime(st.uptimeSec) + ' · 内存 ' + mem;
-        } else {
-          hdrStatus.textContent = st.hostIp ? ('未连接 (' + st.hostIp + ') · 点击重设') : '未连接音箱 · 点击设置地址';
-        }
+      var hdrHost = document.getElementById('hdrHostPill');
+      if (hdrHost) {
+        hdrHost.textContent = st.online
+          ? ((st.ip && st.ip !== '--') ? (st.ip + ':8686') : '已连接 :8686')
+          : (st.hostIp ? ('离线 · ' + st.hostIp) : '连接音箱');
       }
-      const hdrHost = document.getElementById('hdrHostPill');
-      if (hdrHost) hdrHost.textContent = st.online ? (st.ip !== '--' ? st.ip + ':8686' : ':8686') : (st.hostIp || '设置IP');
-      const hdrDot = document.getElementById('hdrHostDot');
-      if (hdrDot) hdrDot.className = 'w-1.5 h-1.5 rounded-full ' + (st.online ? 'bg-tertiary animate-pulse' : 'bg-outline');
+      var hdrDot = document.getElementById('hdrHostDot');
+      if (hdrDot) hdrDot.className = 'r1-dot' + (st.online ? ' is-online' : '');
 
-      const hdrVol = document.getElementById('hdrVolText');
-      if (hdrVol) hdrVol.textContent = st.muted ? '已静音' : ('音量 ' + st.volume + '%');
+      var hdrVol = document.getElementById('hdrVolText');
+      if (hdrVol) hdrVol.textContent = st.muted ? '静音' : (st.volume + '%');
 
-      const hw = document.getElementById('hdrHwText');
-      if (hw) hw.textContent = '北京时间 ' + cnNow + (st.online ? (' · ' + st.hardware) : '');
+      var asideDot = document.getElementById('asideOnlineDot');
+      if (asideDot) asideDot.className = 'r1-dot' + (st.online ? ' is-online' : '');
 
-      const cnEl = document.getElementById('asideCnTime');
-      if (cnEl) cnEl.textContent = cnNow;
-      const soc = document.getElementById('asideSoc');
-      if (soc) soc.textContent = st.online ? (st.hardware + (st.memTotalMb ? ' · ' + st.memTotalMb + 'M' : '')) : '--';
-      const ver = document.getElementById('asideVer');
-      if (ver) ver.textContent = st.online ? ('v' + st.version + ' · Android ' + st.androidRelease) : 'TCP :8686';
-
-      const asideText = document.getElementById('asideOnlineText');
+      var asideText = document.getElementById('asideOnlineText');
       if (asideText) {
         asideText.textContent = st.online ? '在线' : '离线';
-        asideText.className = 'font-label-xs text-label-xs uppercase ' + (st.online ? 'text-tertiary' : 'text-secondary');
+        asideText.className = st.online ? 'r1-success-text' : 'r1-subtle';
       }
-      const asideDot = document.getElementById('asideOnlineDot');
-      if (asideDot) asideDot.className = 'w-1.5 h-1.5 rounded-full ' + (st.online ? 'bg-tertiary animate-pulse' : 'bg-outline');
+
+      var soc = document.getElementById('asideSoc');
+      if (soc) soc.textContent = st.online ? (st.hardware + (st.memTotalMb ? (' · ' + st.memTotalMb + 'M') : '')) : '--';
+
+      var ver = document.getElementById('asideVer');
+      if (ver) ver.textContent = st.online ? ('v' + st.version + ' · A' + st.androidRelease) : ':8686';
+    });
+
+    // 全局桌面快捷体验：非输入态按 "/" 快速聚焦主输入框
+    document.addEventListener('keydown', function(e) {
+      var tag = (e.target && e.target.tagName) ? e.target.tagName.toLowerCase() : '';
+      var isEditable = tag === 'input' || tag === 'textarea' || tag === 'select' || (e.target && e.target.isContentEditable);
+      if (e.key === '/' && !isEditable && !e.ctrlKey && !e.metaKey && !e.altKey) {
+        var targetInput = document.querySelector('#cmdInput, #chatPageInput, #cloudSearchInput, #musicSearchInput');
+        if (targetInput) {
+          e.preventDefault();
+          targetInput.focus();
+        }
+      }
     });
   </script>
 
   <script>
     (function() {
-      const streamBox = document.getElementById('chatStreamBox');
-      const input = document.getElementById('chatPageInput');
-      const sendBtn = document.getElementById('chatPageSendBtn');
-      const btnAutoSpeak = document.getElementById('btnToggleAutoSpeak');
+      var streamBox = document.getElementById('chatStreamBox');
+      var input = document.getElementById('chatPageInput');
+      var sendBtn = document.getElementById('chatPageSendBtn');
+      var clearInputBtn = document.getElementById('chatClearInputBtn');
+      var autoSpeakSwitch = document.getElementById('chatAutoSpeakSwitch');
+      var btnClearChat = document.getElementById('btnClearChat');
 
       function send() {
-        const v = input.value.trim();
+        var v = input.value.trim();
         if (!v) return;
         input.value = '';
         stickBottom = true;
         R1.sendCommand(v, 'Web 对话终端');
       }
       sendBtn.addEventListener('click', send);
-      input.addEventListener('keydown', e => { if (e.key === 'Enter') send(); });
+      clearInputBtn.addEventListener('click', function() { input.value = ''; input.focus(); });
+      input.addEventListener('keydown', function(e) {
+        if (e.key === 'Enter') send();
+        else if (e.key === 'Escape') { input.value = ''; }
+      });
 
-      btnAutoSpeak.addEventListener('click', () => {
-        const st = R1.getState();
-        R1.updateConfig({ autoSpeak: !st.config.autoSpeak });
+      autoSpeakSwitch.addEventListener('change', function() {
+        R1.updateConfig({ autoSpeak: !!this.checked });
+      });
+
+      btnClearChat.addEventListener('click', function() {
+        R1.confirmModal({
+          title: '清空对话历史',
+          desc: '将同时清空控制台与音箱端的近期对话记录，此操作不可恢复。',
+          confirmText: '确认清空',
+          danger: true
+        }).then(function(ok) {
+          if (ok) R1.clearChatHistory();
+        });
       });
 
       function copyText(txt) {
         if (navigator.clipboard && navigator.clipboard.writeText) {
-          navigator.clipboard.writeText(txt).catch(function () { R1.toast('复制失败，请手动选择文本', 'err'); });
+          navigator.clipboard.writeText(txt).catch(function() { R1.toast('复制失败，请手动选择文本', 'err'); });
         } else {
-          const ta = document.createElement('textarea');
+          var ta = document.createElement('textarea');
           ta.value = txt;
           ta.style.position = 'fixed';
           ta.style.opacity = '0';
@@ -288,84 +261,73 @@
           try { document.execCommand('copy'); } catch (e) {}
           document.body.removeChild(ta);
         }
-        R1.toast('已复制文本到剪贴板');
+        R1.toast('已复制到剪贴板', 'ok');
       }
-      window.copyChatText = copyText;
 
-      let lastChatSig = '__init__';
-      let stickBottom = true;
+      var lastChatSig = '__init__';
+      var stickBottom = true;
       streamBox.addEventListener('scroll', function() {
         stickBottom = (streamBox.scrollHeight - streamBox.scrollTop - streamBox.clientHeight) < 60;
       });
       streamBox.addEventListener('click', function(e) {
-        const btn = e.target.closest ? e.target.closest('[data-chat-action]') : null;
+        var btn = e.target.closest ? e.target.closest('[data-chat-action]') : null;
         if (!btn) return;
-        const idx = parseInt(btn.getAttribute('data-idx'), 10);
-        const item = R1.getState().chatHistory[idx];
+        var idx = parseInt(btn.getAttribute('data-idx'), 10);
+        var item = R1.getState().chatHistory[idx];
         if (!item || typeof item.text !== 'string' || !item.text) return;
         if (btn.getAttribute('data-chat-action') === 'copy') copyText(item.text);
         else R1.speak(item.text);
       });
 
       R1.onStateChange(function(st) {
-        const modeBadge = st.config.hasKey ? (st.config.llmModel || 'GLM-4.5-Flash') : ((st.config.llmModel || 'GLM-4.5-Flash') + ' · 待配密钥');
+        var modeBadge = st.config.hasKey
+          ? (st.config.llmModel || 'GLM-4.5-Flash')
+          : ((st.config.llmModel || 'GLM-4.5-Flash') + ' · 待配密钥');
         document.getElementById('chatModelBadge').textContent = modeBadge;
-        document.getElementById('autoSpeakText').textContent = '自动播报: ' + (st.config.autoSpeak ? '开' : '关');
+        autoSpeakSwitch.checked = st.config.autoSpeak !== false;
 
-        // 每秒都会收到状态通知，但只有历史真正变化时才重建 DOM；
-        // 用户向上翻看旧消息时不再强制拉回底部。
-        const sig = (st.chatHistory || []).map(function(item) {
+        var sig = (st.chatHistory || []).map(function(item) {
           return item.id + '|' + (item.status || '') + '|' + (item.text || '').length;
         }).join(',');
         if (sig === lastChatSig) return;
         lastChatSig = sig;
 
         if (!st.chatHistory || st.chatHistory.length === 0) {
-          streamBox.innerHTML = `
-            <div class="h-full min-h-[340px] py-12 px-6 rounded-2xl bg-surface-container-lowest/60 border border-white/5 flex flex-col items-center justify-center text-center gap-3">
-              <div class="w-12 h-12 rounded-full bg-surface-container-high border border-primary/35 flex items-center justify-center text-primary shadow-[0_0_16px_rgba(253,211,133,0.15)]">
-                <span class="material-symbols-outlined text-[24px]">&#xE0CA;</span>
-              </div>
-              <div class="flex flex-col gap-1">
-                <span class="font-headline-sm text-headline-sm text-on-surface font-semibold">还没有对话</span>
-              </div>
-            </div>`;
+          streamBox.innerHTML = ''
+            + '<div class="r1-empty" style="margin:auto;width:100%;max-width:460px;">'
+            + '  <span class="material-symbols-outlined r1-primary-text" style="font-size:32px;" aria-hidden="true">&#xE0CA;</span>'
+            + '  <span style="font-size:15px;font-weight:600;color:var(--r1-fg);">还没有对话记录</span>'
+            + '  <span class="r1-subtle" style="font-size:13px;">点击上方快捷指令，或在下方输入内容直接与小讯对话</span>'
+            + '</div>';
           return;
         }
 
         streamBox.innerHTML = st.chatHistory.map(function(item, idx) {
           if (item.role === 'user') {
-            return `
-              <div class="self-end max-w-[78%] bg-surface-container rounded-2xl rounded-tr-sm p-4 text-on-surface shadow-md border border-primary/20 flex flex-col gap-1.5">
-                <div class="flex items-center justify-between gap-6">
-                  <span class="font-label-xs text-label-xs text-primary/80 font-mono">${R1.escapeHtml(item.source || '用户指令')}</span>
-                  <span class="font-label-xs text-label-xs font-mono text-secondary/60 tabular-nums">${R1.escapeHtml(item.time)}</span>
-                </div>
-                <p class="font-body-md text-body-md text-on-surface leading-relaxed">“${R1.escapeHtml(item.text)}”</p>
-              </div>`;
+            return ''
+              + '<div class="r1-bubble-user">'
+              + '  <div class="r1-bubble-meta">'
+              + '    <span class="r1-primary-text" style="font-weight:600;">' + R1.escapeHtml(item.source || '用户指令') + '</span>'
+              + '    <span class="r1-mono">' + R1.escapeHtml(item.time) + '</span>'
+              + '  </div>'
+              + '  <p style="margin:0;font-size:14px;line-height:1.6;">' + R1.escapeHtml(item.text) + '</p>'
+              + '</div>';
           }
-          return `
-            <div class="self-start max-w-[84%] bg-surface-container-lowest/90 rounded-2xl rounded-tl-sm p-4 flex flex-col gap-2.5 shadow-inner border border-primary/25">
-              <div class="flex items-start gap-3">
-                <div class="w-2.5 h-2.5 rounded-full bg-primary mt-1.5 shrink-0 shadow-[0_0_8px_rgba(253,211,133,0.9)]"></div>
-                <div class="flex flex-col gap-1 flex-1">
-                  <div class="flex items-center justify-between gap-4">
-                    <span class="font-label-xs text-label-xs text-primary font-mono font-medium">${R1.escapeHtml(item.model || '小讯')}</span>
-                    <span class="font-label-xs text-label-xs font-mono text-tertiary font-medium tabular-nums">${R1.escapeHtml(item.status || '已执行')} · ${R1.escapeHtml(item.time)}</span>
-                  </div>
-                  <p class="font-body-md text-body-md text-on-surface leading-relaxed mt-0.5">${R1.escapeHtml(item.text)}</p>
-                </div>
-              </div>
-              <div class="flex items-center justify-end gap-2 pt-1.5 border-t border-white/5">
-                <button data-chat-action="copy" data-idx="${idx}" class="flex items-center gap-1 px-2.5 py-1 rounded-full bg-surface-container-high/80 border border-outline-variant/40 hover:border-primary/40 text-secondary hover:text-primary font-label-xs text-label-xs font-mono transition-all">
-                  <span>复制文本</span>
-                </button>
-                <button data-chat-action="speak" data-idx="${idx}" class="flex items-center gap-1.5 px-3 py-1 rounded-full bg-gradient-to-b from-surface-container-high to-surface-container-lowest border border-primary/35 hover:border-primary/60 text-primary font-label-xs text-label-xs shadow-[0_2px_6px_rgba(0,0,0,0.5)] active:scale-95 transition-all">
-                  <span class="material-symbols-outlined text-[14px] text-primary">&#xE042;</span>
-                  <span class="font-mono font-medium">重播</span>
-                </button>
-              </div>
-            </div>`;
+          var statusCls = item.status === '失败' ? 'r1-danger-text' : 'r1-success-text';
+          return ''
+            + '<div class="r1-bubble-ai">'
+            + '  <div class="r1-bubble-meta">'
+            + '    <span class="r1-row" style="gap:8px;"><span class="r1-dot is-active"></span><span class="r1-primary-text" style="font-weight:600;">' + R1.escapeHtml(item.model || '小讯') + '</span></span>'
+            + '    <span class="r1-mono ' + statusCls + '">' + R1.escapeHtml(item.status || '已执行') + ' · ' + R1.escapeHtml(item.time) + '</span>'
+            + '  </div>'
+            + '  <p style="margin:0;font-size:14px;line-height:1.65;">' + R1.escapeHtml(item.text) + '</p>'
+            + '  <div class="r1-bubble-foot">'
+            + '    <button type="button" data-chat-action="copy" data-idx="' + idx + '" class="r1-btn r1-btn-outlined r1-btn-sm">复制文本</button>'
+            + '    <button type="button" data-chat-action="speak" data-idx="' + idx + '" class="r1-btn r1-btn-tonal r1-btn-sm">'
+            + '      <span class="material-symbols-outlined" aria-hidden="true">&#xE042;</span><span>重播</span>'
+            + '    </button>'
+            + '  </div>'
+            + '</div>';
         }).join('');
         if (stickBottom) streamBox.scrollTop = streamBox.scrollHeight;
       });
