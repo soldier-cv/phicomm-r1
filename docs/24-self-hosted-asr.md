@@ -11,7 +11,9 @@
 > 读用量走 `GET /usage`（不算次数），收到 `QUOTA_EXCEEDED`（429）播报「本月额度已用完」并停止。
 > **按次数计费下禁用流式**：网关 WS 从 ready 帧就计一次、反复开关更烧额度，统一整段上传每句只计一次。
 > 配额的「按时长/按次数、上限可配、按月重置」由网关侧负责，L2 不重复实现。
-> 网关对接文档：`http://<跳板IP>:8088/sites/p-20261116-163045-789d/INTEGRATION.md`。
+> 网关对接文档：`../asr-gateway/docs/INTEGRATION.md`（仓库 `D:/dev/agent-repos/asr-gateway`，当前版本 v0.7.0）。
+> 令牌在网关控制台「调用令牌」页发放：`POST /admin/api/login` 登录后 `POST /admin/api/tokens`，
+> 拿到的明文填入本项目的「网关令牌」；`GET /usage` 用同一令牌读取本月点数，不计次数。
 > 下方 §0~§9 是迁移前的 SenseVoice 链路，留作历史证据，**接口细节以本段为准**。
 
 ---

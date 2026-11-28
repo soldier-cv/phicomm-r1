@@ -1166,7 +1166,7 @@ function getDesktopSettings() {
                   <div id="asrCustomFields" class="r1-form-grid" style="display:none;">
                     <div class="r1-field">
                       <label class="r1-label" for="cfgAsrUrl">ASR 网关地址</label>
-                      <input id="cfgAsrUrl" type="text" placeholder="http://192.168.1.100:8710" class="r1-input r1-mono">
+                      <input id="cfgAsrUrl" type="text" placeholder="http://192.168.1.100:8720" class="r1-input r1-mono">
                     </div>
                     <div class="r1-field">
                       <label class="r1-label" for="cfgAsrToken">网关令牌 (X-API-Key)</label>
